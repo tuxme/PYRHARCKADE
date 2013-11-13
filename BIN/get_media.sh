@@ -25,7 +25,7 @@ for var in `cat ../ROM_CONFIG_FILES.csv | cut -d"," -f1`
 		fi
 		if [[ ! -f "../MEDIA/SNAP/${var}.png MEDIA/WHEEL/" ]]
 			then
-				wget -c -q -nv "http://kdo-perso.info/medias/46/marquee/mame/wheel/${var}.png" -O ../MEDIA/WHEEL/${var}.png
+				wget -c -q -nv "http://occultaleges.eu/deadpool/DATA_FE_PYRHARCKADE/wheel/${var}.png" -O ../MEDIA/WHEEL/${var}.png
 				if [[ "$?" == "0" ]]
 					then
 						echo -n " (WHEEL): OK"
