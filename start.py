@@ -89,10 +89,13 @@ MAX = MAX -1
 FIRST=1
 continuer = 1
 #######################################################
-
-mon_joystick = pygame.joystick.Joystick(0)
-mon_joystick.init()
-
+# Initialisation / ou non du joystick 0
+if pygame.joystick.get_count() != 0:
+	mon_joystick = pygame.joystick.Joystick(0)
+	mon_joystick.init()
+	JOY_TEST = 1
+else:
+	JOY_TEST = 0
 delay = 100
 neutral = True
 pressed = 0
@@ -114,39 +117,28 @@ while continuer:
 		fenetre.fill(pygame.Color("black"))
 		fenetre.blit(fond, (0,0))
 		####################################################
-
 		for event in pygame.event.get():
-			if event.type == JOYAXISMOTION:
-				#jeux a haut
-				if event.axis == 1 and event.value < 0:
-					CPT = CPT - 2
-				#jeux a bas
-				if event.axis == 1 and event.value > 0:
-					CPT = CPT + 2
-				#jeux a gauche
-				if event.axis == 0 and event.value < 0:
-					CPT = CPT - 1
-				#jeux a droite
-				if event.axis == 0 and event.value > 0:
-					CPT = CPT + 1
+			# Deplacement joystick
+			if JOY_TEST == 1
+				if event.type == JOYAXISMOTION:
+					#jeux a haut
+					if event.axis == 1 and event.value < 0:
+						CPT = CPT - 2
+					#jeux a bas
+					if event.axis == 1 and event.value > 0:
+						CPT = CPT + 2
+					#jeux a gauche
+					if event.axis == 0 and event.value < 0:
+						CPT = CPT - 1
+					#jeux a droite
+					if event.axis == 0 and event.value > 0:
+						CPT = CPT + 1
+				if event.type == JOYBUTTONDOWN and event.button == 3:
+					#APP="BIN"+li[CPT][1]+".sh" + " " + li[CPT][0]  + "&"
+					p=subprocess.Popen(["BIN/" + li[CPT][1] +".sh",li[CPT][0]], shell=False)
 
-
-
-			if event.type == JOYBUTTONDOWN and event.button == 3:
-				print "Lancement de " + li[CPT][0] + " avec " + li[CPT][1]
-				APP="BIN"+li[CPT][1]+".sh" + " " + li[CPT][0]  + "&"
-#				os.system("BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0]  + "&" )
-#				subprocess.Popen(['echo', string], shell=False)
-
-				p=subprocess.Popen(["BIN/" + li[CPT][1] +".sh",li[CPT][0]], shell=False)
-				#p = Popen(APP)				
-				#pid = p.pid
-				#while pid:
-				#	time.sleep(1)
-					
-				#exit()
-
-
+			
+			# Deplacement clavier
 			if event.type == KEYDOWN:
 
 				#jeux a gauche
