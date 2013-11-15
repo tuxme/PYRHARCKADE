@@ -1,12 +1,12 @@
 
-Name: Contra (US, set 1)  
-Year:  1987
-Manufacturer:  Konami
-Filename: contra
-Category: Platform_/_Shooter_Scrolling
-Status: good
-Emulation: good
-Color: good
-Sound: good
-Graphic: good
-Palette Size: 4096
+Name:Â Contra (US, set 1) Â 
+Year:Â  1987
+Manufacturer:Â  Konami
+Filename:Â contra
+Category:Â Platform_/_Shooter_Scrolling
+Status:Â good
+Emulation:Â good
+Color:Â good
+Sound:Â good
+Graphic:Â good
+Palette Size:Â 4096

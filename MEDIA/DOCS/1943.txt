@@ -1,12 +1,12 @@
 
-Name: 1943: The Battle of Midway (Euro)  
-Year:  1987
-Manufacturer:  Capcom
-Filename: 1943
-Category: Shooter_/_Flying_Vertical
-Status: good
-Emulation: good
-Color: good
-Sound: good
-Graphic: good
-Palette Size: 896
+Name:Â 1943: The Battle of Midway (Euro) Â 
+Year:Â  1987
+Manufacturer:Â  Capcom
+Filename:Â 1943
+Category:Â Shooter_/_Flying_Vertical
+Status:Â good
+Emulation:Â good
+Color:Â good
+Sound:Â good
+Graphic:Â good
+Palette Size:Â 896
