@@ -163,7 +163,11 @@ while continuer:
 				if event.key == K_SPACE:
 					print "Lancement de " + li[CPT][0] + " avec " + li[CPT][1]
 					print BIN_PATH + li[CPT][1] +".sh "+li[CPT][0]
-					os.system("BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0]  + " &" )
+					APP="BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0]  + " &"
+					#os.system("BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0]  + " &" )
+					for i in xrange(n):
+						p = subprocess.Popen((APP, str(i))
+						p.wait()
 					
 			# Verification pour boucle infinie (wheel)
 				last_update = pygame.time.get_ticks()
