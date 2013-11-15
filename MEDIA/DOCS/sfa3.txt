@@ -1,0 +1,12 @@
+
+Name: Street Fighter Alpha 3 (Euro 980904)  
+Year:  1998
+Manufacturer:  Capcom
+Filename: sfa3
+Category: Fighter_/_Versus
+Status: good
+Emulation: good
+Color: good
+Sound: good
+Graphic: good
+Palette Size: 3072

@@ -1,0 +1,12 @@
+
+Name: 1942 (Revision B)  
+Year:  1984
+Manufacturer:  Capcom
+Filename: 1942
+Category: Shooter_/_Flying_Vertical
+Status: good
+Emulation: good
+Color: good
+Sound: good
+Graphic: good
+Palette Size: 1536
