@@ -135,8 +135,7 @@ while continuer:
 						CPT = CPT + 1
 				if event.type == JOYBUTTONDOWN and event.button == 3:
 					#APP="BIN"+li[CPT][1]+".sh" + " " + li[CPT][0]  + "&"
-					p=subprocess.Popen(["BIN/" + li[CPT][1] +".sh",li[CPT][0]], shell=False)
-
+					os.system("BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0]  + " &" )
 			
 			# Deplacement clavier
 			if event.type == KEYDOWN:
