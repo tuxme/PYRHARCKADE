@@ -134,8 +134,10 @@ while continuer:
 					if event.axis == 0 and event.value > 0:
 						CPT = CPT + 1
 				if event.type == JOYBUTTONDOWN and event.button == 3:
-					#APP="BIN"+li[CPT][1]+".sh" + " " + li[CPT][0]  + "&"
-					os.system("BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0]  + " &" )
+					APP="BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0]  + " &"
+					p = subprocess.Popen(APP, shell=True)
+					p.wait()
+					#os.system("BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0]  + " &" )
 			
 			# Deplacement clavier
 			if event.type == KEYDOWN:
@@ -164,10 +166,9 @@ while continuer:
 					print "Lancement de " + li[CPT][0] + " avec " + li[CPT][1]
 					print BIN_PATH + li[CPT][1] +".sh "+li[CPT][0]
 					APP="BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0]  + " &"
-					#os.system("BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0]  + " &" )
-					for i in xrange(n):
-						p = subprocess.Popen((APP, str(i))
-						p.wait()
+					p = subprocess.Popen(APP, shell=True)
+					p.wait()
+#					os.system("BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0]  + " &" )
 					
 			# Verification pour boucle infinie (wheel)
 				last_update = pygame.time.get_ticks()
