@@ -119,7 +119,7 @@ while continuer:
 		####################################################
 		for event in pygame.event.get():
 			# Deplacement joystick
-			if JOY_TEST == 1
+			if JOY_TEST == 1:
 				if event.type == JOYAXISMOTION:
 					#jeux a haut
 					if event.axis == 1 and event.value < 0:
