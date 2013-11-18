@@ -71,8 +71,7 @@ WHERE_BIN_Y =  WHERE_SNAP_Y
 #FENETRE PRINCIPAL #####################################
 fenetre = [SCREEN_W, SCREEN_H]
 fenetre = pygame.display.set_mode((fenetre),FULLSCREEN)
-fond = pygame.image.load(IMG + "/bg2.png").convert()
-fenetre.blit(pygame.transform.scale(fond,(SCREEN_W,SCREEN_H)),(0,0))
+fenetre.blit(pygame.transform.scale(pygame.image.load(IMG + "/bg2.png").convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
 
 
 #COMPTEUR et lecture du fichier conf ###################
