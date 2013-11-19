@@ -134,7 +134,7 @@ while continuer:
 		else:
 			text1 = "No DATA File"
 			text2 = font.render(text1, True, pygame.Color("white"))
-			fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y)).bottomleft
+			fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y-25)).bottomleft
 
 		# Affichage des SNAP + WHEEL
 		if os.path.isfile(IMG_WHEEL):
@@ -188,6 +188,8 @@ while continuer:
 						text2 = font.render(text1, True, pygame.Color("white"))
 						fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y)).bottomleft
 						CPT_UP = CPT_UP + 1
+						if CPT_UP + CPT > MAX:
+							CPT = 0
 						ROM_L1 = li[CPT_UP + CPT][0][0]
 					CPT = CPT + CPT_UP
 				#jeux a droite
@@ -203,6 +205,8 @@ while continuer:
 						text2 = font.render(text1, True, pygame.Color("white"))
 						fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y)).bottomleft
 						CPT_UP = CPT_UP - 1
+						if CPT_UP + CPT <= NMAX:
+							CPT = 0
 						ROM_L1 = li[CPT_UP + CPT][0][0]
 					CPT = CPT + CPT_UP
 				if event.type == QUIT:
