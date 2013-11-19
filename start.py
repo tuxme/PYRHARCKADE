@@ -114,8 +114,41 @@ while continuer:
 		#Reload du fond pour supprimer convert_alpha #######
 
 		fenetre.fill(pygame.Color("black"))
-		fenetre.blit(fond, (0,0))
+                fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
 		####################################################
+
+		# Formatage du nom en iamge avec path complet	
+		IMG_WHEEL=WHEEL +li[CPT][0]+".png"
+		IMG_SNAP=SNAP +li[CPT][0]+".png"
+
+		#TEXTE1 : rom name TEXTE2 : BIN NAME
+		FILE_INFO = DOCS + li[CPT][0] + ".txt"
+		if os.path.isfile(FILE_INFO):
+			FILE_DOC = open(FILE_INFO,"r")
+			text1 = FILE_DOC.read()
+			text2 = font.render(text1, True, pygame.Color("white"))
+			LPLUS=0
+			for ligne in text1.splitlines():
+				LPLUS=LPLUS + 25
+				x,y = fenetre.blit(font.render(ligne,5,pygame.Color("white")),(WHERE_TEXTE_X,WHERE_TEXTE_Y+LPLUS)).bottomleft
+			FILE_DOC.close()
+		else:
+			text1 = "No DATA File"
+			text2 = font.render(text1, True, pygame.Color("white"))
+
+		# Affichage des SNAP + WHEEL
+		if os.path.isfile(IMG_WHEEL):
+			fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_WHEEL).convert_alpha(),(SIZE_WHEEL_CONVERT)),(WHERE_WHEEL))
+		else:
+			fenetre.blit(pygame.transform.scale(pygame.image.load(WHEEL + "no_wheel.png").convert_alpha(),(SIZE_WHEEL_CONVERT)),(WHERE_WHEEL))
+
+		if os.path.isfile(IMG_SNAP):
+
+			fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_SNAP).convert_alpha(),(SIZE_SNAP_CONVERT)),(WHERE_SNAP))
+		else:
+			fenetre.blit(pygame.transform.scale(pygame.image.load(SNAP + "no_snap.png").convert_alpha(),(SIZE_SNAP_CONVERT)),(WHERE_SNAP))
+
+
 		for event in pygame.event.get():
 			# Deplacement joystick
 			if JOY_TEST == 1:
@@ -153,7 +186,6 @@ while continuer:
 				#jeux a -2 a gauche
 				if event.key == K_DOWN:
 					CPT = CPT - 2
-
 				if event.type == QUIT:
 					continuer = 0
 				if event.key == K_ESCAPE:
@@ -175,35 +207,6 @@ while continuer:
 				CPT = 0
 			if CPT > MAX:
 				CPT = 0
-			# Formatage du nom en iamge avec path complet	
-			IMG_WHEEL=WHEEL +li[CPT][0]+".png"
-			IMG_SNAP=SNAP +li[CPT][0]+".png"
-
-			#TEXTE1 : rom name TEXTE2 : BIN NAME
-			FILE_DOC = open(DOCS + li[CPT][0] + ".txt", "r")
-			text1 = FILE_DOC.read()
-			text2 = font.render(text1, True, pygame.Color("white"))
-			LPLUS=0
-			for ligne in text1.splitlines():
-				LPLUS=LPLUS + 25
-				x,y = fenetre.blit(font.render(ligne,5,pygame.Color("white")),(WHERE_TEXTE_X,WHERE_TEXTE_Y+LPLUS)).bottomleft
-			FILE_DOC.close()
-#			text2 = font.render(li[CPT][1], True, pygame.Color("white"))
-#			fenetre.blit(text2,(WHERE_TEXTE))
-#			fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y+50))
-			# Verif si presence de l'image WHEEL
-
-			# Affichage des SNAP + WHEEL
-			if os.path.isfile(IMG_WHEEL):
-				fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_WHEEL).convert_alpha(),(SIZE_WHEEL_CONVERT)),(WHERE_WHEEL))
-			else:
-				fenetre.blit(pygame.transform.scale(pygame.image.load(WHEEL + "no_wheel.png").convert_alpha(),(SIZE_WHEEL_CONVERT)),(WHERE_WHEEL))
-
-			if os.path.isfile(IMG_SNAP):
-
-				fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_SNAP).convert_alpha(),(SIZE_SNAP_CONVERT)),(WHERE_SNAP))
-			else:
-				fenetre.blit(pygame.transform.scale(pygame.image.load(SNAP + "no_snap.png").convert_alpha(),(SIZE_SNAP_CONVERT)),(WHERE_SNAP))
 
 			#AFFICHAGE WHEEL
 			pygame.display.flip()
