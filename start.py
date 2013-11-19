@@ -83,7 +83,6 @@ for row in reader:
         li.append(row)
 	MAX = MAX +1	
 NMAX=(MAX * -1) +1 
-position_perso = (200,300)
 MAX = MAX -1
 FIRST=1
 continuer = 1
@@ -174,11 +173,12 @@ while continuer:
 			
 			# Deplacement clavier
 			if event.type == KEYDOWN:
+				print str(CPT) + " : " + li[CPT][0]
 
 				#jeux a gauche
 				if event.key == K_LEFT:
 					CPT = CPT - 1
-				#jeux a +2 a droite
+				#jeux alphabetique +1
 				if event.key == K_UP:
 					ROM_L1 = li[CPT][0][0]
 					ROM_L2 = ROM_L1
@@ -189,14 +189,11 @@ while continuer:
 						fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y)).bottomleft
 						CPT_UP = CPT_UP + 1
 						ROM_L1 = li[CPT_UP + CPT][0][0]
-						print ROM_L1 + " " + ROM_L2 + " " + str(CPT_UP) + " " + str(CPT)
 					CPT = CPT + CPT_UP
 				#jeux a droite
 				if event.key == K_RIGHT:
 					CPT = CPT + 1
-					print str(CPT)
-					print IMG_WHEEL
-				#jeux a -2 a gauche
+				#jeux alphabetique -1
 				if event.key == K_DOWN:
 					ROM_L1 = li[CPT][0][0]
 					ROM_L2 = ROM_L1
@@ -207,7 +204,6 @@ while continuer:
 						fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y)).bottomleft
 						CPT_UP = CPT_UP - 1
 						ROM_L1 = li[CPT_UP + CPT][0][0]
-						print ROM_L1 + " " + ROM_L2 + " " + str(CPT_UP) + " " + str(CPT)
 					CPT = CPT + CPT_UP
 				if event.type == QUIT:
 					continuer = 0
@@ -217,8 +213,6 @@ while continuer:
 				# ex : li[CPT][0] = MAME li[CPT][0] = 1942
 				# --> /home/[USER]/PYRHARCKADE/BIN/MAME.sh 1942
 				if event.key == K_SPACE:
-					print "Lancement de " + li[CPT][0] + " avec " + li[CPT][1]
-					print BIN_PATH + li[CPT][1] +".sh "+li[CPT][0]
 					APP="BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0]  + " &"
 					p = subprocess.Popen(APP, shell=True)
 					p.wait()
@@ -233,6 +227,5 @@ while continuer:
 
 			#AFFICHAGE WHEEL
 			pygame.display.flip()
-			# Quit the FE
 
 	    
