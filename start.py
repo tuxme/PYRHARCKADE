@@ -94,7 +94,7 @@ if pygame.joystick.get_count() != 0:
 	JOY_TEST = 1
 else:
 	JOY_TEST = 0
-delay = 100
+#delay = 100
 neutral = True
 pressed = 0
 last_update = pygame.time.get_ticks()
