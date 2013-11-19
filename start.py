@@ -120,7 +120,7 @@ while continuer:
 		IMG_WHEEL=WHEEL +li[CPT][0]+".png"
 		IMG_SNAP=SNAP +li[CPT][0]+".png"
 
-		#TEXTE1 : rom name TEXTE2 : BIN NAME
+		# Affichage des information contenu dans le fichier MEDIA/DOC/[ROM].txt
 		FILE_INFO = DOCS + li[CPT][0] + ".txt"
 		if os.path.isfile(FILE_INFO):
 			FILE_DOC = open(FILE_INFO,"r")
@@ -183,6 +183,7 @@ while continuer:
 					ROM_L1 = li[CPT][0][0]
 					ROM_L2 = ROM_L1
 					CPT_UP=0
+					# Tant que la premiere lettre de la ROM est la meme que la premiere lettre de la ROM + 1
 					while ROM_L1 == ROM_L2:
 						text1 = "LOADING ..."
 						text2 = font.render(text1, True, pygame.Color("white"))
@@ -200,6 +201,7 @@ while continuer:
 					ROM_L1 = li[CPT][0][0]
 					ROM_L2 = ROM_L1
 					CPT_UP=0
+					# Tant que la premiere lettre de la ROM est la meme que la premiere lettre de la ROM + 1
 					while ROM_L1 == ROM_L2:
 						text1 = "LOADING ..."
 						text2 = font.render(text1, True, pygame.Color("white"))
