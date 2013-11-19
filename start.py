@@ -135,6 +135,7 @@ while continuer:
 		else:
 			text1 = "No DATA File"
 			text2 = font.render(text1, True, pygame.Color("white"))
+			fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y)).bottomleft
 
 		# Affichage des SNAP + WHEEL
 		if os.path.isfile(IMG_WHEEL):
@@ -179,13 +180,35 @@ while continuer:
 					CPT = CPT - 1
 				#jeux a +2 a droite
 				if event.key == K_UP:
-					CPT = CPT + 2
+					ROM_L1 = li[CPT][0][0]
+					ROM_L2 = ROM_L1
+					CPT_UP=0
+					while ROM_L1 == ROM_L2:
+						text1 = "LOADING ..."
+						text2 = font.render(text1, True, pygame.Color("white"))
+						fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y)).bottomleft
+						CPT_UP = CPT_UP + 1
+						ROM_L1 = li[CPT_UP + CPT][0][0]
+						print ROM_L1 + " " + ROM_L2 + " " + str(CPT_UP) + " " + str(CPT)
+					CPT = CPT + CPT_UP
 				#jeux a droite
 				if event.key == K_RIGHT:
 					CPT = CPT + 1
+					print str(CPT)
+					print IMG_WHEEL
 				#jeux a -2 a gauche
 				if event.key == K_DOWN:
-					CPT = CPT - 2
+					ROM_L1 = li[CPT][0][0]
+					ROM_L2 = ROM_L1
+					CPT_UP=0
+					while ROM_L1 == ROM_L2:
+						text1 = "LOADING ..."
+						text2 = font.render(text1, True, pygame.Color("white"))
+						fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y)).bottomleft
+						CPT_UP = CPT_UP - 1
+						ROM_L1 = li[CPT_UP + CPT][0][0]
+						print ROM_L1 + " " + ROM_L2 + " " + str(CPT_UP) + " " + str(CPT)
+					CPT = CPT + CPT_UP
 				if event.type == QUIT:
 					continuer = 0
 				if event.key == K_ESCAPE:
