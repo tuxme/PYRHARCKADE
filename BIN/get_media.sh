@@ -2,38 +2,42 @@
 
 for var in `cat ../ROM_CONFIG_FILES.csv | cut -d"," -f1`
 	do
-		if [[ ! -f "../MEDIA/SNAP/${var}.png MEDIA/WHEEL/" ]]
+		if [[ ! -f "../MEDIA/SNAP/${var}.png" ]]
 			then
 				echo -n "Traitement de $var : "
+				TEST_OK=0
 				for type in snap marquee title
 					do
-						TEST_OK=0
-						wget -c -q -nv "http://www.mamedb.com/${type}/${var}.png" -O ../MEDIA/SNAP/${var}.png
-						if [[ "$?" == "0" ]]
+						if [[ "$TEST_OK" == "0" ]]
 							then
-								TEST_OK=1
-								break
+								wget -c -q -nv "http://occultaleges.eu/deadpool/DATA_FE_PYRHARCKADE/${type}/${var}.png " -O ../MEDIA/SNAP/${var}.png
+							if [[ "$?" == "0" ]]
+								then
+									TEST_OK=1
+									echo -n "(SNAP): OK"
+							fi 
 						fi
 					done
-				if [[ "$TEST_OK" == "1" ]]
+				if [[ "$TEST_OK" == "0" ]]
 					then
-						echo -n "(SNAP): OK"
-					else
 						echo -n "(SNAP): FAILED"
 						rm -f ../MEDIA/SNAP/${var}.png
 				fi
+				if [[ -f "../MEDIA/WHEEL/${var}.png" ]]
+					then
+						echo ""
+				fi
 		fi
-		if [[ ! -f "../MEDIA/SNAP/${var}.png MEDIA/WHEEL/" ]]
+		if [[ ! -f "../MEDIA/WHEEL/${var}.png" ]]
 			then
 				wget -c -q -nv "http://occultaleges.eu/deadpool/DATA_FE_PYRHARCKADE/wheel/${var}.png" -O ../MEDIA/WHEEL/${var}.png
 				if [[ "$?" == "0" ]]
 					then
-						echo -n " (WHEEL): OK"
+						echo  " (WHEEL): OK"
 					else
-						echo -n " (WHEEL): FAILED"
+						echo  " (WHEEL): FAILED"
 						rm -f ../MEDIA/WHEEL/${var}.png
 				fi
 				
 		fi
-	echo ""
  done
