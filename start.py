@@ -20,7 +20,7 @@ from math import *
 
 root = Tk()
 #pygame.mixer.pre_init()
-pygame.mixer.init(44100, -16, 2, 2048)
+#pygame.mixer.init(44100, -16, 2, 2048)
 pygame.init()
 
 
@@ -62,6 +62,12 @@ WHERE_TEXTE=(WHERE_TEXTE_X,WHERE_TEXTE_Y)
 WHERE_BIN_X = SCREEN_W  - WHERE_SNAP_X - int(floor(WHERE_SNAP_X/4))
 WHERE_BIN_Y =  WHERE_SNAP_Y
 SLEEP_BEFORE_START = 1
+WHERE_BIN_1_X=int(floor(SCREEN_W / 2))
+WHERE_BIN_2_X=int(floor(WHERE_BIN_1_X/ 2))
+WHERE_BIN_3_X=int(floor(WHERE_BIN_1_X + WHERE_BIN_2_X))
+WHERE_BIN_1_Y=int(floor(SCREEN_H / 2))
+WHERE_BIN_2_Y=WHERE_BIN_1_Y
+WHERE_BIN_3_Y=WHERE_BIN_1_Y
 
 #FENETRE PRINCIPAL #####################################
 fenetre = [SCREEN_W, SCREEN_H]
@@ -95,7 +101,7 @@ else:
 
 
 ################################### Initialisation son
-buf = pygame.mixer.Sound(SOUND + "blip.wav")
+#buf = pygame.mixer.Sound(SOUND + "blip.wav")
 
 # Initialisation / ou non du joystick 0
 if pygame.joystick.get_count() != 0:
@@ -269,7 +275,7 @@ while continuer:
 					APP="BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0]  
 					p = subprocess.Popen(APP, shell=True)
 					sys.exit("GO play bitch ;)")	
-			buf.play()
+			#buf.play()
 
 		if CPT <= NMAX:
 			CPT = 0
