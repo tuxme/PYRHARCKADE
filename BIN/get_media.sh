@@ -1,8 +1,15 @@
 #!/bin/bash
 
+
 for var in `cat ../ROM_CONFIG_FILES.csv | cut -d"," -f1`
 	do
+		
+		if [[ ! -z $1 ]]
+			then
+			var=$1
+		fi
 		echo "Traitement de $var -  "
+		
 		if [[ ! -f "../MEDIA/SNAP/${var}.png" ]]
 			then
 				TEST_OK=0
@@ -47,4 +54,9 @@ for var in `cat ../ROM_CONFIG_FILES.csv | cut -d"," -f1`
 		fi
 
 		echo "-------------------------------"
+
+	if [[ ! -z $1 ]]
+		then
+			exit
+	fi
  done
