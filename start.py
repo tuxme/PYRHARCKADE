@@ -190,7 +190,10 @@ while continuer:
 								CPT = 0
 							ROM_L1 = li[CPT_UP + CPT][0][0]
 						CPT = CPT - CPT_UP
+<<<<<<< HEAD
+=======
 						affiche()
+>>>>>>> 64e4282477604e8659d766818bcd2a6d352f8da7
 					#jeux a bas
 					if event.axis == 1 and event.value > 0:
 						ROM_L1 = li[CPT][0][0]
@@ -206,7 +209,10 @@ while continuer:
 								CPT = 0
 							ROM_L1 = li[CPT_UP + CPT][0][0]
 						CPT = CPT + CPT_UP
+<<<<<<< HEAD
+=======
 						affiche()
+>>>>>>> 64e4282477604e8659d766818bcd2a6d352f8da7
 					#jeux a gauche
 					if event.axis == 0 and event.value < 0:
 						CPT = CPT - 1
@@ -263,7 +269,10 @@ while continuer:
 							CPT = 0
 						ROM_L1 = li[CPT_UP + CPT][0][0]
 					CPT = CPT - CPT_UP
+<<<<<<< HEAD
+=======
 					affiche()
+>>>>>>> 64e4282477604e8659d766818bcd2a6d352f8da7
 				if event.type == QUIT:
 					continuer = 0
 				if event.key == K_ESCAPE:
@@ -283,7 +292,12 @@ while continuer:
 				CPT = 0
 			if CPT > MAX:
 				CPT = 0
+		affiche()
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 64e4282477604e8659d766818bcd2a6d352f8da7
 
 	    
