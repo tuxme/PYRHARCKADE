@@ -92,23 +92,78 @@ if pygame.joystick.get_count() != 0:
 	mon_joystick = pygame.joystick.Joystick(0)
 	mon_joystick.init()
 	JOY_TEST = 1
+	print "----- Joy OK"
 else:
 	JOY_TEST = 0
 #delay = 100
 neutral = True
 pressed = 0
-last_update = pygame.time.get_ticks()
+#last_update = pygame.time.get_ticks()
+
+
+
+
+
+
+
+
+
+def affiche():
+	# Formatage du nom en iamge avec path complet	
+	IMG_WHEEL=WHEEL +li[CPT][0]+".png"
+	IMG_SNAP=SNAP +li[CPT][0]+".png"
+
+	# Affichage des information contenu dans le fichier MEDIA/DOC/[ROM].txt
+	FILE_INFO = DOCS + li[CPT][0] + ".txt"
+	if os.path.isfile(FILE_INFO):
+		FILE_DOC = open(FILE_INFO,"r")
+		text1 = FILE_DOC.read()
+		text2 = font.render(text1, True, pygame.Color("white"))
+		LPLUS=0
+		for ligne in text1.splitlines():
+			LPLUS=LPLUS + 25
+			x,y = fenetre.blit(font.render(ligne,5,pygame.Color("white")),(WHERE_TEXTE_X,WHERE_TEXTE_Y+LPLUS)).bottomleft
+		FILE_DOC.close()
+	else:
+		text1 = "No DATA File"
+		text2 = font.render(text1, True, pygame.Color("white"))
+		fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y-25)).bottomleft
+
+	# Affichage des SNAP + WHEEL
+	if os.path.isfile(IMG_WHEEL):
+		fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_WHEEL).convert_alpha(),(SIZE_WHEEL_CONVERT)),(WHERE_WHEEL))
+	else:
+		fenetre.blit(pygame.transform.scale(pygame.image.load(WHEEL + "no_wheel.png").convert_alpha(),(SIZE_WHEEL_CONVERT)),(WHERE_WHEEL))
+
+	if os.path.isfile(IMG_SNAP):
+
+		fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_SNAP).convert_alpha(),(SIZE_SNAP_CONVERT)),(WHERE_SNAP))
+	else:
+		fenetre.blit(pygame.transform.scale(pygame.image.load(SNAP + "no_snap.png").convert_alpha(),(SIZE_SNAP_CONVERT)),(WHERE_SNAP))
+
+	#AFFICHAGE WHEEL
+	pygame.display.update()
+
+
+
+
+
+
+
+
+
+
 
 #MAIN #################################################
 pygame.key.set_repeat(400, 30)
 while continuer:
 	if FIRST == 1:
                 fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_START).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
-		FIRST = 0
-
 		pygame.display.update()
+		FIRST = 0
 		time.sleep(1)
 	else:
+
 # RESTE AFFICHAGE ####################################
 		#Reload du fond pour supprimer convert_alpha #######
 
@@ -116,61 +171,55 @@ while continuer:
                 fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
 		####################################################
 
-		# Formatage du nom en iamge avec path complet	
-		IMG_WHEEL=WHEEL +li[CPT][0]+".png"
-		IMG_SNAP=SNAP +li[CPT][0]+".png"
-
-		# Affichage des information contenu dans le fichier MEDIA/DOC/[ROM].txt
-		FILE_INFO = DOCS + li[CPT][0] + ".txt"
-		if os.path.isfile(FILE_INFO):
-			FILE_DOC = open(FILE_INFO,"r")
-			text1 = FILE_DOC.read()
-			text2 = font.render(text1, True, pygame.Color("white"))
-			LPLUS=0
-			for ligne in text1.splitlines():
-				LPLUS=LPLUS + 25
-				x,y = fenetre.blit(font.render(ligne,5,pygame.Color("white")),(WHERE_TEXTE_X,WHERE_TEXTE_Y+LPLUS)).bottomleft
-			FILE_DOC.close()
-		else:
-			text1 = "No DATA File"
-			text2 = font.render(text1, True, pygame.Color("white"))
-			fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y-25)).bottomleft
-
-		# Affichage des SNAP + WHEEL
-		if os.path.isfile(IMG_WHEEL):
-			fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_WHEEL).convert_alpha(),(SIZE_WHEEL_CONVERT)),(WHERE_WHEEL))
-		else:
-			fenetre.blit(pygame.transform.scale(pygame.image.load(WHEEL + "no_wheel.png").convert_alpha(),(SIZE_WHEEL_CONVERT)),(WHERE_WHEEL))
-
-		if os.path.isfile(IMG_SNAP):
-
-			fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_SNAP).convert_alpha(),(SIZE_SNAP_CONVERT)),(WHERE_SNAP))
-		else:
-			fenetre.blit(pygame.transform.scale(pygame.image.load(SNAP + "no_snap.png").convert_alpha(),(SIZE_SNAP_CONVERT)),(WHERE_SNAP))
-
-
 		for event in pygame.event.get():
 			# Deplacement joystick
 			if JOY_TEST == 1:
 				if event.type == JOYAXISMOTION:
 					#jeux a haut
 					if event.axis == 1 and event.value < 0:
-						CPT = CPT - 2
+						ROM_L1 = li[CPT][0][0]
+						ROM_L2 = ROM_L1
+						CPT_UP=0
+						# Tant que la premiere lettre de la ROM est la meme que la premiere lettre de la ROM + 1
+						while ROM_L1 == ROM_L2:
+							text1 = "LOADING ..."
+							text2 = font.render(text1, True, pygame.Color("white"))
+							fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y)).bottomleft
+							CPT_UP = CPT_UP - 1
+							if CPT_UP + CPT <= NMAX:
+								CPT = 0
+							ROM_L1 = li[CPT_UP + CPT][0][0]
+						CPT = CPT - CPT_UP
+						affiche()
 					#jeux a bas
 					if event.axis == 1 and event.value > 0:
-						CPT = CPT + 2
+						ROM_L1 = li[CPT][0][0]
+						ROM_L2 = ROM_L1
+						CPT_UP=0
+						# Tant que la premiere lettre de la ROM est la meme que la premiere lettre de la ROM + 1
+						while ROM_L1 == ROM_L2:
+							text1 = "LOADING ..."
+							text2 = font.render(text1, True, pygame.Color("white"))
+							fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y)).bottomleft
+							CPT_UP = CPT_UP + 1
+							if CPT_UP + CPT > MAX:
+								CPT = 0
+							ROM_L1 = li[CPT_UP + CPT][0][0]
+						CPT = CPT + CPT_UP
+						affiche()
 					#jeux a gauche
 					if event.axis == 0 and event.value < 0:
 						CPT = CPT - 1
+						affiche()
 					#jeux a droite
 					if event.axis == 0 and event.value > 0:
 						CPT = CPT + 1
+						affiche()
 				if event.type == JOYBUTTONDOWN and event.button == 3:
 					APP="BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0]  + " &"
 					p = subprocess.Popen(APP, shell=True)
 					p.wait()
 					#os.system("BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0]  + " &" )
-			
 			# Deplacement clavier
 			if event.type == KEYDOWN:
 				print str(CPT) + " : " + li[CPT][0]
@@ -178,6 +227,7 @@ while continuer:
 				#jeux a gauche
 				if event.key == K_LEFT:
 					CPT = CPT - 1
+					affiche()
 				#jeux alphabetique +1
 				if event.key == K_UP:
 					ROM_L1 = li[CPT][0][0]
@@ -193,9 +243,11 @@ while continuer:
 							CPT = 0
 						ROM_L1 = li[CPT_UP + CPT][0][0]
 					CPT = CPT + CPT_UP
+					affiche()
 				#jeux a droite
 				if event.key == K_RIGHT:
 					CPT = CPT + 1
+					affiche()
 				#jeux alphabetique -1
 				if event.key == K_DOWN:
 					ROM_L1 = li[CPT][0][0]
@@ -210,7 +262,8 @@ while continuer:
 						if CPT_UP + CPT <= NMAX:
 							CPT = 0
 						ROM_L1 = li[CPT_UP + CPT][0][0]
-					CPT = CPT + CPT_UP
+					CPT = CPT - CPT_UP
+					affiche()
 				if event.type == QUIT:
 					continuer = 0
 				if event.key == K_ESCAPE:
@@ -225,13 +278,12 @@ while continuer:
 #					os.system("BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0]  + " &" )
 					
 			# Verification pour boucle infinie (wheel)
-				last_update = pygame.time.get_ticks()
+				#last_update = pygame.time.get_ticks()
 			if CPT <= NMAX:
 				CPT = 0
 			if CPT > MAX:
 				CPT = 0
 
-			#AFFICHAGE WHEEL
-			pygame.display.flip()
+
 
 	    
