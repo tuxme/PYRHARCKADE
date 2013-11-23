@@ -21,8 +21,11 @@ from pygame.locals import *
 from math import *
 from subprocess import Popen
 
+pygame.mixer.pre_init()
 
 pygame.init()
+
+
 
 
 
@@ -32,6 +35,7 @@ ROOT_HOME=(os.environ['HOME'] + "/PYRHARCKADE")
 BIN_PATH=(ROOT_HOME + "/BIN/")
 WHEEL=(ROOT_HOME + "/MEDIA/WHEEL/")
 SNAP=(ROOT_HOME + "/MEDIA/SNAP/")
+SOUND=(ROOT_HOME + "/MEDIA/SOUND/")
 ROMS=(ROOT_HOME + "/MEDIA/ROMS/")
 DOCS=(ROOT_HOME + "/MEDIA/DOCS/")
 IMG=(ROOT_HOME + "/MEDIA/IMG/")
@@ -86,6 +90,10 @@ NMAX=(MAX * -1) +1
 MAX = MAX -1
 FIRST=1
 continuer = 1
+
+#######################################################
+# Initialisation son
+buf = pygame.mixer.Sound(SOUND + "blip.wav")
 #######################################################
 # Initialisation / ou non du joystick 0
 if pygame.joystick.get_count() != 0:
@@ -144,16 +152,6 @@ def affiche():
 	#AFFICHAGE WHEEL
 	pygame.display.update()
 
-
-
-
-
-
-
-
-
-
-
 #MAIN #################################################
 pygame.key.set_repeat(400, 30)
 while continuer:
@@ -176,6 +174,7 @@ while continuer:
 			if JOY_TEST == 1:
 				if event.type == JOYAXISMOTION:
 					#jeux a haut
+		
 					if event.axis == 1 and event.value < 0:
 						ROM_L1 = li[CPT][0][0]
 						ROM_L2 = ROM_L1
@@ -220,6 +219,7 @@ while continuer:
 					#os.system("BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0]  + " &" )
 			# Deplacement clavier
 			if event.type == KEYDOWN:
+
 				print str(CPT) + " : " + li[CPT][0]
 
 				#jeux a gauche
@@ -257,10 +257,11 @@ while continuer:
 						text2 = font.render(text1, True, pygame.Color("white"))
 						fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y)).bottomleft
 						CPT_UP = CPT_UP - 1
-						if CPT_UP + CPT <= NMAX:
+						if CPT_UP - CPT <= NMAX:
 							CPT = 0
 						ROM_L1 = li[CPT_UP + CPT][0][0]
-					CPT = CPT - CPT_UP
+						print str(ROM_L1) + " " + str(ROM_L2)  + " " + str(CPT) + " " + str(CPT_UP) 
+					CPT = CPT - CPT_UP 
 				if event.type == QUIT:
 					continuer = 0
 				if event.key == K_ESCAPE:
@@ -280,5 +281,6 @@ while continuer:
 				CPT = 0
 			if CPT > MAX:
 				CPT = 0
+			buf.play()
 		affiche()
 
