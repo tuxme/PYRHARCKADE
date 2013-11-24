@@ -1,6 +1,9 @@
+#!/bin/bash
+
 ROM=$1
 
-echo $ROM
-cd /home/pi/PYRHARCKADE/ROMS/MAME/
-/home/pi/mame4all-pi/mame $ROM
-#sdlmame 1942
+cd /home/pi/EXPORT/MAME/roms/
+/home/pi/mame4all-pi/mame $ROM 
+
+cd /home/pi/PYRHARCKADE
+./start.py YES

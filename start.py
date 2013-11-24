@@ -20,13 +20,13 @@ from PIL import Image
 from pygame.locals import *
 from math import *
 from subprocess import Popen
+import psutil
+
 
 pygame.mixer.pre_init()
 
+
 pygame.init()
-
-
-
 
 
 #CONFIG ###############################################
@@ -90,7 +90,12 @@ NMAX=(MAX * -1) +1
 MAX = MAX -1
 FIRST=1
 continuer = 1
-
+total = len(sys.argv)
+if total > 1:
+	argument1 = str(sys.argv[1])
+	print argument1
+else:
+	argument1 = "NO"
 #######################################################
 # Initialisation son
 buf = pygame.mixer.Sound(SOUND + "blip.wav")
@@ -107,7 +112,7 @@ else:
 neutral = True
 pressed = 0
 #last_update = pygame.time.get_ticks()
-
+EMU_WORK = 0
 
 
 
@@ -156,9 +161,14 @@ def affiche():
 pygame.key.set_repeat(400, 30)
 while continuer:
 	if FIRST == 1:
-                fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_START).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
-		pygame.display.update()
-		FIRST = 0
+		if argument1 == "YES":
+			print "ARG YES : " + argument1 
+			FIRST=0
+		else:
+			print "ARG NO: " + argument1 
+	                fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_START).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
+			pygame.display.update()
+			FIRST = 0
 		time.sleep(1)
 	else:
 
@@ -172,6 +182,11 @@ while continuer:
 		for event in pygame.event.get():
 			# Deplacement joystick
 			if JOY_TEST == 1:
+				if event.type == JOYBUTTONDOWN and event.button == 3:
+					APP="BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0]  
+					p = subprocess.Popen(APP, shell=True)
+					sys.exit("GO")	
+
 				if event.type == JOYAXISMOTION:
 					#jeux a haut
 		
@@ -187,7 +202,7 @@ while continuer:
 							CPT_UP = CPT_UP - 1
 							if CPT_UP + CPT <= NMAX:
 								CPT = 0
-							ROM_L1 = li[CPT_UP + CPT][0][0]
+							ROM_L1 = li[CPT_UP - CPT][0][0]
 						CPT = CPT - CPT_UP
 					#jeux a bas
 					if event.axis == 1 and event.value > 0:
@@ -212,10 +227,9 @@ while continuer:
 					if event.axis == 0 and event.value > 0:
 						CPT = CPT + 1
 						affiche()
-				if event.type == JOYBUTTONDOWN and event.button == 3:
-					APP="BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0]  + " &"
-					p = subprocess.Popen(APP, shell=True)
-					p.wait()
+										
+					
+						
 					#os.system("BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0]  + " &" )
 			# Deplacement clavier
 			if event.type == KEYDOWN:
@@ -240,7 +254,7 @@ while continuer:
 						if CPT_UP + CPT > MAX:
 							CPT = 0
 						ROM_L1 = li[CPT_UP + CPT][0][0]
-					CPT = CPT + CPT_UP
+					PT = CPT + CPT_UP
 					affiche()
 				#jeux a droite
 				if event.key == K_RIGHT:
@@ -281,6 +295,7 @@ while continuer:
 				CPT = 0
 			if CPT > MAX:
 				CPT = 0
-			buf.play()
+			if EMU_WORK == 0:
+				buf.play()
 		affiche()
 
