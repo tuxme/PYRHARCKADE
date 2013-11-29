@@ -35,8 +35,8 @@ ROMS=(ROOT_HOME + "/MEDIA/ROMS/")
 DOCS=(ROOT_HOME + "/MEDIA/DOCS/")
 IMG=(ROOT_HOME + "/MEDIA/IMG/")
 BACKGROUNG=(ROOT_HOME + "/MEDIA/IMG/bg2.png")
-BACKGROUNG_ORIG=(ROOT_HOME + "/MEDIA/IMG/bg2_orig.png")
-BLACK=(ROOT_HOME + "/MEDIA/IMG/black.png")
+BACKGROUNG_EMU=(ROOT_HOME + "/MEDIA/IMG/black.png")
+IMG_EMU = (ROOT_HOME + "/MEDIA/IMG/EMU/")
 BACKGROUNG_START=(ROOT_HOME + "/MEDIA/IMG/dpfe_welcom.png")
 font = pygame.font.SysFont("comicsansms", 35)
 
@@ -63,12 +63,15 @@ WHERE_TEXTE=(WHERE_TEXTE_X,WHERE_TEXTE_Y)
 WHERE_BIN_X = SCREEN_W  - WHERE_SNAP_X - int(floor(WHERE_SNAP_X/4))
 WHERE_BIN_Y =  WHERE_SNAP_Y
 SLEEP_BEFORE_START = 1
+
 WHERE_BIN_1_X=int(floor(SCREEN_W / 2))
 WHERE_BIN_2_X=int(floor(WHERE_BIN_1_X/ 2))
 WHERE_BIN_3_X=int(floor(WHERE_BIN_1_X + WHERE_BIN_2_X))
 WHERE_BIN_1_Y=int(floor(SCREEN_H / 2))
 WHERE_BIN_2_Y=WHERE_BIN_1_Y
 WHERE_BIN_3_Y=WHERE_BIN_1_Y
+WHERE_BIN_1=(WHERE_BIN_1_X-100,WHERE_BIN_1_Y-100)
+SIZE_WHERE_BIN_1=(200,200)
 
 #FENETRE PRINCIPAL #####################################
 fenetre = [SCREEN_W, SCREEN_H]
@@ -78,14 +81,33 @@ fenetre.blit(pygame.transform.scale(pygame.image.load(IMG + "/bg2.png").convert_
 
 #COMPTEUR et lecture du fichier conf ###################
 CPT = 0
+CPT_EMU = 0
 MAX = 0
+MAX_EMU = 0
+
+
+ROOT_HOME=(os.environ['HOME'] + "/PYRHARCKADE")
+#COMPTEUR et lecture du fichier conf ###################
 reader = csv.reader(file(ROOT_HOME + "/ROM_CONFIG_FILES.csv" ))
 li = []
+emu = []
+
 for row in reader:
         li.append(row)
+	if not (li[MAX][1] in emu):
+		emu.append(li[MAX][1])
+		MAX_EMU=MAX_EMU +1
 	MAX = MAX +1
+
 MAX = MAX - 1
-NMAX=(MAX * -1) + 1
+NMAX=(MAX * -1)
+MAX_EMU = MAX_EMU - 1
+NMAX_EMU = (MAX_EMU  * -1) 
+li = sorted(li)
+emu = sorted(emu)
+
+
+
 
 print "NMAX : " + str(MAX) + "NMAX : " + str(NMAX)
 FIRST=1
@@ -100,7 +122,7 @@ else:
 	argument1 = "NO"
 
 
-
+MENU_IN=1
 ################################### Initialisation son
 #buf = pygame.mixer.Sound(SOUND + "blip.wav")
 
@@ -116,12 +138,21 @@ else:
 
 # Fonction  main()
 
+def affiche_menu():
+	IMG_EMU_PATH=IMG_EMU + emu[CPT_EMU] +".png"
+	#print IMG_EMU_PATH
+	#print str(WHERE_BIN_1_X)+ " " +str(WHERE_BIN_1_Y)
+	fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_EMU).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
+	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_EMU_PATH).convert_alpha(),(SIZE_WHERE_BIN_1)),(WHERE_BIN_1))
+	pygame.display.update()
+
+
 def affiche():
 	# Formatage du nom en iamge avec path complet	
 
 	IMG_WHEEL=WHEEL +li[CPT][0]+".png"
 	IMG_SNAP=SNAP +li[CPT][0]+".png"
-
+	fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
 	# Affichage des information contenu dans le fichier MEDIA/DOC/[ROM].txt
 	FILE_INFO = DOCS + li[CPT][0] + ".txt"
 	if os.path.isfile(FILE_INFO):
@@ -156,6 +187,7 @@ while continuer:
 
 # Test de lancement au demarrage ou suite fin de script BIN/*.sh
 	if FIRST == 1:
+		print "FIRSTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT"
 		if argument1 == "YES":
 			FIRST=0
 		else:
@@ -166,121 +198,228 @@ while continuer:
 	else:
 
 # RESTE AFFICHAGE ####################################
-		pygame.display.update()
-                fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
+		if MENU_IN == 1:
+			pygame.display.update()
+			affiche_menu()
+		if MENU_IN == 0:
+			pygame.display.update()
+			affiche()
+		
+		#fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_START).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
+#                fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
 		
 		####################################################
 
 		for event in pygame.event.get():
-			# Deplacement joystick
-			if JOY_TEST == 1:
-				if event.type == JOYBUTTONDOWN and event.button == 3:
-					APP="BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0]  
-					p = subprocess.Popen(APP, shell=True)
-					sys.exit("GO play bitch ;)")
+			print MENU_IN
+			print str(CPT) + " : " + li[CPT][0]
+			if MENU_IN == 0:
+				# Deplacement joystick
+				if JOY_TEST == 1:
+					if event.type == JOYBUTTONDOWN and event.button == 3:
+						APP="BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0]  
+						p = subprocess.Popen(APP, shell=True)
+						sys.exit("GO play bitch ;)")
 
-				if event.type == JOYAXISMOTION:
-					#jeux a haut
+					if event.type == JOYAXISMOTION:
+						#jeux a haut
 		
-					if event.axis == 1 and event.value < 0:
-						ROM_L1 = li[CPT][0][0]
-						ROM_L2 = ROM_L1
-						CPT_UP=0
-						# Tant que la premiere lettre de la ROM est la meme que la premiere lettre de la ROM + 1
-						while ROM_L1 == ROM_L2:
-							text1 = "LOADING ..."
-							text2 = font.render(text1, True, pygame.Color("white"))
-							fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y)).bottomleft
-							CPT_UP = CPT_UP + 1
-							if CPT - CPT_UP <= NMAX:
-								CPT = 0
-							ROM_L1 = li[CPT - CPT_UP][0][0]
-						CPT = CPT - CPT_UP 
-					if event.axis == 1 and event.value > 0:
-						ROM_L1 = li[CPT][0][0]
-						ROM_L2 = ROM_L1
-						CPT_UP = 0
-						# Tant que la premiere lettre de la ROM est la meme que la premiere lettre de la ROM + 1
-						while ROM_L1 == ROM_L2:
-							text1 = "LOADING ... : "
-							text2 = font.render(text1, True, pygame.Color("white"))
-							fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y)).bottomleft
-							CPT_UP = CPT_UP + 1
-							if CPT_UP + CPT > MAX:
-								CPT = 0
-							ROM_L1 = li[CPT_UP + CPT][0][0]
-						CPT = CPT + CPT_UP
+						if event.axis == 1 and event.value < 0:
+							ROM_L1 = li[CPT][0][0]
+							ROM_L2 = ROM_L1
+							CPT_UP=0
+							# Tant que la premiere lettre de la ROM est la meme que la premiere lettre de la ROM + 1
+							while ((ROM_L1 == ROM_L2) & (str(li[CPT][1]) != EMU_CHOSE)):
+								text1 = "LOADING ..."
+								text2 = font.render(text1, True, pygame.Color("white"))
+								fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y)).bottomleft
+								CPT_UP = CPT_UP + 1
+								if CPT - CPT_UP <= NMAX:
+									CPT = 0
+								ROM_L1 = li[CPT - CPT_UP][0][0]
+							CPT = CPT - CPT_UP 
+						if event.axis == 1 and event.value > 0:
+							ROM_L1 = li[CPT][0][0]
+							ROM_L2 = ROM_L1
+							CPT_UP = 0
+							# Tant que la premiere lettre de la ROM est la meme que la premiere lettre de la ROM + 1
+							while ((ROM_L1 == ROM_L2) & (str(li[CPT][1]) != EMU_CHOSE)):
+								text1 = "LOADING ... : "
+								text2 = font.render(text1, True, pygame.Color("white"))
+								fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y)).bottomleft
+								CPT_UP = CPT_UP + 1
+								if CPT_UP + CPT > MAX:
+									CPT = 0
+								ROM_L1 = li[CPT_UP + CPT][0][0]
+							CPT = CPT + CPT_UP
 
-					#jeux a gauche
-					if event.axis == 0 and event.value < 0:
-						CPT = CPT - 1
+						#jeux a gauche
+						if event.axis == 0 and event.value < 0:
+							CPT_UP=0
+							while str(li[CPT][1]) != EMU_CHOSE:
+								text1 = "LOADING ..."
+								text2 = font.render(text1, True, pygame.Color("white"))
+								fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y)).bottomleft
+								CPT_UP = CPT_UP + 1
+								if CPT - CPT_UP <= NMAX:
+									CPT = 0
+							CPT = CPT - CPT_UP 
+
+						#jeux a droite
+						if event.axis == 0 and event.value > 0:
+							CPT_UP=0
+							while str(li[CPT][1]) != EMU_CHOSE:
+								text1 = "LOADING ..."
+								text2 = font.render(text1, True, pygame.Color("white"))
+								fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y)).bottomleft
+								CPT_UP = CPT_UP + 1
+								if CPT_UP + CPT > MAX:
+									CPT = 0
+							CPT = CPT + CPT_UP 
+
+						#os.system("BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0]  + " &" )
+				# Deplacement clavier
+				if event.type == KEYDOWN:
+
 
 					#jeux a droite
-					if event.axis == 0 and event.value > 0:
-						CPT = CPT + 1
-
-					#os.system("BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0]  + " &" )
-			# Deplacement clavier
-			if event.type == KEYDOWN:
-
-				print str(CPT) + " : " + li[CPT][0]
-
-				#jeux a gauche
-				if event.key == K_LEFT:
-					CPT = CPT - 1
-
-				#jeux alphabetique +1
-				if event.key == K_UP:
-					ROM_L1 = li[CPT][0][0]
-					ROM_L2 = ROM_L1
-					CPT_UP = 0
-					# Tant que la premiere lettre de la ROM est la meme que la premiere lettre de la ROM + 1
-					while ROM_L1 == ROM_L2:
-						text1 = "LOADING ... : "
-						text2 = font.render(text1, True, pygame.Color("white"))
-						fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y)).bottomleft
-						CPT_UP = CPT_UP + 1
-						if CPT_UP + CPT > MAX:
+					if event.key == K_RIGHT:
+						if CPT + 1 > MAX:
 							CPT = 0
-						ROM_L1 = li[CPT_UP + CPT][0][0]
-					CPT = CPT + CPT_UP
+						else:
+							CPT= CPT + 1
+							while str(li[CPT][1]) != EMU_CHOSE:
+								text1 = "LOADING ..."
+								text2 = font.render(text1, True, pygame.Color("white"))
+								fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y)).bottomleft
+								CPT = CPT + 1
+								if CPT > MAX:
+									CPT = 0
+									break
+						
+						print li[CPT]
 
-				#jeux a droite
-				if event.key == K_RIGHT:
-					CPT = CPT + 1
-
-				#jeux alphabetique -1
-				if event.key == K_DOWN:
-					ROM_L1 = li[CPT][0][0]
-					ROM_L2 = ROM_L1
-					CPT_UP=0
-					# Tant que la premiere lettre de la ROM est la meme que la premiere lettre de la ROM + 1
-					while ROM_L1 == ROM_L2:
-						text1 = "LOADING ..."
-						text2 = font.render(text1, True, pygame.Color("white"))
-						fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y)).bottomleft
-						CPT_UP = CPT_UP + 1
-						if CPT - CPT_UP <= NMAX:
+					#jeux a gauche
+					if event.key == K_LEFT:
+						if CPT < NMAX:
 							CPT = 0
-						ROM_L1 = li[CPT - CPT_UP][0][0]
-					CPT = CPT - CPT_UP 
-				if event.type == QUIT:
-					continuer = 0
-				if event.key == K_ESCAPE:
-					exit()
-				# Lancement du script associe dans ${HOME}/BIN/[emulateur].sh $ROM
-				# ex : li[CPT][0] = MAME li[CPT][0] = 1942
-				# --> /home/[USER]/PYRHARCKADE/BIN/MAME.sh 1942
-				if event.key == K_SPACE:
-					APP="BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0]  
-					p = subprocess.Popen(APP, shell=True)
-					sys.exit("GO play bitch ;)")	
-			#buf.play()
+						else:
+							CPT= CPT - 1
+							while str(li[CPT][1]) != EMU_CHOSE:
+								text1 = "LOADING ..."
+								text2 = font.render(text1, True, pygame.Color("white"))
+								fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y)).bottomleft
+								CPT = CPT - 1
+								if CPT < NMAX:
+									CPT = 0
+									break
+						
+						print li[CPT]
 
-		if CPT <= NMAX:
-			CPT = 0
-		if CPT > MAX:
-			CPT = 0
-		affiche()
-		
+					#jeux alphabetique +1
+					if event.key == K_UP:
+						if CPT + 1 > MAX:
+							CPT = 0
+						else:
+
+							ROM_L1 = li[CPT][0][0]
+							ROM_L2 = ROM_L1
+							CPT_UP = 0
+							# Tant que la premiere lettre de la ROM est la meme que la premiere lettre de la ROM + 1
+							while ((ROM_L1 == ROM_L2) | (str(li[CPT][1]) != EMU_CHOSE)):
+								text1 = "LOADING ... : "
+								text2 = font.render(text1, True, pygame.Color("white"))
+								fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y)).bottomleft
+								CPT_UP = CPT_UP + 1
+								if CPT_UP + CPT > MAX:
+									CPT = 0
+								ROM_L1 = li[CPT_UP + CPT][0][0]
+							CPT = CPT + CPT_UP
+
+
+					#jeux alphabetique -1
+					if event.key == K_DOWN:
+						if CPT - 1 < NMAX:
+							CPT = 0
+						else:
+
+							ROM_L1 = li[CPT][0][0]
+							ROM_L2 = ROM_L1
+							CPT_UP = 0
+							# Tant que la premiere lettre de la ROM est la meme que la premiere lettre de la ROM + 1
+							while ((ROM_L1 == ROM_L2) | (str(li[CPT][1]) != EMU_CHOSE)):
+								text1 = "LOADING ... : "
+								text2 = font.render(text1, True, pygame.Color("white"))
+								fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y)).bottomleft
+								CPT_UP = CPT_UP - 1
+								if CPT_UP + CPT < NMAX:
+									CPT = 0
+								ROM_L1 = li[CPT_UP + CPT][0][0]
+							CPT = CPT + CPT_UP
+
+					if event.type == QUIT:
+						continuer = 0
+					if event.key == K_b:
+						MENU_IN = 1
+					# Lancement du script associe dans ${HOME}/BIN/[emulateur].sh $ROM
+					# ex : li[CPT][0] = MAME li[CPT][0] = 1942
+					# --> /home/[USER]/PYRHARCKADE/BIN/MAME.sh 1942
+					if event.key == K_SPACE:
+						print "Launch "+li[CPT][0] + " with " + EMU_CHOSE
+						APP="BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0]  
+						p = subprocess.Popen(APP, shell=True)
+						sys.exit("GO play bitch ;)")	
+			if MENU_IN == 1:
+				if JOY_TEST == 1:
+					if event.type == JOYBUTTONDOWN and event.button == 3:
+						MENU_IN = 0
+						EMU_CHOSE=emu[CPT_EMU]
+					if event.type == JOYAXISMOTION:
+						#jeux a gauche
+						if event.axis == 0 and event.value < 0:
+							CPT_EMU = CPT_EMU - 1
+
+						#jeux a droite
+						if event.axis == 0 and event.value > 0:
+							CPT_EMU = CPT_EMU + 1
+
+
+				# Deplacement clavier
+				if event.type == KEYDOWN:
+	
+					print str(CPT_EMU) + " : " + emu[CPT_EMU]
+
+					#jeux a gauche
+					if event.key == K_LEFT:
+						CPT_EMU = CPT_EMU - 1
+					#jeux a droite
+					if event.key == K_RIGHT:
+						CPT_EMU = CPT_EMU + 1
+					if event.type == QUIT:
+						continuer = 0
+					if event.key == K_ESCAPE:
+						exit()
+					# Lancement du script associe dans ${HOME}/BIN/[emulateur].sh $ROM
+					# ex : li[CPT][0] = MAME li[CPT][0] = 1942
+					# --> /home/[USER]/PYRHARCKADE/BIN/MAME.sh 1942
+					if event.key == K_SPACE:
+						MENU_IN = 0
+						print "_------_ " +  str(MENU_IN)
+						EMU_CHOSE=str(emu[CPT_EMU])
+						print "-------------------- " + EMU_CHOSE + " --------------------"
+
+						
+				
+				#buf.play()
+			if CPT <= NMAX:
+				CPT = 0
+			if CPT > MAX:
+				CPT = 0
+			if CPT_EMU < NMAX_EMU:
+				CPT_EMU = 0
+			if CPT_EMU > MAX_EMU:
+				CPT_EMU = 0
+			if MAX_EMU == 0:
+				CPT_EMU=0
+
 
