@@ -36,6 +36,7 @@ DOCS=(ROOT_HOME + "/MEDIA/DOCS/")
 IMG=(ROOT_HOME + "/MEDIA/IMG/")
 BACKGROUNG=(ROOT_HOME + "/MEDIA/IMG/bg2.png")
 BACKGROUNG_ORIG=(ROOT_HOME + "/MEDIA/IMG/bg2_orig.png")
+BLACK=(ROOT_HOME + "/MEDIA/IMG/black.png")
 BACKGROUNG_START=(ROOT_HOME + "/MEDIA/IMG/dpfe_welcom.png")
 font = pygame.font.SysFont("comicsansms", 35)
 
@@ -147,7 +148,7 @@ def affiche():
 	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_SNAP).convert_alpha(),(SIZE_SNAP_CONVERT)),(WHERE_SNAP))
 
 	#AFFICHAGE WHEEL
-	pygame.display.update()
+	#pygame.display.update()
 
 #MAIN #################################################
 pygame.key.set_repeat(400, 30)
@@ -161,14 +162,13 @@ while continuer:
 	                fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_START).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
 			pygame.display.update()
 			FIRST = 0
-		time.sleep(SLEEP_BEFORE_START)
+			time.sleep(SLEEP_BEFORE_START)
 	else:
 
 # RESTE AFFICHAGE ####################################
-		#Reload du fond pour supprimer convert_alpha #######
-
-		fenetre.fill(pygame.Color("black"))
+		pygame.display.update()
                 fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
+		
 		####################################################
 
 		for event in pygame.event.get():
