@@ -333,13 +333,15 @@ while continuer:
 								CPT_UP = CPT_UP + 1
 								if CPT_UP + CPT > MAX:
 									CPT = 0
+									CPT_UP = 0
+									break
 								ROM_L1 = li[CPT_UP + CPT][0][0]
 							CPT = CPT + CPT_UP
 
 
 					#jeux alphabetique -1
 					if event.key == K_DOWN:
-						if CPT - 1 < NMAX:
+						if CPT < NMAX:
 							CPT = 0
 						else:
 
@@ -351,9 +353,11 @@ while continuer:
 								text1 = "LOADING ... : "
 								text2 = font.render(text1, True, pygame.Color("white"))
 								fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y)).bottomleft
-								CPT_UP = CPT_UP - 1
-								if CPT_UP + CPT < NMAX:
+								CPT_UP = CPT_UP + 1
+								if -(CPT_UP + CPT) < NMAX:
 									CPT = 0
+									CPT_UP = 0
+									break
 								ROM_L1 = li[CPT_UP + CPT][0][0]
 							CPT = CPT + CPT_UP
 
