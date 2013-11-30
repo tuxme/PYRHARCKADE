@@ -152,16 +152,9 @@ else:
 ###################################################################
 def affiche_menu():
 
-
-
-
-
-
 	IMG_EMU_PATH=IMG_EMU + emu[CPT_EMU] +".png"
 	IMG_EMU_PATH_D=IMG_EMU + emu[CPT_EMU+1] +".png"
 	IMG_EMU_PATH_G=IMG_EMU + emu[CPT_EMU-1] +".png"
-	print str(CPT_EMU-1) + " " + str(CPT_EMU) + " " + str(CPT_EMU+1)
-	print emu[CPT_EMU-1] + " " + emu[CPT_EMU] + " " + emu[CPT_EMU+1]
 
 	fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_EMU).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
 	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_EMU_PATH_D).convert_alpha(),(SIZE_WHERE_BIN_3)),(WHERE_BIN_D))
