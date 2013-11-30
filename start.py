@@ -21,7 +21,6 @@ from math import *
 root = Tk()
 pygame.init()
 
-
 #CONFIG ###############################################
 
 ROOT_HOME=(os.environ['HOME'] + "/PYRHARCKADE")
@@ -71,10 +70,16 @@ WHERE_BIN_3_X=int(floor(WHERE_BIN_1_X + WHERE_BIN_2_X))
 WHERE_BIN_1_Y=int(floor(SCREEN_H / 2))
 WHERE_BIN_2_Y=WHERE_BIN_1_Y
 WHERE_BIN_3_Y=WHERE_BIN_1_Y
+
+
 WHERE_BIN_1=(int(floor(SCREEN_W / 2))-(SIZE_BIN_X_1/2),int(floor(SCREEN_H / 2))-(SIZE_BIN_Y_1/2))
+
 SIZE_WHERE_BIN_1=(SIZE_BIN_X_1,SIZE_BIN_Y_1)
-WHERE_BIN_G=( int(floor(SCREEN_W / 3)-SIZE_BIN_X_1/2),int(floor(SCREEN_H / 2))-SIZE_BIN_Y_1/2)
-WHERE_BIN_D=( int(floor(SCREEN_W * 2 / 3)-SIZE_BIN_X_1/2),int(floor(SCREEN_H / 2))-SIZE_BIN_Y_1/2)
+SIZE_WHERE_BIN_2=(SIZE_BIN_X_1,SIZE_BIN_Y_1*2/3)
+SIZE_WHERE_BIN_3=(SIZE_BIN_X_1,SIZE_BIN_Y_1*2/3)
+
+WHERE_BIN_G=( int(floor(SCREEN_W / 3)-(SIZE_BIN_X_1/2)*2),int(floor(SCREEN_H / 2))-SIZE_BIN_Y_1/2)
+WHERE_BIN_D=( int(floor(SCREEN_W * 2 / 3)),int(floor(SCREEN_H / 2))-SIZE_BIN_Y_1/2)
 
 #FENETRE PRINCIPAL #####################################
 fenetre = [SCREEN_W, SCREEN_H]
@@ -147,6 +152,11 @@ else:
 ###################################################################
 def affiche_menu():
 
+
+
+
+
+
 	IMG_EMU_PATH=IMG_EMU + emu[CPT_EMU] +".png"
 	IMG_EMU_PATH_D=IMG_EMU + emu[CPT_EMU+1] +".png"
 	IMG_EMU_PATH_G=IMG_EMU + emu[CPT_EMU-1] +".png"
@@ -154,8 +164,8 @@ def affiche_menu():
 	print emu[CPT_EMU-1] + " " + emu[CPT_EMU] + " " + emu[CPT_EMU+1]
 
 	fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_EMU).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
-	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_EMU_PATH_D).convert_alpha(),(SIZE_WHERE_BIN_1)),(WHERE_BIN_D))
-	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_EMU_PATH_G).convert_alpha(),(SIZE_WHERE_BIN_1)),(WHERE_BIN_G))
+	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_EMU_PATH_D).convert_alpha(),(SIZE_WHERE_BIN_3)),(WHERE_BIN_D))
+	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_EMU_PATH_G).convert_alpha(),(SIZE_WHERE_BIN_2)),(WHERE_BIN_G))
 	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_EMU_PATH).convert_alpha(),(SIZE_WHERE_BIN_1)),(WHERE_BIN_1))
 	pygame.display.update()
 
@@ -424,9 +434,9 @@ while continuer:
 			if CPT > MAX:
 				CPT = 0
 
-			if CPT_EMU < NMAX_EMU:
+			if CPT_EMU <= NMAX_EMU:
 				CPT_EMU = 0
-			if CPT_EMU > MAX_EMU:
+			if CPT_EMU >= MAX_EMU:
 				CPT_EMU = 0
 
 			if MAX_EMU == 0:
