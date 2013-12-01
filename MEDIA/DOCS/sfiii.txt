@@ -1,0 +1,10 @@
+ROM_NAME: sfiii
+
+Name: Street Fighter III: New Generation (USA 970204)
+Year: 1997
+Manufacturer: Capcom
+Category: Fighter_/_Versus
+Status: imperfect
+Emulation: good
+Color: good
+Sound: good

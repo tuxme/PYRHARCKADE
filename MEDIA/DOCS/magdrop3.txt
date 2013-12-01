@@ -1,0 +1,10 @@
+ROM_NAME: magdrop3
+
+Name: Magical Drop III
+Year: 1997
+Manufacturer: Data_East_Corporation
+Category: Puzzle_/_Toss
+Status: good
+Emulation: good
+Color: good
+Sound: good

@@ -1,0 +1,10 @@
+ROM_NAME: alibaba
+
+Name: Ali Baba and 40 Thieves
+Year: 1982
+Manufacturer: Sega
+Category: Maze
+Status: preliminary
+Emulation: good
+Color: good
+Sound: good

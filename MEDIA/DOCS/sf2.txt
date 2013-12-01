@@ -1,7 +1,7 @@
-ROM_NAME: sfa3
+ROM_NAME: sf2
 
-Name: Street Fighter Alpha 3 (Euro 980904)
-Year: 1998
+Name: Street Fighter II: The World Warrior (World 910522)
+Year: 1991
 Manufacturer: Capcom
 Category: Fighter_/_Versus
 Status: good

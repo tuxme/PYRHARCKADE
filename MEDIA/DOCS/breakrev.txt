@@ -1,8 +1,8 @@
-ROM_NAME: sfa3
+ROM_NAME: breakrev
 
-Name: Street Fighter Alpha 3 (Euro 980904)
+Name: Breakers Revenge
 Year: 1998
-Manufacturer: Capcom
+Manufacturer: Visco
 Category: Fighter_/_Versus
 Status: good
 Emulation: good

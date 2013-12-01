@@ -1,0 +1,10 @@
+ROM_NAME: rtype
+
+Name: R-Type (World)
+Year: 1987
+Manufacturer: Irem
+Category: Shooter_/_Flying_Horizontal
+Status: good
+Emulation: good
+Color: good
+Sound: good

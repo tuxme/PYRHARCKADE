@@ -1,8 +1,8 @@
-ROM_NAME: 1942
+ROM_NAME: agallet
 
-Name: 1942 (Revision B)
-Year: 1984
-Manufacturer: Capcom
+Name: Air Gallet (Europe)
+Year: 1996
+Manufacturer: Banpresto_/_Gazelle
 Category: Shooter_/_Flying_Vertical
 Status: good
 Emulation: good

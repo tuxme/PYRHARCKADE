@@ -1,0 +1,10 @@
+ROM_NAME: bosco
+
+Name: Bosconian (new version)
+Year: 1981
+Manufacturer: Namco
+Category: Shooter_/_Field
+Status: imperfect
+Emulation: good
+Color: good
+Sound: good
