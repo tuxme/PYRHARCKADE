@@ -389,7 +389,10 @@ while continuer:
 						print "Launch "+li[CPT][0] + " with " + EMU_CHOSE
 						APP="BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0]  
 						p = subprocess.Popen(APP, shell=True)
-						sys.exit("GO play bitch ;)")	
+						sys.exit("GO play bitch ;)")
+#--------------------------------------- QUIT Si un seul emu
+					if (event.key == K_ESCAPE) & (MAX_EMU == 0):
+						exit()
 
 ###################################################################
 ###################################################################
