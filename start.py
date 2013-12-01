@@ -114,8 +114,6 @@ NMAX_EMU = (MAX_EMU  * -1)
 li = sorted(li)
 emu = sorted(emu)
 
-EMU_GO=0
-
 
 
 FIRST=1
@@ -132,6 +130,11 @@ else:
 
 MENU_IN=1
 MENU_GO=1
+
+if MAX_EMU==0:
+	MENU_IN=0
+	EMU_CHOSE=emu[0]
+
 ################################### Initialisation son
 #buf = pygame.mixer.Sound(SOUND + "blip.wav")
 
@@ -152,9 +155,16 @@ else:
 ###################################################################
 def affiche_menu():
 
-	IMG_EMU_PATH=IMG_EMU + emu[CPT_EMU] +".png"
-	IMG_EMU_PATH_D=IMG_EMU + emu[CPT_EMU+1] +".png"
-	IMG_EMU_PATH_G=IMG_EMU + emu[CPT_EMU-1] +".png"
+	
+	if MAX_EMU==1:
+		IMG_EMU_PATH=IMG_EMU + emu[CPT_EMU] +".png"
+		IMG_EMU_PATH_D=IMG_EMU + emu[CPT_EMU+1] +".png"
+		IMG_EMU_PATH_G=IMG_EMU_PATH_D
+	else:
+		IMG_EMU_PATH=IMG_EMU + emu[CPT_EMU] +".png"
+		IMG_EMU_PATH_D=IMG_EMU + emu[CPT_EMU+1] +".png"
+		IMG_EMU_PATH_G=IMG_EMU + emu[CPT_EMU-1] +".png"
+
 
 	fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_EMU).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
 	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_EMU_PATH_D).convert_alpha(),(SIZE_WHERE_BIN_3)),(WHERE_BIN_D))
@@ -370,7 +380,11 @@ while continuer:
 					if event.type == QUIT:
 						continuer = 0
 					if event.key == K_b:
-						MENU_IN = 1
+						if MAX_EMU==0:
+							MENU_IN=0
+							EMU_CHOSE=emu[0]
+						else:
+							MENU_IN = 1
 					if event.key == K_SPACE:
 						print "Launch "+li[CPT][0] + " with " + EMU_CHOSE
 						APP="BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0]  
@@ -416,7 +430,7 @@ while continuer:
 					if event.key == K_SPACE:
 						MENU_IN = 0
 						EMU_CHOSE=str(emu[CPT_EMU])
-						print "---- " + EMU_CHOSE + " ----"
+
 
 ###################################################################
 #		COMPTEUR MAX / MIN Pour exception
@@ -426,11 +440,16 @@ while continuer:
 				CPT = 0
 			if CPT > MAX:
 				CPT = 0
-
-			if CPT_EMU <= NMAX_EMU:
-				CPT_EMU = 0
-			if CPT_EMU >= MAX_EMU:
-				CPT_EMU = 0
+			if MAX_EMU==1:
+				if CPT_EMU < NMAX_EMU:
+					CPT_EMU = 0
+				if CPT_EMU >= MAX_EMU:
+					CPT_EMU = -1
+			else:
+				if CPT_EMU <= NMAX_EMU:
+					CPT_EMU = 0
+				if CPT_EMU >= MAX_EMU:
+					CPT_EMU = 0
 
 			if MAX_EMU == 0:
 				CPT_EMU=0
