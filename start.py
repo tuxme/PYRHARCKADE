@@ -36,11 +36,11 @@ BACKGROUNG_EMU=(ROOT_HOME + "/MEDIA/IMG/menu.png")
 IMG_EMU = (ROOT_HOME + "/MEDIA/IMG/EMU/")
 BACKGROUNG_START=(ROOT_HOME + "/MEDIA/IMG/dpfe_welcom.png")
 font_path = "./MEDIA/IMG/font.ttf"
-font_size = 15
+font_size = 20
 font = pygame.font.Font(font_path, font_size)
 #font = pygame.font.SysFont("comicsansms", 35)
 BLACK = (ROOT_HOME + "/MEDIA/IMG/black.png")
-
+SLEEP_BEFORE_START = 1
 #TEMPLATE ##############################################
 
 SCREEN_W = root.winfo_screenwidth()
@@ -61,32 +61,41 @@ WHERE_SNAP=(WHERE_SNAP_X,WHERE_SNAP_Y)
 WHERE_TEXTE_X = int(floor(WHERE_WHEEL_X * 3))
 WHERE_TEXTE_Y = int(floor(SCREEN_H / 3))
 SIZE_TEXTE_W = int(floor(SIZE_SNAP_CONVERT_W * 2.5))
-SIZE_TEXTE_H = int(floor(SIZE_WHEEL_CONVERT_H * 3.2))
+SIZE_TEXTE_H = int(floor(SIZE_WHEEL_CONVERT_H * 2))
 SIZE_TEXTE = (SIZE_TEXTE_W,SIZE_TEXTE_H)
 WHERE_TEXTE=(WHERE_TEXTE_X,WHERE_TEXTE_Y)
-WHERE_BIN_X = SCREEN_W  - WHERE_SNAP_X - int(floor(WHERE_SNAP_X/4))
-WHERE_BIN_Y =  WHERE_SNAP_Y
-SLEEP_BEFORE_START = 1
 
-SIZE_BIN_X_1 = int(floor(SCREEN_W / 5))
+
+# TAILLE DES MENU EMU
+SIZE_BIN_X_1 = int(floor(SCREEN_W /4))
 SIZE_BIN_Y_1 = SIZE_BIN_X_1
+SIZE_BIN_1 = (SIZE_BIN_X_1,SIZE_BIN_Y_1)
 
-WHERE_BIN_1_X=int(floor(SCREEN_W / 2))
-WHERE_BIN_2_X=int(floor(WHERE_BIN_1_X/ 2))
-WHERE_BIN_3_X=int(floor(WHERE_BIN_1_X + WHERE_BIN_2_X))
-WHERE_BIN_1_Y=int(floor(SCREEN_H / 2))
-WHERE_BIN_2_Y=WHERE_BIN_1_Y
-WHERE_BIN_3_Y=WHERE_BIN_1_Y
+SIZE_BIN_X_2 = SIZE_BIN_X_1*2/3
+SIZE_BIN_Y_2 = SIZE_BIN_X_2
+SIZE_BIN_2 = (SIZE_BIN_X_2,SIZE_BIN_Y_2)
 
+SIZE_BIN_X_3 = SIZE_BIN_X_2
+SIZE_BIN_Y_3 = SIZE_BIN_X_3
+SIZE_BIN_3 = (SIZE_BIN_X_3,SIZE_BIN_Y_3)
 
-WHERE_BIN_1=(int(floor(SCREEN_W / 2))-(SIZE_BIN_X_1/2),int(floor(SCREEN_H / 2))-(SIZE_BIN_Y_1/2))
+#EMU CENTRE POSITION
+WHERE_BIN_1_X=int(floor((SCREEN_W / 2)-(SIZE_BIN_X_1/2)))
+WHERE_BIN_1_Y=int(floor((SCREEN_H / 2) - (SIZE_BIN_X_1/2)))
+print "------------------------------- " + str(WHERE_BIN_1_X) +  " ------------------------------- " + str(WHERE_BIN_1_Y) +  " ------------------------------- "
 
-SIZE_WHERE_BIN_1=(SIZE_BIN_X_1,SIZE_BIN_Y_1)
-SIZE_WHERE_BIN_2=(SIZE_BIN_X_1,SIZE_BIN_Y_1*2/3)
-SIZE_WHERE_BIN_3=(SIZE_BIN_X_1,SIZE_BIN_Y_1*2/3)
+WHERE_BIN_1=(WHERE_BIN_1_X,WHERE_BIN_1_Y)
 
-WHERE_BIN_G=( int(floor(SCREEN_W / 3)-(SIZE_BIN_X_1/2)*2),int(floor(SCREEN_H / 2))-SIZE_BIN_Y_1/2)
-WHERE_BIN_D=( int(floor(SCREEN_W * 2 / 3)),int(floor(SCREEN_H / 2))-SIZE_BIN_Y_1/2)
+#EMU GAUCHE POSITION
+WHERE_BIN_2_X=int(floor((SCREEN_W / 3)-(SIZE_BIN_X_2/2)))
+WHERE_BIN_2_Y=int(floor(SCREEN_H / 2))
+WHERE_BIN_2=(WHERE_BIN_2_X,WHERE_BIN_2_Y)
+
+#EMU GAUCHE POSITION
+WHERE_BIN_3_X=int(floor((SCREEN_W * 2 / 3)-(SIZE_BIN_X_3/2)))
+WHERE_BIN_3_Y=int(floor(SCREEN_H / 2))
+WHERE_BIN_3=(WHERE_BIN_3_X,WHERE_BIN_3_Y)
+
 
 #FENETRE PRINCIPAL #####################################
 fenetre = [SCREEN_W, SCREEN_H]
@@ -145,7 +154,7 @@ if MAX_EMU==0:
 	EMU_CHOSE=emu[0]
 
 ################################### Initialisation son
-#buf = pygame.mixer.Sound(SOUND + "blip.wav")
+buf = pygame.mixer.Sound(SOUND + "blip.wav")
 
 # Initialisation / ou non du joystick 0
 if pygame.joystick.get_count() != 0:
@@ -176,12 +185,15 @@ def affiche_menu():
 
 
 #	fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_EMU).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
-	fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert_alpha(),(SIZE_WHERE_BIN_3)),(WHERE_BIN_D))
-	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_EMU_PATH_D).convert_alpha(),(SIZE_WHERE_BIN_3)),(WHERE_BIN_D))
-	fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert_alpha(),(SIZE_WHERE_BIN_2)),(WHERE_BIN_G))
-	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_EMU_PATH_G).convert_alpha(),(SIZE_WHERE_BIN_2)),(WHERE_BIN_G))
-	fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert_alpha(),(SIZE_WHERE_BIN_1)),(WHERE_BIN_1))
-	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_EMU_PATH).convert_alpha(),(SIZE_WHERE_BIN_1)),(WHERE_BIN_1))
+	fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert_alpha(),(SIZE_BIN_2)),(WHERE_BIN_2))
+	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_EMU_PATH_D).convert_alpha(),(SIZE_BIN_2)),(WHERE_BIN_2))
+
+	fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert_alpha(),(SIZE_BIN_3)),(WHERE_BIN_3))
+	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_EMU_PATH_G).convert_alpha(),(SIZE_BIN_2)),(WHERE_BIN_3))
+
+	fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert_alpha(),(SIZE_BIN_1)),(WHERE_BIN_1))
+	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_EMU_PATH).convert_alpha(),(SIZE_BIN_1)),(WHERE_BIN_1))
+
 	pygame.display.update()
 
 ###################################################################
@@ -192,6 +204,7 @@ def affiche_menu():
 def affiche():
 	IMG_WHEEL=WHEEL +li[CPT][0]+".png"
 	IMG_SNAP=SNAP +li[CPT][0]+".png"
+
 #	fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
 
 
@@ -216,7 +229,7 @@ def affiche():
 		for ligne in text1.splitlines():
                         BLACK_FONT=font.size(ligne)
 			LPLUS=LPLUS + 25
-#                        fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert_alpha(),(BLACK_FONT)),(WHERE_TEXTE))
+#                       fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert_alpha(),(BLACK_FONT)),(WHERE_TEXTE))
 			x,y = fenetre.blit(font.render(ligne,5,pygame.Color("white")),(WHERE_TEXTE_X,WHERE_TEXTE_Y+LPLUS)).bottomleft
 		FILE_DOC.close()
 	else:
@@ -283,6 +296,7 @@ while continuer:
 #		DEPLACEMENT JOYSTICK
 ###################################################################
 				if JOY_TEST == 1:
+
 #--------------------------------------- LANCEMENT JEUX AVEC EMU
 					if event.type == JOYBUTTONDOWN and event.button == 3:
 						APP="BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0]  
@@ -477,7 +491,7 @@ while continuer:
 ###################################################################
 #		COMPTEUR MAX / MIN Pour exception
 ###################################################################			
-				#buf.play()
+				
 			if CPT < NMAX:
 				CPT = 0
 			if CPT > MAX:
