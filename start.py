@@ -37,6 +37,7 @@ IMG_EMU = (ROOT_HOME + "/MEDIA/IMG/EMU/")
 BACKGROUNG_START=(ROOT_HOME + "/MEDIA/IMG/dpfe_welcom.png")
 font_path = "./MEDIA/IMG/font.ttf"
 font_size = 20
+
 font = pygame.font.Font(font_path, font_size)
 #font = pygame.font.SysFont("comicsansms", 35)
 BLACK = (ROOT_HOME + "/MEDIA/IMG/black.png")
@@ -61,7 +62,8 @@ WHERE_SNAP=(WHERE_SNAP_X,WHERE_SNAP_Y)
 WHERE_TEXTE_X = int(floor(WHERE_WHEEL_X * 3))
 WHERE_TEXTE_Y = int(floor(SCREEN_H / 3))
 SIZE_TEXTE_W = int(floor(SIZE_SNAP_CONVERT_W * 2.5))
-SIZE_TEXTE_H = int(floor(SIZE_WHEEL_CONVERT_H * 2))
+SIZE_TEXTE_H = int(floor(SIZE_SNAP_CONVERT_H))
+#SIZE_TEXTE_H = int(floor(font_size*10))
 SIZE_TEXTE = (SIZE_TEXTE_W,SIZE_TEXTE_H)
 WHERE_TEXTE=(WHERE_TEXTE_X,WHERE_TEXTE_Y)
 
@@ -175,13 +177,25 @@ def affiche_menu():
 
 	
 	if MAX_EMU==1:
-		IMG_EMU_PATH=IMG_EMU + emu[CPT_EMU] +".png"
-		IMG_EMU_PATH_D=IMG_EMU + emu[CPT_EMU+1] +".png"
-		IMG_EMU_PATH_G=IMG_EMU_PATH_D
+		if (CPT_EMU+1) > MAX_EMU:
+			IMG_EMU_PATH=IMG_EMU + emu[CPT_EMU] +".png"
+			IMG_EMU_PATH_D=IMG_EMU + emu[CPT_EMU-1] +".png"
+			IMG_EMU_PATH_G=IMG_EMU_PATH_D
+		else:
+			IMG_EMU_PATH=IMG_EMU + emu[CPT_EMU] +".png"
+			IMG_EMU_PATH_D=IMG_EMU + emu[CPT_EMU+1] +".png"
+			IMG_EMU_PATH_G=IMG_EMU_PATH_D
 	else:
-		IMG_EMU_PATH=IMG_EMU + emu[CPT_EMU] +".png"
-		IMG_EMU_PATH_D=IMG_EMU + emu[CPT_EMU+1] +".png"
-		IMG_EMU_PATH_G=IMG_EMU + emu[CPT_EMU-1] +".png"
+		if (CPT_EMU+1) > MAX_EMU:
+			
+			IMG_EMU_PATH=IMG_EMU + emu[CPT_EMU] +".png"
+			IMG_EMU_PATH_D=IMG_EMU + emu[NMAX_EMU] +".png"
+			IMG_EMU_PATH_G=IMG_EMU + emu[CPT_EMU-1] +".png"
+		else:
+			IMG_EMU_PATH=IMG_EMU + emu[CPT_EMU] +".png"
+			IMG_EMU_PATH_D=IMG_EMU + emu[CPT_EMU+1] +".png"
+			IMG_EMU_PATH_G=IMG_EMU + emu[CPT_EMU-1] +".png"
+
 
 
 #	fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_EMU).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
@@ -204,38 +218,36 @@ def affiche_menu():
 def affiche():
 	IMG_WHEEL=WHEEL +li[CPT][0]+".png"
 	IMG_SNAP=SNAP +li[CPT][0]+".png"
-
-#	fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
-
-
-
-#WHERE_TEXTE_X = int(floor(WHERE_WHEEL_X * 3))
-#WHERE_TEXTE_Y = int(floor(SCREEN_H / 3))
-#SIZE_TEXTE_W = int(floor(SIZE_SNAP_CONVERT_W * 2.5))
-#SIZE_TEXTE_H = int(floor(SIZE_SNAP_CONVERT_H * 3.2))
-#SIZE_TEXTE = (SIZE_TEXTE_W,SIZE_TEXTE_H)
-
-
-
-
 	FILE_INFO = DOCS + li[CPT][0] + ".txt"
 	if os.path.isfile(FILE_INFO):
 		FILE_DOC = open(FILE_INFO,"r")
 		text1 = FILE_DOC.read()
+		LONG_TEXTE=len(text1)
+		pygame.font.Font(font_path, font_size)
 		text2 = font.render(text1, True, pygame.Color("white"))
+		
 		LPLUS=0
 		WHERE_TEXTE=(WHERE_TEXTE_X,WHERE_TEXTE_Y)
-		fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert_alpha(),(SIZE_TEXTE)),(WHERE_TEXTE))
+		fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert_alpha(),(SIZE_TEXTE_W,SIZE_TEXTE_H)),(WHERE_TEXTE))
 		for ligne in text1.splitlines():
-                        BLACK_FONT=font.size(ligne)
+                        BLACK_FONT=font.size(ligne)[0]
+			BLACK_FONT_H=font.size(ligne)[1]
+			if BLACK_FONT != 0:
+				NEW_FONT = (SIZE_TEXTE_W * font_size / BLACK_FONT) -1
+				
+				if NEW_FONT > font_size:
+					NEW_FONT=font_size
+			else:
+				NEW_FONT=0
+			#print "--> " + str(BLACK_FONT) + " ===> " + str(NEW_FONT) + " : " + ligne
 			LPLUS=LPLUS + 25
-#                       fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert_alpha(),(BLACK_FONT)),(WHERE_TEXTE))
-			x,y = fenetre.blit(font.render(ligne,5,pygame.Color("white")),(WHERE_TEXTE_X,WHERE_TEXTE_Y+LPLUS)).bottomleft
+			x,y = fenetre.blit(pygame.font.Font(font_path, NEW_FONT).render(ligne,5,pygame.Color("white")),(WHERE_TEXTE_X,WHERE_TEXTE_Y+LPLUS)).bottomleft
 		FILE_DOC.close()
 	else:
 		text1 = "No DATA File"
 		text2 = font.render(text1, True, pygame.Color("white"))
-		fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y-25)).bottomleft
+		fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert_alpha(),(SIZE_TEXTE_W,SIZE_TEXTE_H)),((WHERE_TEXTE_X,WHERE_TEXTE_Y)))
+		fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y+50)).bottomleft
 	if not (os.path.isfile(IMG_WHEEL)):
 		IMG_WHEEL = WHEEL + "no_wheel.png"
 	if not (os.path.isfile(IMG_SNAP)):
@@ -321,7 +333,7 @@ while continuer:
 								CPT = CPT - 1
 								if CPT < NMAX:
 									MENU_GO == 1
-									#break
+									break
 								ROM_L1 = li[CPT][0][0]
 #--------------------------------------- SELECTION JEUX PAR LETTRE (-1 0-Z)
 						if event.axis == 1 and event.value > 0:
@@ -336,7 +348,7 @@ while continuer:
 								CPT = CPT + 1
 								if CPT > MAX:
 									MENU_GO == 1
-									#break
+									break
 								ROM_L1 = li[CPT][0][0]
 
 #--------------------------------------- SELECTION JEUX A DROITE (+1)
@@ -352,7 +364,7 @@ while continuer:
 									CPT = CPT + 1
 									if CPT > MAX:
 										CPT = 0
-										#break
+										break
 #--------------------------------------- SELECTION JEUX A GAUCHE (-1)
 						if event.axis == 0 and event.value > 0:
 							if CPT < NMAX:
@@ -366,14 +378,14 @@ while continuer:
 									CPT = CPT - 1
 									if CPT < NMAX:
 										CPT = 0
-										#break
+										break
 
 ###################################################################
 #		DEPLACEMENT CLAVIER
 ###################################################################
 
 				if event.type == KEYDOWN:
-					print EMU_CHOSE + " => CPT:" + str(CPT) + "CPT_EMU:" + str(CPT_EMU) + " ... MAX("+ str(MAX) + "),NAMX(" + str(NMAX) + "),MAX_EMU(" + str(MAX_EMU) + "),NMAX_EMU(" + str(NMAX_EMU)  + ")  >> " + li[CPT][0]
+					#print EMU_CHOSE + " => CPT:" + str(CPT) + "CPT_EMU:" + str(CPT_EMU) + " ... MAX("+ str(MAX) + "),NAMX(" + str(NMAX) + "),MAX_EMU(" + str(MAX_EMU) + "),NMAX_EMU(" + str(NMAX_EMU)  + ")  >> " + li[CPT][0]
 
 #--------------------------------------- SELECTION JEUX A DROITE (+1)
 					if event.key == K_RIGHT:
@@ -388,7 +400,7 @@ while continuer:
 								CPT = CPT + 1
 								if CPT > MAX:
 									CPT = 0
-									#break
+									break
 #--------------------------------------- SELECTION JEUX A GAUCHE (-1)
 					if event.key == K_LEFT:
 						if CPT < NMAX:
@@ -402,7 +414,7 @@ while continuer:
 								CPT = CPT - 1
 								if CPT < NMAX:
 									CPT = 0
-									#break
+									break
 #--------------------------------------- SELECTION JEUX PAR LETTRE (+1 0-Z)
 					if event.key == K_UP:
 						ROM_L1 = li[CPT][0][0]
@@ -416,7 +428,7 @@ while continuer:
 							CPT = CPT + 1
 							if CPT > MAX:
 								MENU_GO == 1
-								#break
+								break
 							ROM_L1 = li[CPT][0][0]
 #--------------------------------------- SELECTION JEUX PAR LETTRE (-1 0-Z)
 					if event.key == K_DOWN:
@@ -430,7 +442,7 @@ while continuer:
 							CPT = CPT - 1
 							if CPT < NMAX:
 								MENU_GO == 1
-								#break
+								break
 							ROM_L1 = li[CPT][0][0]
 #--------------------------------------- LANCEMENT DU JEUX + EXIT FE
 					if event.type == QUIT:
@@ -470,7 +482,13 @@ while continuer:
 ###################################################################
 					if event.type == JOYBUTTONDOWN and event.button == 3:
 						MENU_IN = 0
-						EMU_CHOSE=emu[CPT_EMU]
+						fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
+						EMU_CHOSE=str(emu[CPT_EMU])
+						CPT = 0
+						# Premier jeu de l emu choisi
+						while (str(li[CPT][1]) != EMU_CHOSE):
+							CPT = CPT + 1
+
 					if event.type == JOYAXISMOTION:
 #--------------------------------------- SELECTION EMULATEUR A GAUCHE (-1)
 						if event.axis == 0 and event.value < 0:
@@ -479,15 +497,17 @@ while continuer:
 						if event.axis == 0 and event.value > 0:
 							CPT_EMU = CPT_EMU + 1
 				if event.type == KEYDOWN:
+
+					#print  "CPT_EMU:" + str(CPT_EMU) + " : " + str(emu[CPT_EMU]) 
 ###################################################################
 #		DEPLACEMENT CLAVIER
 ###################################################################
 #--------------------------------------- SELECTION EMULATEUR A GAUCHE (-1)
 					if event.key == K_LEFT:
-						CPT_EMU = CPT_EMU - 1
+						CPT_EMU = CPT_EMU + 1
 #--------------------------------------- SELECTION EMULATEUR A DROITE (+1)
 					if event.key == K_RIGHT:
-						CPT_EMU = CPT_EMU + 1
+						CPT_EMU = CPT_EMU - 1
 #--------------------------------------- EXIT FE
 					if event.type == QUIT:
 						continuer = 0
@@ -519,10 +539,10 @@ while continuer:
 				if CPT_EMU >= MAX_EMU:
 					CPT_EMU = -1
 			else:
-				if CPT_EMU <= NMAX_EMU:
+				if CPT_EMU < NMAX_EMU:
 					CPT_EMU = 0
-				if CPT_EMU >= MAX_EMU:
-					CPT_EMU = 0
+				if CPT_EMU > MAX_EMU:
+					CPT_EMU = NMAX_EMU
 
 			if MAX_EMU == 0:
 				CPT_EMU=0
