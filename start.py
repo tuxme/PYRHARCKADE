@@ -35,7 +35,10 @@ BACKGROUNG=(ROOT_HOME + "/MEDIA/IMG/bg2.png")
 BACKGROUNG_EMU=(ROOT_HOME + "/MEDIA/IMG/menu.png")
 IMG_EMU = (ROOT_HOME + "/MEDIA/IMG/EMU/")
 BACKGROUNG_START=(ROOT_HOME + "/MEDIA/IMG/dpfe_welcom.png")
-font = pygame.font.SysFont("comicsansms", 35)
+font_path = "./MEDIA/IMG/font.ttf"
+font_size = 15
+font = pygame.font.Font(font_path, font_size)
+#font = pygame.font.SysFont("comicsansms", 35)
 BLACK = (ROOT_HOME + "/MEDIA/IMG/black.png")
 
 #TEMPLATE ##############################################
@@ -57,6 +60,9 @@ WHERE_SNAP_Y = WHERE_WHEEL_Y + SIZE_WHEEL_CONVERT_H + SEPARATION_WHEEL_SNAP
 WHERE_SNAP=(WHERE_SNAP_X,WHERE_SNAP_Y)
 WHERE_TEXTE_X = int(floor(WHERE_WHEEL_X * 3))
 WHERE_TEXTE_Y = int(floor(SCREEN_H / 3))
+SIZE_TEXTE_W = int(floor(SIZE_SNAP_CONVERT_W * 2.5))
+SIZE_TEXTE_H = int(floor(SIZE_WHEEL_CONVERT_H * 3.2))
+SIZE_TEXTE = (SIZE_TEXTE_W,SIZE_TEXTE_H)
 WHERE_TEXTE=(WHERE_TEXTE_X,WHERE_TEXTE_Y)
 WHERE_BIN_X = SCREEN_W  - WHERE_SNAP_X - int(floor(WHERE_SNAP_X/4))
 WHERE_BIN_Y =  WHERE_SNAP_Y
@@ -187,17 +193,30 @@ def affiche():
 	IMG_WHEEL=WHEEL +li[CPT][0]+".png"
 	IMG_SNAP=SNAP +li[CPT][0]+".png"
 #	fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
+
+
+
+#WHERE_TEXTE_X = int(floor(WHERE_WHEEL_X * 3))
+#WHERE_TEXTE_Y = int(floor(SCREEN_H / 3))
+#SIZE_TEXTE_W = int(floor(SIZE_SNAP_CONVERT_W * 2.5))
+#SIZE_TEXTE_H = int(floor(SIZE_SNAP_CONVERT_H * 3.2))
+#SIZE_TEXTE = (SIZE_TEXTE_W,SIZE_TEXTE_H)
+
+
+
+
 	FILE_INFO = DOCS + li[CPT][0] + ".txt"
 	if os.path.isfile(FILE_INFO):
 		FILE_DOC = open(FILE_INFO,"r")
 		text1 = FILE_DOC.read()
 		text2 = font.render(text1, True, pygame.Color("white"))
 		LPLUS=0
+		WHERE_TEXTE=(WHERE_TEXTE_X,WHERE_TEXTE_Y)
+		fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert_alpha(),(SIZE_TEXTE)),(WHERE_TEXTE))
 		for ligne in text1.splitlines():
                         BLACK_FONT=font.size(ligne)
 			LPLUS=LPLUS + 25
-			WHERE_TEXTE=(WHERE_TEXTE_X,(WHERE_TEXTE_Y+LPLUS))
-                        fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert_alpha(),(BLACK_FONT)),(WHERE_TEXTE))
+#                        fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert_alpha(),(BLACK_FONT)),(WHERE_TEXTE))
 			x,y = fenetre.blit(font.render(ligne,5,pygame.Color("white")),(WHERE_TEXTE_X,WHERE_TEXTE_Y+LPLUS)).bottomleft
 		FILE_DOC.close()
 	else:
