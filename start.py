@@ -273,6 +273,12 @@ while continuer:
 			affiche_menu()
 		if MENU_IN == 0:
 			if AFFICHE_GAME_START == 1:
+				CPT = 0
+				CPT_UP = 0
+				# Premier jeu de l emu choisi
+				while (str(li[CPT][1]) != EMU_CHOSE):
+					CPT = CPT + 1
+
 				fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
 				AFFICHE_GAME_START = 0
 			if MENU_GO == 1:
@@ -315,7 +321,7 @@ while continuer:
 								CPT = CPT - 1
 								if CPT < NMAX:
 									MENU_GO == 1
-									break
+									#break
 								ROM_L1 = li[CPT][0][0]
 #--------------------------------------- SELECTION JEUX PAR LETTRE (-1 0-Z)
 						if event.axis == 1 and event.value > 0:
@@ -330,7 +336,7 @@ while continuer:
 								CPT = CPT + 1
 								if CPT > MAX:
 									MENU_GO == 1
-									break
+									#break
 								ROM_L1 = li[CPT][0][0]
 
 #--------------------------------------- SELECTION JEUX A DROITE (+1)
@@ -346,7 +352,7 @@ while continuer:
 									CPT = CPT + 1
 									if CPT > MAX:
 										CPT = 0
-										break
+										#break
 #--------------------------------------- SELECTION JEUX A GAUCHE (-1)
 						if event.axis == 0 and event.value > 0:
 							if CPT < NMAX:
@@ -360,14 +366,14 @@ while continuer:
 									CPT = CPT - 1
 									if CPT < NMAX:
 										CPT = 0
-										break
+										#break
 
 ###################################################################
 #		DEPLACEMENT CLAVIER
 ###################################################################
 
 				if event.type == KEYDOWN:
-					print EMU_CHOSE + " => " + str(CPT) + " : " + li[CPT][0]
+					print EMU_CHOSE + " => CPT:" + str(CPT) + "CPT_EMU:" + str(CPT_EMU) + " ... MAX("+ str(MAX) + "),NAMX(" + str(NMAX) + "),MAX_EMU(" + str(MAX_EMU) + "),NMAX_EMU(" + str(NMAX_EMU)  + ")  >> " + li[CPT][0]
 
 #--------------------------------------- SELECTION JEUX A DROITE (+1)
 					if event.key == K_RIGHT:
@@ -382,7 +388,7 @@ while continuer:
 								CPT = CPT + 1
 								if CPT > MAX:
 									CPT = 0
-									break
+									#break
 #--------------------------------------- SELECTION JEUX A GAUCHE (-1)
 					if event.key == K_LEFT:
 						if CPT < NMAX:
@@ -396,7 +402,7 @@ while continuer:
 								CPT = CPT - 1
 								if CPT < NMAX:
 									CPT = 0
-									break
+									#break
 #--------------------------------------- SELECTION JEUX PAR LETTRE (+1 0-Z)
 					if event.key == K_UP:
 						ROM_L1 = li[CPT][0][0]
@@ -410,7 +416,7 @@ while continuer:
 							CPT = CPT + 1
 							if CPT > MAX:
 								MENU_GO == 1
-								break
+								#break
 							ROM_L1 = li[CPT][0][0]
 #--------------------------------------- SELECTION JEUX PAR LETTRE (-1 0-Z)
 					if event.key == K_DOWN:
@@ -424,7 +430,7 @@ while continuer:
 							CPT = CPT - 1
 							if CPT < NMAX:
 								MENU_GO == 1
-								break
+								#break
 							ROM_L1 = li[CPT][0][0]
 #--------------------------------------- LANCEMENT DU JEUX + EXIT FE
 					if event.type == QUIT:
@@ -433,6 +439,12 @@ while continuer:
 						if MAX_EMU==0:
 							MENU_IN=0
 							EMU_CHOSE=emu[0]
+							CPT=0
+							while (str(li[CPT][1]) != EMU_CHOSE):
+								CPT = CPT + 1
+							affiche()
+							affiche_menu()
+
 						else:
 							fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_EMU).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
 							MENU_IN = 1
@@ -486,6 +498,11 @@ while continuer:
 						MENU_IN = 0
 						fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
 						EMU_CHOSE=str(emu[CPT_EMU])
+						CPT = 0
+						# Premier jeu de l emu choisi
+						while (str(li[CPT][1]) != EMU_CHOSE):
+							CPT = CPT + 1
+
 
 
 ###################################################################
@@ -496,7 +513,7 @@ while continuer:
 				CPT = 0
 			if CPT > MAX:
 				CPT = 0
-			if MAX_EMU==1:
+			if MAX_EMU==0:
 				if CPT_EMU < NMAX_EMU:
 					CPT_EMU = 0
 				if CPT_EMU >= MAX_EMU:
