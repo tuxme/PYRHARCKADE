@@ -154,7 +154,7 @@ if MAX_EMU==0:
 	EMU_CHOSE=emu[0]
 
 ################################### Initialisation son
-buf = pygame.mixer.Sound(SOUND + "blip.wav")
+#buf = pygame.mixer.Sound(SOUND + "blip.wav")
 
 # Initialisation / ou non du joystick 0
 if pygame.joystick.get_count() != 0:
