@@ -219,6 +219,7 @@ def affiche():
 		FILE_DOC = open(FILE_INFO,"r")
 		text1 = FILE_DOC.read()
 		LPLUS=0
+		LPLUS=LPLUS + (font_size+5)
 		WHERE_TEXTE=(WHERE_TEXTE_X,WHERE_TEXTE_Y)
 		fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert_alpha(),(SIZE_TEXTE)),(WHERE_TEXTE))
 		for ligne in text1.splitlines():
