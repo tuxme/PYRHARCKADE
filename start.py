@@ -133,7 +133,7 @@ emu = sorted(emu)
 
 AFFICHE_EMU_START=1
 AFFICHE_GAME_START=1
-LPLUS=LPLUS + (font_size+5)
+
 
 FIRST=1
 continuer = 1
