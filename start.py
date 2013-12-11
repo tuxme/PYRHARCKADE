@@ -37,9 +37,10 @@ IMG_EMU = (ROOT_HOME + "/MEDIA/IMG/EMU/")
 BACKGROUNG_START=(ROOT_HOME + "/MEDIA/IMG/dpfe_welcom.png")
 font_path = "./MEDIA/IMG/font.ttf"
 font_size = 30
+max_carac = 35
 font = pygame.font.Font(font_path, font_size)
 BLACK = (ROOT_HOME + "/MEDIA/IMG/black.png")
-SLEEP_BEFORE_START = 7
+SLEEP_BEFORE_START = 1
 
 #TEMPLATE ##############################################
 SCREEN_W = root.winfo_screenwidth()
@@ -220,26 +221,35 @@ def affiche():
 	if os.path.isfile(FILE_INFO):
 		FILE_DOC = open(FILE_INFO,"r")
 		text1 = FILE_DOC.read()
-		LONG_TEXTE=len(text1)
-		pygame.font.Font(font_path, font_size)
-		text2 = font.render(text1, True, pygame.Color("white"))
+		#LONG_TEXTE=len(text1)
+		#font=pygame.font.Font(font_path, font_size)
+		#text2 = font.render(text1, True, pygame.Color("white"))
 		
 		LPLUS=0
 		WHERE_TEXTE=(WHERE_TEXTE_X,WHERE_TEXTE_Y)
-		fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert_alpha(),(SIZE_TEXTE_W,SIZE_TEXTE_H)),(WHERE_TEXTE))
+		fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert_alpha(),(SIZE_TEXTE)),(WHERE_TEXTE))
 		for ligne in text1.splitlines():
-                        BLACK_FONT=font.size(ligne)[0]
-			BLACK_FONT_H=font.size(ligne)[1]
-			if BLACK_FONT != 0:
-				NEW_FONT = (SIZE_TEXTE_W * font_size / BLACK_FONT) -1
-				
-				if NEW_FONT > font_size:
-					NEW_FONT=font_size
-			else:
-				NEW_FONT=0
+			ligne=ligne[0:max_carac]
+			#font=pygame.font.Font(font_path, font_size)
+                        #BLACK_FONT=font.size(ligne)[0]
+			#BLACK_FONT_H=font.size(ligne)[1]
+			#if BLACK_FONT != 0:
+			#	NEW_FONT = (SIZE_TEXTE_W * font_size / BLACK_FONT) -1
+			#	font=pygame.font.Font(font_path, NEW_FONT)
+			#	
+			#	if NEW_FONT > font_size:
+			#		NEW_FONT=font_size
+			#		font=pygame.font.Font(font_path, NEW_FONT)
+			#else:
+			#	NEW_FONT=0
+			#	font=pygame.font.Font(font_path, NEW_FONT)
 			#print "--> " + str(BLACK_FONT) + " ===> " + str(NEW_FONT) + " : " + ligne
 			LPLUS=LPLUS + (font_size+5)
-			x,y = fenetre.blit(pygame.font.Font(font_path, NEW_FONT).render(ligne,5,pygame.Color("white")),(WHERE_TEXTE_X,WHERE_TEXTE_Y+LPLUS)).bottomleft
+			
+			#x,y = fenetre.blit(pygame.font.Font(font_path,font_size).render(ligne,5,pygame.Color("white")),(WHERE_TEXTE_X,WHERE_TEXTE_Y+LPLUS)).bottomleft
+			x,y = fenetre.blit(font.render(ligne,5,pygame.Color("white")),(WHERE_TEXTE_X,WHERE_TEXTE_Y+LPLUS)).bottomleft
+
+
 		FILE_DOC.close()
 	else:
 		text1 = "No DATA File"
