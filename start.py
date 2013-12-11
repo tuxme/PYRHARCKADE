@@ -37,7 +37,7 @@ IMG_EMU = (ROOT_HOME + "/MEDIA/IMG/EMU/")
 BACKGROUNG_START=(ROOT_HOME + "/MEDIA/IMG/dpfe_welcom.png")
 font_path = "./MEDIA/IMG/font.ttf"
 font_size = 30
-max_carac = 35
+max_carac = 30
 font = pygame.font.Font(font_path, font_size)
 BLACK = (ROOT_HOME + "/MEDIA/IMG/black.png")
 SLEEP_BEFORE_START = 1
@@ -133,7 +133,7 @@ emu = sorted(emu)
 
 AFFICHE_EMU_START=1
 AFFICHE_GAME_START=1
-
+LPLUS=LPLUS + (font_size+5)
 
 FIRST=1
 continuer = 1
@@ -195,9 +195,6 @@ def affiche_menu():
 			IMG_EMU_PATH_D=IMG_EMU + emu[CPT_EMU+1] +".png"
 			IMG_EMU_PATH_G=IMG_EMU + emu[CPT_EMU-1] +".png"
 
-
-
-#	fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_EMU).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
 	fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert_alpha(),(SIZE_BIN_2)),(WHERE_BIN_2))
 	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_EMU_PATH_D).convert_alpha(),(SIZE_BIN_2)),(WHERE_BIN_2))
 
@@ -221,35 +218,13 @@ def affiche():
 	if os.path.isfile(FILE_INFO):
 		FILE_DOC = open(FILE_INFO,"r")
 		text1 = FILE_DOC.read()
-		#LONG_TEXTE=len(text1)
-		#font=pygame.font.Font(font_path, font_size)
-		#text2 = font.render(text1, True, pygame.Color("white"))
-		
 		LPLUS=0
 		WHERE_TEXTE=(WHERE_TEXTE_X,WHERE_TEXTE_Y)
 		fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert_alpha(),(SIZE_TEXTE)),(WHERE_TEXTE))
 		for ligne in text1.splitlines():
 			ligne=ligne[0:max_carac]
-			#font=pygame.font.Font(font_path, font_size)
-                        #BLACK_FONT=font.size(ligne)[0]
-			#BLACK_FONT_H=font.size(ligne)[1]
-			#if BLACK_FONT != 0:
-			#	NEW_FONT = (SIZE_TEXTE_W * font_size / BLACK_FONT) -1
-			#	font=pygame.font.Font(font_path, NEW_FONT)
-			#	
-			#	if NEW_FONT > font_size:
-			#		NEW_FONT=font_size
-			#		font=pygame.font.Font(font_path, NEW_FONT)
-			#else:
-			#	NEW_FONT=0
-			#	font=pygame.font.Font(font_path, NEW_FONT)
-			#print "--> " + str(BLACK_FONT) + " ===> " + str(NEW_FONT) + " : " + ligne
-			LPLUS=LPLUS + (font_size+5)
-			
-			#x,y = fenetre.blit(pygame.font.Font(font_path,font_size).render(ligne,5,pygame.Color("white")),(WHERE_TEXTE_X,WHERE_TEXTE_Y+LPLUS)).bottomleft
 			x,y = fenetre.blit(font.render(ligne,5,pygame.Color("white")),(WHERE_TEXTE_X,WHERE_TEXTE_Y+LPLUS)).bottomleft
-
-
+			LPLUS=LPLUS + (font_size+5)
 		FILE_DOC.close()
 	else:
 		text1 = "No DATA File"
@@ -331,7 +306,7 @@ while continuer:
 						sys.exit("GO play bitch ;)")
 					if event.type == JOYAXISMOTION:
 #--------------------------------------- SELECTION JEUX PAR LETTRE (-1 0-Z)
-						if event.axis == 1 and event.value < 0:
+						if event.axis == 1 and event.value > 0:
 							ROM_L1 = li[CPT][0][0]
 							ROM_L2 = ROM_L1
 							CPT_UP = 0
@@ -345,7 +320,7 @@ while continuer:
 									break
 								ROM_L1 = li[CPT][0][0]
 #--------------------------------------- SELECTION JEUX PAR LETTRE (-1 0-Z)
-						if event.axis == 1 and event.value > 0:
+						if event.axis == 1 and event.value < 0:
 							ROM_L1 = li[CPT][0][0]
 							ROM_L2 = ROM_L1
 							CPT_UP = 0
@@ -361,7 +336,7 @@ while continuer:
 								ROM_L1 = li[CPT][0][0]
 
 #--------------------------------------- SELECTION JEUX A DROITE (+1)
-						if event.axis == 0 and event.value < 0:
+						if event.axis == 0 and event.value > 0:
 							if CPT + 1 > MAX:
 								CPT = 0
 							else:
@@ -375,7 +350,7 @@ while continuer:
 										CPT = 0
 										break
 #--------------------------------------- SELECTION JEUX A GAUCHE (-1)
-						if event.axis == 0 and event.value > 0:
+						if event.axis == 0 and event.value < 0:
 							if CPT < NMAX:
 								CPT = 0
 							else:
@@ -489,7 +464,8 @@ while continuer:
 ###################################################################
 #		DEPLACEMENT JOYSTICK
 ###################################################################
-					if event.type == JOYBUTTONDOWN and event.button == 3:
+
+					if event.type == JOYBUTTONDOWN and event.button == 1:
 						MENU_IN = 0
 						fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
 						EMU_CHOSE=str(emu[CPT_EMU])
@@ -500,17 +476,17 @@ while continuer:
 
 					if event.type == JOYAXISMOTION:
 #--------------------------------------- SELECTION EMULATEUR A GAUCHE (-1)
-						if event.axis == 0 and event.value < 0:
+						if event.axis == 0 and event.value > 0:
 							CPT_EMU = CPT_EMU - 1
 #--------------------------------------- SELECTION EMULATEUR A DROITE (+1)
-						if event.axis == 0 and event.value > 0:
+						if event.axis == 0 and event.value < 0:
 							CPT_EMU = CPT_EMU + 1
-				if event.type == KEYDOWN:
 
-					#print  "CPT_EMU:" + str(CPT_EMU) + " : " + str(emu[CPT_EMU]) 
 ###################################################################
 #		DEPLACEMENT CLAVIER
 ###################################################################
+
+				if event.type == KEYDOWN:
 #--------------------------------------- SELECTION EMULATEUR A GAUCHE (-1)
 					if event.key == K_LEFT:
 						CPT_EMU = CPT_EMU + 1
