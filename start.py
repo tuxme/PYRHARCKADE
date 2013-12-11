@@ -36,14 +36,12 @@ BACKGROUNG_EMU=(ROOT_HOME + "/MEDIA/IMG/menu.png")
 IMG_EMU = (ROOT_HOME + "/MEDIA/IMG/EMU/")
 BACKGROUNG_START=(ROOT_HOME + "/MEDIA/IMG/dpfe_welcom.png")
 font_path = "./MEDIA/IMG/font.ttf"
-font_size = 20
-
+font_size = 30
 font = pygame.font.Font(font_path, font_size)
-#font = pygame.font.SysFont("comicsansms", 35)
 BLACK = (ROOT_HOME + "/MEDIA/IMG/black.png")
-SLEEP_BEFORE_START = 1
-#TEMPLATE ##############################################
+SLEEP_BEFORE_START = 7
 
+#TEMPLATE ##############################################
 SCREEN_W = root.winfo_screenwidth()
 SCREEN_H = root.winfo_screenheight()
 SIZE_SNAP_CONVERT_W = int(floor(SCREEN_W / 6))
@@ -156,7 +154,7 @@ if MAX_EMU==0:
 	EMU_CHOSE=emu[0]
 
 ################################### Initialisation son
-#buf = pygame.mixer.Sound(SOUND + "blip.wav")
+intro_sound = pygame.mixer.Sound(SOUND + "intro.wav")
 
 # Initialisation / ou non du joystick 0
 if pygame.joystick.get_count() != 0:
@@ -240,7 +238,7 @@ def affiche():
 			else:
 				NEW_FONT=0
 			#print "--> " + str(BLACK_FONT) + " ===> " + str(NEW_FONT) + " : " + ligne
-			LPLUS=LPLUS + 25
+			LPLUS=LPLUS + (font_size+5)
 			x,y = fenetre.blit(pygame.font.Font(font_path, NEW_FONT).render(ligne,5,pygame.Color("white")),(WHERE_TEXTE_X,WHERE_TEXTE_Y+LPLUS)).bottomleft
 		FILE_DOC.close()
 	else:
@@ -270,6 +268,7 @@ while continuer:
 			FIRST=0
 		else:
 # AFFICHAGE ECRAN ACCEUIL
+			intro_sound.play()
 	                fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_START).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
 			pygame.display.update()
 			FIRST = 0
