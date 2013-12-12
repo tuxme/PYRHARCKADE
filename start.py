@@ -44,6 +44,7 @@ BLACK = (ROOT_HOME + "/MEDIA/IMG/black.png")
 SLEEP_BEFORE_START = 1
 
 #TEMPLATE ##############################################
+
 SCREEN_W = root.winfo_screenwidth()
 SCREEN_H = root.winfo_screenheight()
 SIZE_SNAP_CONVERT_W = int(floor(SCREEN_W / 6))
@@ -63,12 +64,12 @@ WHERE_TEXTE_X = int(floor(WHERE_WHEEL_X * 3))
 WHERE_TEXTE_Y = int(floor(SCREEN_H / 3))
 SIZE_TEXTE_W = int(floor(SIZE_SNAP_CONVERT_W * 2.5))
 SIZE_TEXTE_H = int(floor(SIZE_SNAP_CONVERT_H))
-#SIZE_TEXTE_H = int(floor(font_size*10))
 SIZE_TEXTE = (SIZE_TEXTE_W,SIZE_TEXTE_H)
 WHERE_TEXTE=(WHERE_TEXTE_X,WHERE_TEXTE_Y)
 
 
 # TAILLE DES MENU EMU
+
 SIZE_BIN_X_1 = int(floor(SCREEN_W /4))
 SIZE_BIN_Y_1 = SIZE_BIN_X_1
 SIZE_BIN_1 = (SIZE_BIN_X_1,SIZE_BIN_Y_1)
@@ -82,38 +83,38 @@ SIZE_BIN_Y_3 = SIZE_BIN_X_3
 SIZE_BIN_3 = (SIZE_BIN_X_3,SIZE_BIN_Y_3)
 
 #EMU CENTRE POSITION
+
 WHERE_BIN_1_X=int(floor((SCREEN_W / 2)-(SIZE_BIN_X_1/2)))
 WHERE_BIN_1_Y=int(floor((SCREEN_H / 2) - (SIZE_BIN_X_1/2)))
-print "------------------------------- " + str(WHERE_BIN_1_X) +  " ------------------------------- " + str(WHERE_BIN_1_Y) +  " ------------------------------- "
-
 WHERE_BIN_1=(WHERE_BIN_1_X,WHERE_BIN_1_Y)
 
 #EMU GAUCHE POSITION
+
 WHERE_BIN_2_X=int(floor((SCREEN_W / 3)-(SIZE_BIN_X_2/2)))
 WHERE_BIN_2_Y=int(floor(SCREEN_H / 2))
 WHERE_BIN_2=(WHERE_BIN_2_X,WHERE_BIN_2_Y)
 
 #EMU GAUCHE POSITION
+
 WHERE_BIN_3_X=int(floor((SCREEN_W * 2 / 3)-(SIZE_BIN_X_3/2)))
 WHERE_BIN_3_Y=int(floor(SCREEN_H / 2))
 WHERE_BIN_3=(WHERE_BIN_3_X,WHERE_BIN_3_Y)
 
 
-#FENETRE PRINCIPAL #####################################
+#FENETRE PRINCIPAL 
 fenetre = [SCREEN_W, SCREEN_H]
 fenetre = pygame.display.set_mode((fenetre),FULLSCREEN)
 fenetre.blit(pygame.transform.scale(pygame.image.load(IMG + "/bg2.png").convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
 
 
-#COMPTEUR et lecture du fichier conf ###################
+#COMPTEUR et lecture du fichier conf 
+
 CPT = 0
 CPT_EMU = 0
 MAX = 0
 MAX_EMU = 0
 
-
-ROOT_HOME=(os.environ['HOME'] + "/PYRHARCKADE")
-#COMPTEUR et lecture du fichier conf ###################
+#COMPTEUR et lecture du fichier conf
 reader = csv.reader(file(ROOT_HOME + "/ROM_CONFIG_FILES.csv" ))
 li = []
 emu = []
@@ -125,6 +126,7 @@ for row in reader:
 		MAX_EMU=MAX_EMU +1
 	MAX = MAX +1
 
+#Remise a 0 en start
 MAX = MAX - 1
 NMAX=(MAX * -1)
 MAX_EMU = MAX_EMU - 1
@@ -132,21 +134,21 @@ NMAX_EMU = (MAX_EMU  * -1)
 li = sorted(li)
 emu = sorted(emu)
 
+#Variable utilisé pour lancement menu emu et 1 er jeux
 AFFICHE_EMU_START=1
 AFFICHE_GAME_START=1
-
-
 FIRST=1
-continuer = 1
-total = len(sys.argv)
+
+
 
 # Test lancement First ou lancement auto suite fin emu
+continuer = 1
+total = len(sys.argv)
 if total > 1:
 	argument1 = str(sys.argv[1])
 
 else:
 	argument1 = "NO"
-
 
 MENU_IN=1
 MENU_GO=1
@@ -169,9 +171,7 @@ else:
 
 
 ###################################################################
-###################################################################
 #		AFFICHAGE MENU EMULATEUR
-###################################################################
 ###################################################################
 def affiche_menu():
 
@@ -206,9 +206,7 @@ def affiche_menu():
 	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_EMU_PATH).convert_alpha(),(SIZE_BIN_1)),(WHERE_BIN_1))
 
 ###################################################################
-###################################################################
 #		AFFICHAGE MENU JEUX
-###################################################################
 ###################################################################
 def affiche():
 	IMG_WHEEL=SNAP_AND_WHEEL  +EMU_CHOSE+"/WHEEL/"+li[CPT][0]+".png"
@@ -301,6 +299,22 @@ while continuer:
 						APP="BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0]  
 						p = subprocess.Popen(APP, shell=True)
 						sys.exit("GO play bitch ;)")
+#--------------------------------------- RETOUR EMU MENU
+					if event.type == JOYBUTTONDOWN and event.button == 1:
+						if MAX_EMU==0:
+							MENU_IN=0
+							EMU_CHOSE=emu[0]
+							CPT=0
+							while (str(li[CPT][1]) != EMU_CHOSE):
+								CPT = CPT + 1
+							affiche()
+							affiche_menu()
+
+						else:
+							fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_EMU).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
+							MENU_IN = 1
+						fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_EMU).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
+
 					if event.type == JOYAXISMOTION:
 #--------------------------------------- SELECTION JEUX PAR LETTRE (-1 0-Z)
 						if event.axis == 1 and event.value > 0:
@@ -452,17 +466,13 @@ while continuer:
 						exit()
 
 ###################################################################
-###################################################################
 #		DEPLACEMENT MENU EMULATEUR
-###################################################################
 ###################################################################
 			if MENU_IN == 1:
 				if JOY_TEST == 1:
-###################################################################
-#		DEPLACEMENT JOYSTICK
-###################################################################
 
-					if event.type == JOYBUTTONDOWN and event.button == 1:
+#DEPLACEMENT JOYSTICK
+					if event.type == JOYBUTTONDOWN and event.button == 3:
 						MENU_IN = 0
 						fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
 						EMU_CHOSE=str(emu[CPT_EMU])
@@ -479,9 +489,9 @@ while continuer:
 						if event.axis == 0 and event.value < 0:
 							CPT_EMU = CPT_EMU + 1
 
-###################################################################
-#		DEPLACEMENT CLAVIER
-###################################################################
+
+#DEPLACEMENT CLAVIER
+
 
 				if event.type == KEYDOWN:
 #--------------------------------------- SELECTION EMULATEUR A GAUCHE (-1)
