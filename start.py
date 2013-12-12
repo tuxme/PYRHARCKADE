@@ -205,8 +205,6 @@ def affiche_menu():
 	fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert_alpha(),(SIZE_BIN_1)),(WHERE_BIN_1))
 	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_EMU_PATH).convert_alpha(),(SIZE_BIN_1)),(WHERE_BIN_1))
 
-	pygame.display.update()
-
 ###################################################################
 ###################################################################
 #		AFFICHAGE MENU JEUX
@@ -291,12 +289,9 @@ while continuer:
 		for event in pygame.event.get():
 
 ###################################################################
-###################################################################
 #		DEPLACEMENT MENU JEUX
 ###################################################################
-###################################################################
 			if MENU_IN == 0:
-###################################################################
 #		DEPLACEMENT JOYSTICK
 ###################################################################
 				if JOY_TEST == 1:
