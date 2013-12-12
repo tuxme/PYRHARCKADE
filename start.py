@@ -9,7 +9,6 @@
 
 import pygame
 from Tkinter import*
-import Tkinter
 import time
 import csv
 import os
@@ -104,7 +103,7 @@ WHERE_BIN_3=(WHERE_BIN_3_X,WHERE_BIN_3_Y)
 #FENETRE PRINCIPAL 
 fenetre = [SCREEN_W, SCREEN_H]
 fenetre = pygame.display.set_mode((fenetre),FULLSCREEN)
-fenetre.blit(pygame.transform.scale(pygame.image.load(IMG + "/bg2.png").convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
+fenetre.blit(pygame.transform.scale(pygame.image.load(IMG + "/bg2.png").convert(),(SCREEN_W,SCREEN_H)),(0,0))
 
 
 #COMPTEUR et lecture du fichier conf 
@@ -177,33 +176,24 @@ def affiche_menu():
 
 	
 	if MAX_EMU==1:
+		
 		if (CPT_EMU+1) > MAX_EMU:
-			IMG_EMU_PATH=IMG_EMU + emu[CPT_EMU] +".png"
 			IMG_EMU_PATH_D=IMG_EMU + emu[CPT_EMU-1] +".png"
-			IMG_EMU_PATH_G=IMG_EMU_PATH_D
 		else:
-			IMG_EMU_PATH=IMG_EMU + emu[CPT_EMU] +".png"
 			IMG_EMU_PATH_D=IMG_EMU + emu[CPT_EMU+1] +".png"
-			IMG_EMU_PATH_G=IMG_EMU_PATH_D
+		IMG_EMU_PATH_G=IMG_EMU_PATH_D
 	else:
 		if (CPT_EMU+1) > MAX_EMU:
-			
-			IMG_EMU_PATH=IMG_EMU + emu[CPT_EMU] +".png"
 			IMG_EMU_PATH_D=IMG_EMU + emu[NMAX_EMU] +".png"
 			IMG_EMU_PATH_G=IMG_EMU + emu[CPT_EMU-1] +".png"
 		else:
-			IMG_EMU_PATH=IMG_EMU + emu[CPT_EMU] +".png"
 			IMG_EMU_PATH_D=IMG_EMU + emu[CPT_EMU+1] +".png"
 			IMG_EMU_PATH_G=IMG_EMU + emu[CPT_EMU-1] +".png"
 
-	fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert_alpha(),(SIZE_BIN_2)),(WHERE_BIN_2))
-	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_EMU_PATH_D).convert_alpha(),(SIZE_BIN_2)),(WHERE_BIN_2))
-
-	fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert_alpha(),(SIZE_BIN_3)),(WHERE_BIN_3))
-	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_EMU_PATH_G).convert_alpha(),(SIZE_BIN_2)),(WHERE_BIN_3))
-
-	fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert_alpha(),(SIZE_BIN_1)),(WHERE_BIN_1))
-	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_EMU_PATH).convert_alpha(),(SIZE_BIN_1)),(WHERE_BIN_1))
+	IMG_EMU_PATH=IMG_EMU + emu[CPT_EMU] +".png"
+	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_EMU_PATH_D).convert(),(SIZE_BIN_2)),(WHERE_BIN_2))
+	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_EMU_PATH_G).convert(),(SIZE_BIN_2)),(WHERE_BIN_3))
+	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_EMU_PATH).convert(),(SIZE_BIN_1)),(WHERE_BIN_1))
 
 ###################################################################
 #		AFFICHAGE MENU JEUX
@@ -218,7 +208,7 @@ def affiche():
 		LPLUS=0
 		LPLUS=LPLUS + (font_size+5)
 		WHERE_TEXTE=(WHERE_TEXTE_X,WHERE_TEXTE_Y)
-		fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert_alpha(),(SIZE_TEXTE)),(WHERE_TEXTE))
+		fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert(),(SIZE_TEXTE)),(WHERE_TEXTE))
 		for ligne in text1.splitlines():
 			ligne=ligne[0:max_carac]
 			x,y = fenetre.blit(font.render(ligne,5,pygame.Color("white")),(WHERE_TEXTE_X,WHERE_TEXTE_Y+LPLUS)).bottomleft
@@ -227,17 +217,18 @@ def affiche():
 	else:
 		text1 = "No DATA File"
 		text2 = font.render(text1, True, pygame.Color("white"))
-		fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert_alpha(),(SIZE_TEXTE_W,SIZE_TEXTE_H)),((WHERE_TEXTE_X,WHERE_TEXTE_Y)))
+		fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert(),(SIZE_TEXTE_W,SIZE_TEXTE_H)),((WHERE_TEXTE_X,WHERE_TEXTE_Y)))
 		fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y+50)).bottomleft
 	if not (os.path.isfile(IMG_WHEEL)):
 		IMG_WHEEL = SNAP_AND_WHEEL + "no_wheel.png"
 	if not (os.path.isfile(IMG_SNAP)):
 		IMG_SNAP = SNAP_AND_WHEEL + "no_snap.png"
 
-	fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert_alpha(),(SIZE_WHEEL_CONVERT)),(WHERE_WHEEL))
+	fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert(),(SIZE_WHEEL_CONVERT)),(WHERE_WHEEL))
+	fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert(),(SIZE_SNAP_CONVERT)),(WHERE_SNAP))
+
 	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_WHEEL).convert_alpha(),(SIZE_WHEEL_CONVERT)),(WHERE_WHEEL))
-	fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert_alpha(),(SIZE_SNAP_CONVERT)),(WHERE_SNAP))
-	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_SNAP).convert_alpha(),(SIZE_SNAP_CONVERT)),(WHERE_SNAP))
+	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_SNAP).convert(),(SIZE_SNAP_CONVERT)),(WHERE_SNAP))
 
 	#AFFICHAGE WHEEL
 	#pygame.display.update()
@@ -252,7 +243,7 @@ while continuer:
 		else:
 # AFFICHAGE ECRAN ACCEUIL
 			intro_sound.play()
-	                fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_START).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
+	                fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_START).convert(),(SCREEN_W,SCREEN_H)),(0,0))
 			pygame.display.update()
 			FIRST = 0
 			time.sleep(SLEEP_BEFORE_START)
@@ -261,7 +252,7 @@ while continuer:
 # RESTE AFFICHAGE ####################################
 		if MENU_IN == 1:
 			if AFFICHE_EMU_START == 1:
-				fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_EMU).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
+				fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_EMU).convert(),(SCREEN_W,SCREEN_H)),(0,0))
 				AFFICHE_EMU_START = 0
 			pygame.display.update()
 			affiche_menu()
@@ -273,7 +264,7 @@ while continuer:
 				while (str(li[CPT][1]) != EMU_CHOSE):
 					CPT = CPT + 1
 
-				fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
+				fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG).convert(),(SCREEN_W,SCREEN_H)),(0,0))
 				AFFICHE_GAME_START = 0
 			if MENU_GO == 1:
 				CPT = 0
@@ -311,9 +302,9 @@ while continuer:
 							affiche_menu()
 
 						else:
-							fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_EMU).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
+							fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_EMU).convert(),(SCREEN_W,SCREEN_H)),(0,0))
 							MENU_IN = 1
-						fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_EMU).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
+						fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_EMU).convert(),(SCREEN_W,SCREEN_H)),(0,0))
 
 					if event.type == JOYAXISMOTION:
 #--------------------------------------- SELECTION JEUX PAR LETTRE (-1 0-Z)
@@ -453,9 +444,9 @@ while continuer:
 							affiche_menu()
 
 						else:
-							fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_EMU).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
+							fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_EMU).convert(),(SCREEN_W,SCREEN_H)),(0,0))
 							MENU_IN = 1
-						fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_EMU).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
+						fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_EMU).convert(),(SCREEN_W,SCREEN_H)),(0,0))
 					if event.key == K_SPACE:
 						print "Launch "+li[CPT][0] + " with " + EMU_CHOSE
 						APP="BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0]  
@@ -474,7 +465,7 @@ while continuer:
 #DEPLACEMENT JOYSTICK
 					if event.type == JOYBUTTONDOWN and event.button == 3:
 						MENU_IN = 0
-						fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
+						fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG).convert(),(SCREEN_W,SCREEN_H)),(0,0))
 						EMU_CHOSE=str(emu[CPT_EMU])
 						CPT = 0
 						# Premier jeu de l emu choisi
@@ -508,7 +499,7 @@ while continuer:
 #--------------------------------------- SELECTION EMULATEUR 
 					if event.key == K_SPACE:
 						MENU_IN = 0
-						fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG).convert_alpha(),(SCREEN_W,SCREEN_H)),(0,0))
+						fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG).convert(),(SCREEN_W,SCREEN_H)),(0,0))
 						EMU_CHOSE=str(emu[CPT_EMU])
 						CPT = 0
 						# Premier jeu de l emu choisi
