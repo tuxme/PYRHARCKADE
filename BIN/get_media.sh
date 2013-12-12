@@ -1,105 +1,131 @@
 #!/bin/bash
 
+ROM_ARG=$1
+
 usage() {
 
 echo "$0 : Recupere les medias de type information / snapshoot / wheel selon votre fichier ROM_CONFIG_FILES.csv"
 echo ""
 echo "OPTION : "
 echo "		$0 --> recupere tout les medias"
-echo "		$0 [rom] --> recupere tout les medias d'une rom particuliere en mode FORCE (ecrase l'existant)"
-echo "		$0 ALL --> recupere tout les medias de toutes les ROMS en  mode FORCE (ecrase l'existant)"
+echo "		$0 \"[rom],[EMU]\" --> recupere tout les medias d'une rom particuliere en mode FORCE (ecrase l'existant)"
 exit
 
 }
 
-for var in `cat ../ROM_CONFIG_FILES.csv | cut -d"," -f1`
-	do
+test_arg() {
+EMU=`echo $ROM_ARG | cut -d"," -f2`
+ROM=`echo $ROM_ARG | cut -d"," -f1`
 
-		
-		if [[ ! -z $1 ]]
-			then
-				if [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]
-					then
-						usage
-				fi
-				if [[ "$1" == "ALL" ]]
-					then 
-						FORCE_ALL=1
-					else
-						FORCE=1
-						var=$1
-				fi
-			else
-				FORCE=0
-				FORCE_ALL=0
-		fi
-		echo "Traitement de $var -  "
-		if [[ ! -f ../MEDIA/DOCS/${var}.txt ]] || [[ "$FORCE_ALL" == "1"  ]] || [[ "$FORCE" == "1" ]]
-			then
-				echo "ROM_NAME: $var" > ../MEDIA/DOCS/${var}.txt
-				wget -c -q http:/pyrharckade.tuxme.net/MEDIA/DOCS/${var}.txt -O ../MEDIA/DOCS/${var}.txt
-				RES=$?
-				if [[ "$RES" != "0" ]]
-					then
-						echo -e "$var \n * NO DATA INFORMATION" > ../MEDIA/DOCS/${var}.txt
-						echo -e "\t(DOC): FAILED"
-					else
-						echo -e "\t(DOC): OK"
-				fi
-		fi
-		if [[ ! -f "../MEDIA/SNAP/${var}.png" ]] || [[ "$FORCE_ALL" == "1"  ]] || [[ "$FORCE" == "1" ]]
-			then
-				TEST_OK=0
-				for type in snap marquee title
-					do
-						if [[ "$TEST_OK" == "0" ]]
-							then
-								wget -c -q -nv "http:/pyrharckade.tuxme.net/MEDIA/${type}/${var}.png" -O ../MEDIA/SNAP/${var}.png
-								RES=$?
-							if [[ "$RES" == "0" ]]
-								then
-									TEST_OK=1
-									echo -e "\t(SNAP): OK"
-							fi 
-						fi
-					done
-				if [[ "$TEST_OK" == "0" ]]
-					then
-						echo -e "\t(SNAP): FAILED"
-						rm -f ../MEDIA/SNAP/${var}.png
-				fi
-		fi
-		if [[ ! -f "../MEDIA/WHEEL/${var}.png" ]] || [[ "$FORCE_ALL" == "1"  ]] || [[ "$FORCE" == "1" ]]
-			then
-				wget -c -q -nv "http:/pyrharckade.tuxme.net/MEDIA/wheel/${var}.png" -O ../MEDIA/WHEEL/${var}.png
-				if [[ "$?" == "0" ]]
-					then
-						echo -e "\t(WHEEL): OK"
-					else
-						wget -c -q -nv "http:/pyrharckade.tuxme.net/MEDIA/lowres/${var}.png" -O ../MEDIA/WHEEL/${var}.png
-						if [[ "$?" == "0" ]]
-							then
-								echo -e "\t(WHEEL): OK"
-							else
-								NAME=`cat ../MEDIA/DOCS/${var}.txt |grep Name | cut -d":" -f2`
-								if [[ ! -z "$NAME" ]]
-									then
-										wget -c -q "http://placehold.it/400x175/000000/FFFFFFF/&text=${NAME}" -O /tmp/${var}.png
-									else
-										wget -c -q "http://placehold.it/400x175/000000/FFFFFFF/&text=${var}" -O /tmp/${var}.png
-								fi
-								rm -f ../MEDIA/WHEEL/${var}.png
-								convert -border 4x4 -bordercolor "#FFFFFF" /tmp/${var}.png ../MEDIA/WHEEL/${var}.png 
-								echo  -e "\t(WHEEL): CONVERT"
-						fi
-				fi
-				
-		fi
+if [[ -z $EMU ]] || [[ -z $ROM ]] || [[ -z `echo $ROM_ARG | grep ","` ]]
+	then
+		usage
 
-		echo "-------------------------------"
+fi
 
-	if [[ ! -z $1 ]] && [[ "$1" != "ALL" ]]
+}
+
+TEST_REP() {
+
+if [[ ! -z $ROM_ARG ]]
+	then 
+		if [[ ! -d ../MEDIA/${EMU}/SNAP ]]
+			then
+				echo "Creation rep IMG de ${EMU} : ../MEDIA/${EMU}/SNAP"
+				mkdir -p ../MEDIA/${EMU}/SNAP
+		fi
+		if [[ ! -d ../MEDIA/${EMU}/WHEEL ]]
+			then
+				echo "Creation rep IMG de ${EMU} : ../MEDIA/${EMU}/WHEEL"
+				mkdir -p ../MEDIA/${EMU}/WHEEL
+		fi
+		if [[ ! -d ../MEDIA/${EMU}/DOCS ]]
+			then
+				echo "Creation rep IMG de ${EMU} : ../MEDIA/${EMU}/DOCS"
+				mkdir -p ../MEDIA/${EMU}/DOCS
+		fi
+	else
+
+		for EMU_DIR in `cat ../ROM_CONFIG_FILES.csv | cut -d"," -f2 | sort -u`
+			do
+				if [[ ! -d ../MEDIA/${EMU_DIR}/SNAP ]]
+					then
+						echo "Creation rep IMG de ${EMU_DIR} : ../MEDIA/${EMU_DIR}/SNAP"
+						mkdir -p ../MEDIA/${EMU_DIR}/SNAP
+				fi
+				if [[ ! -d ../MEDIA/${EMU_DIR}/WHEEL ]]
+					then
+						echo "Creation rep IMG de ${EMU_DIR} : ../MEDIA/${EMU_DIR}/WHEEL"
+						mkdir -p ../MEDIA/${EMU_DIR}/WHEEL
+				fi
+				if [[ ! -d ../MEDIA/${EMU_DIR}/DOCS ]]
+					then
+						echo "Creation rep IMG de ${EMU_DIR} : ../MEDIA/${EMU_DIR}/DOCS"
+						mkdir -p ../MEDIA/${EMU_DIR}/DOCS
+				fi
+			done
+fi
+
+}
+get_docs() {
+	wget -c -q -nv "http://pyrharckade.tuxme.net/MEDIA/${EMU}/DOCS/${ROM}.txt" -O ../MEDIA/${EMU}/DOCS/${ROM}.txt
+	RES=$?
+	if [[ "$RES" != "0" ]]
 		then
-			exit
+			rm ../MEDIA/${EMU}/DOCS/${ROM}.txt
+			echo "$ROM $EMU -> DOCS : FAILED"
 	fi
- done
+
+}
+
+get_snap() {
+	wget -c -q -nv "http://pyrharckade.tuxme.net/MEDIA/${EMU}/SNAP/${ROM}.png" -O ../MEDIA/${EMU}/SNAP/${ROM}.png
+	RES=$?
+	if [[ "$RES" != "0" ]]
+		then
+			rm ../MEDIA/${EMU}/SNAP/${ROM}.png
+			echo "$ROM $EMU -> SNAP : FAILED"
+	fi
+
+}
+
+get_wheel() {
+	wget -c -q -nv "http://pyrharckade.tuxme.net/MEDIA/${EMU}/WHEEL/${ROM}.png" -O ../MEDIA/${EMU}/WHEEL/${ROM}.png
+	RES=$?
+	if [[ "$RES" != "0" ]]
+		then
+			rm ../MEDIA/${EMU}/WHEEL/${ROM}.png
+			echo "$ROM $EMU -> WHEEL : FAILED"
+	fi
+
+}
+
+if [[ -z $ROM_ARG ]]
+	then
+	TEST_REP
+fi
+
+
+if [[ ! -z $ROM_ARG ]]
+	then
+		test_arg
+		TEST_REP
+		get_snap
+		get_wheel
+		get_docs
+		exit 0
+fi
+
+while read line 
+	do
+		echo $line | while IFS=',' read ROM EMU
+		do
+
+			get_snap
+			get_wheel
+			get_docs
+
+				
+		done
+done < ../ROM_CONFIG_FILES.csv 
+

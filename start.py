@@ -26,6 +26,7 @@ pygame.init()
 ROOT_HOME=(os.environ['HOME'] + "/PYRHARCKADE")
 BIN_PATH=(ROOT_HOME + "/BIN/")
 WHEEL=(ROOT_HOME + "/MEDIA/WHEEL/")
+SNAP_AND_WHEEL=(ROOT_HOME + "/MEDIA/")
 SNAP=(ROOT_HOME + "/MEDIA/SNAP/")
 SOUND=(ROOT_HOME + "/MEDIA/SOUND/")
 ROMS=(ROOT_HOME + "/MEDIA/ROMS/")
@@ -35,7 +36,7 @@ BACKGROUNG=(ROOT_HOME + "/MEDIA/IMG/bg2.png")
 BACKGROUNG_EMU=(ROOT_HOME + "/MEDIA/IMG/menu.png")
 IMG_EMU = (ROOT_HOME + "/MEDIA/IMG/EMU/")
 BACKGROUNG_START=(ROOT_HOME + "/MEDIA/IMG/dpfe_welcom.png")
-font_path = "./MEDIA/IMG/font.ttf"
+font_path = "./MEDIA/font.ttf"
 font_size = 30
 max_carac = 30
 font = pygame.font.Font(font_path, font_size)
@@ -212,9 +213,9 @@ def affiche_menu():
 ###################################################################
 ###################################################################
 def affiche():
-	IMG_WHEEL=WHEEL +li[CPT][0]+".png"
-	IMG_SNAP=SNAP +li[CPT][0]+".png"
-	FILE_INFO = DOCS + li[CPT][0] + ".txt"
+	IMG_WHEEL=SNAP_AND_WHEEL  +EMU_CHOSE+"/WHEEL/"+li[CPT][0]+".png"
+	IMG_SNAP=SNAP_AND_WHEEL +EMU_CHOSE+"/SNAP/"+li[CPT][0]+".png"
+	FILE_INFO = SNAP_AND_WHEEL +EMU_CHOSE+"/DOCS/"+ li[CPT][0] + ".txt"
 	if os.path.isfile(FILE_INFO):
 		FILE_DOC = open(FILE_INFO,"r")
 		text1 = FILE_DOC.read()
@@ -233,9 +234,9 @@ def affiche():
 		fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert_alpha(),(SIZE_TEXTE_W,SIZE_TEXTE_H)),((WHERE_TEXTE_X,WHERE_TEXTE_Y)))
 		fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y+50)).bottomleft
 	if not (os.path.isfile(IMG_WHEEL)):
-		IMG_WHEEL = WHEEL + "no_wheel.png"
+		IMG_WHEEL = SNAP_AND_WHEEL + "no_wheel.png"
 	if not (os.path.isfile(IMG_SNAP)):
-		IMG_SNAP = SNAP + "no_snap.png"
+		IMG_SNAP = SNAP_AND_WHEEL + "no_snap.png"
 
 	fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert_alpha(),(SIZE_WHEEL_CONVERT)),(WHERE_WHEEL))
 	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_WHEEL).convert_alpha(),(SIZE_WHEEL_CONVERT)),(WHERE_WHEEL))
