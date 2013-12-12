@@ -37,7 +37,7 @@ for var in `cat ../ROM_CONFIG_FILES.csv | cut -d"," -f1`
 		if [[ ! -f ../MEDIA/DOCS/${var}.txt ]] || [[ "$FORCE_ALL" == "1"  ]] || [[ "$FORCE" == "1" ]]
 			then
 				echo "ROM_NAME: $var" > ../MEDIA/DOCS/${var}.txt
-				wget -c -q http://occultaleges.eu/PYRHARCKADE/MEDIA/DOCS/${var}.txt -O ../MEDIA/DOCS/${var}.txt
+				wget -c -q http:/pyrharckade.tuxme.net/MEDIA/DOCS/${var}.txt -O ../MEDIA/DOCS/${var}.txt
 				RES=$?
 				if [[ "$RES" != "0" ]]
 					then
@@ -54,7 +54,7 @@ for var in `cat ../ROM_CONFIG_FILES.csv | cut -d"," -f1`
 					do
 						if [[ "$TEST_OK" == "0" ]]
 							then
-								wget -c -q -nv "http://occultaleges.eu/PYRHARCKADE/MEDIA/${type}/${var}.png" -O ../MEDIA/SNAP/${var}.png
+								wget -c -q -nv "http:/pyrharckade.tuxme.net/MEDIA/${type}/${var}.png" -O ../MEDIA/SNAP/${var}.png
 								RES=$?
 							if [[ "$RES" == "0" ]]
 								then
@@ -71,12 +71,12 @@ for var in `cat ../ROM_CONFIG_FILES.csv | cut -d"," -f1`
 		fi
 		if [[ ! -f "../MEDIA/WHEEL/${var}.png" ]] || [[ "$FORCE_ALL" == "1"  ]] || [[ "$FORCE" == "1" ]]
 			then
-				wget -c -q -nv "http://occultaleges.eu/PYRHARCKADE/MEDIA/wheel/${var}.png" -O ../MEDIA/WHEEL/${var}.png
+				wget -c -q -nv "http:/pyrharckade.tuxme.net/MEDIA/wheel/${var}.png" -O ../MEDIA/WHEEL/${var}.png
 				if [[ "$?" == "0" ]]
 					then
 						echo -e "\t(WHEEL): OK"
 					else
-						wget -c -q -nv "http://occultaleges.eu/PYRHARCKADE/MEDIA/lowres/${var}.png" -O ../MEDIA/WHEEL/${var}.png
+						wget -c -q -nv "http:/pyrharckade.tuxme.net/MEDIA/lowres/${var}.png" -O ../MEDIA/WHEEL/${var}.png
 						if [[ "$?" == "0" ]]
 							then
 								echo -e "\t(WHEEL): OK"
