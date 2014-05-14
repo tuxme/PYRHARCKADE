@@ -145,6 +145,7 @@ get_bios() {
 						unzip -e MAME_BIOS.zip
 						cd -
 				fi
+			fi
 	fi
 
 }
