@@ -128,6 +128,26 @@ get_roms() {
 	fi
 
 }
+get_bios() {
+	if [[ "${EMU}" -eq "MAME" ]]
+		then
+			if [[ ! -d "../ROMS/${EMU}/BIOS/" ]]
+				then
+					 mkdir ../ROMS/${EMU}/BIOS/
+				wget -c -q -nv "http://pyrharckade.tuxme.net/MEDIA/MAME/BIOS/MAME_BIOS.zip" -O ../ROMS/${EMU}/BIOS/
+				RES=$?
+				if [[ "$RES" != "0" ]]
+					then
+						rm  -Rf ../ROMS/${EMU}/BIOS/
+						echo "$ROM $EMU -> BIOS : FAILED"
+					else
+						cd ../ROMS/${EMU}/BIOS/
+						unzip -e MAME_BIOS.zip
+						cd -
+				fi
+	fi
+
+}
 
 
 
