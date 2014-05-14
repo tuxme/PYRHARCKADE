@@ -1,7 +1,15 @@
-ROM=$1.zip
-echo $ROM
-cd /home/pi/EXPORT/MAME/roms/
-/home/pi/emulators/fba/fba2x  /home/pi/EXPORT/MAME/roms/$ROM 
+#!/bin/bash
 
-cd /home/pi/PYRHARCKADE
+####### CONF ########
+ROM=$1
+PATH_ROMS=${HOME}/PYRHARCKADE/ROMS/FBA/
+BIN_MAME=/home/pi/emulators/fba/fba2x
+####### CONF ########
+
+cd ${PATH_ROMS}/
+${BIN_MAME} $ROM
+
+###### RESTART PYR ######
+cd ${PATH_ROMS}/../
 ./start.py YES
+###### RESTART PYR ######
