@@ -7,6 +7,9 @@ usage() {
 echo "$0 : 	Recupere les medias de type information / snapshoot / wheel selon votre fichier ROM_CONFIG_FILES.csv"
 echo "		Recupere aussi les ROMS MAME et FBA si elles existent sur le serveur"	
 echo ""	
+echo "---	Dans un premier temps nous vous conseillons de mettre les emulateur FBA et MAME à MAME puis de lancer "
+ehco "---	verif_roms.sh qui fera les test des ROMS et generera un nouveau fichier de conf	"	
+echo ""	
 echo "OPTION : "
 echo "		$0 --> recupere tout les medias"
 echo "		$0 \"[rom],[EMU]\" --> recupere tout les medias d'une rom particuliere en mode FORCE (ecrase l'existant)"
@@ -114,6 +117,7 @@ get_wheel() {
 get_roms() {
 	if [[ "${EMU}" -eq "MAME" ]] || [[ "${EMU}" -eq "FBA" ]] 
 		then
+			EMU="MAME"
 			wget -c -q -nv "http://pyrharckade.tuxme.net/MEDIA/roms/MAME_151/${ROM}.zip" -O ../ROMS/${EMU}/${ROM}.zip
 			RES=$?
 			if [[ "$RES" != "0" ]]

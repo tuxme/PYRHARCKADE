@@ -1,8 +1,8 @@
 #!/bin/bash
 
-ROM_PATH=/home/pi/EXPORT/MAME/roms
-BIN_MAME=/home/pi/mame4all-pi/mame
-BIN_FBA=/home/pi/emulators/fba/fba2x
+ROM_PATH=/home/pi/PYRHARCKADE/ROMS/MAME
+BIN_MAME=/home/pi/pimame/emulators/mame4all-pi/mame
+BIN_FBA=/home/pi/pimame/emulators/fba/fba2x
 FILE_OK=/tmp/MAME_OK.txt
 FILE_TO_COMPLETE=/tmp/MAME_TO_COMPLETE
 
