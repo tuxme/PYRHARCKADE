@@ -219,7 +219,7 @@ def affiche():
 			LPLUS=LPLUS + (font_size+5)
 		FILE_DOC.close()
 	else:
-		text1 = "No DATA File : li[CPT][0]"
+		text1 = "No DATA File : " + li[CPT][0] 
 		text2 = font.render(text1, True, pygame.Color("white"))
 		fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert(),(SIZE_TEXTE_W,SIZE_TEXTE_H)),((WHERE_TEXTE_X,WHERE_TEXTE_Y)))
 		fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y+50)).bottomleft
@@ -229,21 +229,23 @@ def affiche():
 		IMG_SNAP = SNAP_AND_WHEEL + "no_snap.png"
 
 		
-
+	T1 = time.time()
 	fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert(),(SIZE_WHEEL_CONVERT)),(WHERE_WHEEL))
 	fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert(),(SIZE_SNAP_CONVERT)),(WHERE_SNAP))
 
 	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_WHEEL).convert_alpha(),(SIZE_WHEEL_CONVERT)),(WHERE_WHEEL))
 	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_SNAP).convert(),(SIZE_SNAP_CONVERT)),(WHERE_SNAP))
 
-	if os.path.isfile(VIDEO_SNAP) and pygame.key.get_pressed() != True:
+	if os.path.isfile(VIDEO_SNAP) and pygame.key.get_pressed() != True :
+		T2 = time.time()
 		PLAY_SNAP=True
-		while PLAY_SNAP:
+		elapsed = T2 - T1
+		print elapsed
+		if elapsed > 100:
 			FPS = 60
 			movie = pygame.movie.Movie(VIDEO_SNAP)
 			mrect = pygame.Rect(WHERE_SNAP_X,WHERE_SNAP_Y,SIZE_SNAP_CONVERT_H,SIZE_SNAP_CONVERT_W)
 			movie.set_display(fenetre, mrect)
-
 			movie.set_volume(80)
 			time.sleep(1)
 			if pygame.key.get_focused() != True:
@@ -258,7 +260,7 @@ def affiche():
 	#pygame.display.update()
 
 #MAIN #################################################
-pygame.key.set_repeat(400, 50)
+pygame.key.set_repeat(400, 100)
 while continuer:
 # PREMIER LANCEMENT (y/n) SI YES passe ecran d'acceuil
 	if FIRST == 1:
@@ -455,6 +457,7 @@ while continuer:
 								MENU_GO == 1
 								break
 							ROM_L1 = li[CPT][0][0]
+
 #--------------------------------------- LANCEMENT DU JEUX + EXIT FE
 					if event.type == QUIT:
 						continuer = 0
