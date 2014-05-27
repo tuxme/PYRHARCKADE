@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
 
-# Dead Front Pool Head  is a simple pygame front for PIMAME
-# version: 0.1
+# PYRHARCKADE is a simple pygame front for PIMAME
+# version: 0.9a
 # guillaume@tuxme.net
 # GPL Licence
 
@@ -15,7 +15,10 @@ import os
 import sys
 import subprocess
 from pygame.locals import *
+from pygame.compat import unicode_
+
 from math import *
+clock = pygame.time.Clock()
 
 root = Tk()
 pygame.init()
@@ -138,7 +141,10 @@ AFFICHE_EMU_START=1
 AFFICHE_GAME_START=1
 FIRST=1
 
+#Gestion time out video 
 
+T1 = time.time()
+T2 = time.time()
 
 # Test lancement First ou lancement auto suite fin emu
 continuer = 1
@@ -157,7 +163,9 @@ if MAX_EMU==0:
 	EMU_CHOSE=emu[0]
 
 ################################### Initialisation son
-intro_sound = pygame.mixer.Sound(SOUND + "intro.wav")
+pygame.mixer.init()
+
+#intro_sound = pygame.mixer.Sound(SOUND + "intro.wav")
 
 # Initialisation / ou non du joystick 0
 if pygame.joystick.get_count() != 0:
@@ -202,6 +210,7 @@ def affiche():
 	IMG_WHEEL=SNAP_AND_WHEEL  +EMU_CHOSE+"/WHEEL/"+li[CPT][0]+".png"
 	IMG_SNAP=SNAP_AND_WHEEL +EMU_CHOSE+"/SNAP/"+li[CPT][0]+".png"
 	FILE_INFO = SNAP_AND_WHEEL +EMU_CHOSE+"/DOCS/"+ li[CPT][0] + ".txt"
+	VIDEO_SNAP=SNAP_AND_WHEEL +EMU_CHOSE+"/VIDEO/"+li[CPT][0]+".mpg"
 	if os.path.isfile(FILE_INFO):
 		FILE_DOC = open(FILE_INFO,"r")
 		text1 = FILE_DOC.read()
@@ -215,7 +224,7 @@ def affiche():
 			LPLUS=LPLUS + (font_size+5)
 		FILE_DOC.close()
 	else:
-		text1 = "No DATA File"
+		text1 = "No DATA File : " + li[CPT][0] 
 		text2 = font.render(text1, True, pygame.Color("white"))
 		fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert(),(SIZE_TEXTE_W,SIZE_TEXTE_H)),((WHERE_TEXTE_X,WHERE_TEXTE_Y)))
 		fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y+50)).bottomleft
@@ -224,17 +233,37 @@ def affiche():
 	if not (os.path.isfile(IMG_SNAP)):
 		IMG_SNAP = SNAP_AND_WHEEL + "no_snap.png"
 
+		
+	T2 = time.time()
 	fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert(),(SIZE_WHEEL_CONVERT)),(WHERE_WHEEL))
 	fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert(),(SIZE_SNAP_CONVERT)),(WHERE_SNAP))
 
 	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_WHEEL).convert_alpha(),(SIZE_WHEEL_CONVERT)),(WHERE_WHEEL))
 	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_SNAP).convert(),(SIZE_SNAP_CONVERT)),(WHERE_SNAP))
+	elapsed = T2 - T1
+
+	if elapsed > 4:
+		print elapsed;
+		PLAY_SNAP=True
+		FPS = 20
+		if os.path.isfile(VIDEO_SNAP):
+			print VIDEO_SNAP
+			movie = pygame.movie.Movie(VIDEO_SNAP)
+			mrect = pygame.Rect(WHERE_SNAP_X,WHERE_SNAP_Y,SIZE_SNAP_CONVERT_H,SIZE_SNAP_CONVERT_W)
+			movie.set_display(fenetre, mrect)
+			movie.set_volume(80)
+			movie.play()
+			while pygame.key.get_focused() != True:
+				movie.stop()
+				PLAY_SNAP=False
+				fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_SNAP).convert(),(SIZE_SNAP_CONVERT)),(WHERE_SNAP))
+			#	time.sleep(0.3)
 
 	#AFFICHAGE WHEEL
 	#pygame.display.update()
 
 #MAIN #################################################
-pygame.key.set_repeat(400, 30)
+pygame.key.set_repeat(400, 100)
 while continuer:
 # PREMIER LANCEMENT (y/n) SI YES passe ecran d'acceuil
 	if FIRST == 1:
@@ -242,7 +271,7 @@ while continuer:
 			FIRST=0
 		else:
 # AFFICHAGE ECRAN ACCEUIL
-			intro_sound.play()
+			#intro_sound.play()
 	                fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_START).convert(),(SCREEN_W,SCREEN_H)),(0,0))
 			pygame.display.update()
 			FIRST = 0
@@ -307,6 +336,7 @@ while continuer:
 						fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_EMU).convert(),(SCREEN_W,SCREEN_H)),(0,0))
 
 					if event.type == JOYAXISMOTION:
+						T1 = time.time()
 #--------------------------------------- SELECTION JEUX PAR LETTRE (-1 0-Z)
 						if event.axis == 1 and event.value > 0:
 							ROM_L1 = li[CPT][0][0]
@@ -371,10 +401,13 @@ while continuer:
 ###################################################################
 
 				if event.type == KEYDOWN:
-					#print EMU_CHOSE + " => CPT:" + str(CPT) + "CPT_EMU:" + str(CPT_EMU) + " ... MAX("+ str(MAX) + "),NAMX(" + str(NMAX) + "),MAX_EMU(" + str(MAX_EMU) + "),NMAX_EMU(" + str(NMAX_EMU)  + ")  >> " + li[CPT][0]
+
+					T1 = time.time()
+					print EMU_CHOSE + " => CPT:" + str(CPT) + "CPT_EMU:" + str(CPT_EMU) + " ... MAX("+ str(MAX) + "),NAMX(" + str(NMAX) + "),MAX_EMU(" + str(MAX_EMU) + "),NMAX_EMU(" + str(NMAX_EMU)  + ")  >> " + li[CPT][0]
 
 #--------------------------------------- SELECTION JEUX A DROITE (+1)
 					if event.key == K_RIGHT:
+
 						if CPT + 1 > MAX:
 							CPT = 0
 						else:
@@ -430,6 +463,7 @@ while continuer:
 								MENU_GO == 1
 								break
 							ROM_L1 = li[CPT][0][0]
+
 #--------------------------------------- LANCEMENT DU JEUX + EXIT FE
 					if event.type == QUIT:
 						continuer = 0
