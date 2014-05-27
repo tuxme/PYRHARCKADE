@@ -47,8 +47,8 @@ SLEEP_BEFORE_START = 1
 
 #TEMPLATE ##############################################
 
-SCREEN_W = root.winfo_screenwidth()
-SCREEN_H = root.winfo_screenheight()
+SCREEN_W = root.winfo_screenwidth() - 200
+SCREEN_H = root.winfo_screenheight() - 200
 SIZE_SNAP_CONVERT_W = int(floor(SCREEN_W / 6))
 SIZE_SNAP_CONVERT_H = int(floor(SCREEN_H / 2.5))
 SIZE_SNAP_CONVERT=(SIZE_SNAP_CONVERT_W,SIZE_SNAP_CONVERT_H)
@@ -105,7 +105,8 @@ WHERE_BIN_3=(WHERE_BIN_3_X,WHERE_BIN_3_Y)
 
 #FENETRE PRINCIPAL 
 fenetre = [SCREEN_W, SCREEN_H]
-fenetre = pygame.display.set_mode((fenetre),FULLSCREEN)
+#fenetre = pygame.display.set_mode((fenetre),FULLSCREEN)
+fenetre = pygame.display.set_mode((fenetre))
 fenetre.blit(pygame.transform.scale(pygame.image.load(IMG + "/bg2.png").convert(),(SCREEN_W,SCREEN_H)),(0,0))
 
 
@@ -165,7 +166,7 @@ if MAX_EMU==0:
 ################################### Initialisation son
 pygame.mixer.init()
 
-#intro_sound = pygame.mixer.Sound(SOUND + "intro.wav")
+intro_sound = pygame.mixer.Sound(SOUND + "intro.wav")
 
 # Initialisation / ou non du joystick 0
 if pygame.joystick.get_count() != 0:
@@ -207,6 +208,7 @@ def affiche_menu():
 #		AFFICHAGE MENU JEUX
 ###################################################################
 def affiche():
+
 	IMG_WHEEL=SNAP_AND_WHEEL  +EMU_CHOSE+"/WHEEL/"+li[CPT][0]+".png"
 	IMG_SNAP=SNAP_AND_WHEEL +EMU_CHOSE+"/SNAP/"+li[CPT][0]+".png"
 	FILE_INFO = SNAP_AND_WHEEL +EMU_CHOSE+"/DOCS/"+ li[CPT][0] + ".txt"
@@ -237,26 +239,41 @@ def affiche():
 	T2 = time.time()
 	fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert(),(SIZE_WHEEL_CONVERT)),(WHERE_WHEEL))
 	fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert(),(SIZE_SNAP_CONVERT)),(WHERE_SNAP))
-
 	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_WHEEL).convert_alpha(),(SIZE_WHEEL_CONVERT)),(WHERE_WHEEL))
 	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_SNAP).convert(),(SIZE_SNAP_CONVERT)),(WHERE_SNAP))
-	elapsed = T2 - T1
 
-	if elapsed > 4:
-		print elapsed;
-		PLAY_SNAP=True
-		FPS = 20
-		if os.path.isfile(VIDEO_SNAP):
-			print VIDEO_SNAP
-			movie = pygame.movie.Movie(VIDEO_SNAP)
-			mrect = pygame.Rect(WHERE_SNAP_X,WHERE_SNAP_Y,SIZE_SNAP_CONVERT_H,SIZE_SNAP_CONVERT_W)
-			movie.set_display(fenetre, mrect)
-			movie.set_volume(80)
-			movie.play()
-			while pygame.key.get_focused() != True:
+	if T3 == 0:
+		elapsed=0
+	else:
+		elapsed = T2 - T1
+	if elapsed > 2 and os.path.isfile(VIDEO_SNAP) :
+		FPS = 60
+#		movie = pygame.movie.Movie('/home/berzerking/PYRHARCKADE/MEDIA/MAME/VIDEO/1942.mpg')
+		movie = pygame.movie.Movie(VIDEO_SNAP)
+		mrect = pygame.Rect(WHERE_SNAP_X,WHERE_SNAP_Y,SIZE_SNAP_CONVERT_H,SIZE_SNAP_CONVERT_W)
+#		mrect = pygame.Rect(0,0,250,250)
+		movie.set_display(fenetre,mrect)
+		movie.set_volume(100)
+		movie.play()
+
+#		pygame.time.set_timer(USEREVENT, 10000)
+		while movie.get_busy():
+			evt = pygame.event.wait()
+			if evt.type == QUIT:
+				print "movie stop"
+				T2=0
 				movie.stop()
-				PLAY_SNAP=False
-				fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_SNAP).convert(),(SIZE_SNAP_CONVERT)),(WHERE_SNAP))
+
+				break
+			if evt.type == KEYDOWN:
+				movie.stop()
+				T2=0
+				print "movie stop"
+
+				break
+
+			
+#				fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_SNAP).convert(),(SIZE_SNAP_CONVERT)),(WHERE_SNAP))
 			#	time.sleep(0.3)
 
 	#AFFICHAGE WHEEL
@@ -264,6 +281,7 @@ def affiche():
 
 #MAIN #################################################
 pygame.key.set_repeat(400, 100)
+PLAY_SNAP=True
 while continuer:
 # PREMIER LANCEMENT (y/n) SI YES passe ecran d'acceuil
 	if FIRST == 1:
@@ -271,7 +289,7 @@ while continuer:
 			FIRST=0
 		else:
 # AFFICHAGE ECRAN ACCEUIL
-			#intro_sound.play()
+			intro_sound.play()
 	                fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_START).convert(),(SCREEN_W,SCREEN_H)),(0,0))
 			pygame.display.update()
 			FIRST = 0
