@@ -1,11 +1,9 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
-
 # PYRHARCKADE is a simple pygame front for PIMAME
 # version: 0.9a
 # guillaume@tuxme.net
 # GPL Licence
-
 
 import pygame
 from Tkinter import*
@@ -43,12 +41,12 @@ font_size = 30
 max_carac = 30
 font = pygame.font.Font(font_path, font_size)
 BLACK = (ROOT_HOME + "/MEDIA/IMG/black.png")
-SLEEP_BEFORE_START = 1
+SLEEP_BEFORE_START = 4
 
 #TEMPLATE ##############################################
 
-SCREEN_W = root.winfo_screenwidth() - 200
-SCREEN_H = root.winfo_screenheight() - 200
+SCREEN_W = root.winfo_screenwidth() 
+SCREEN_H = root.winfo_screenheight() 
 SIZE_SNAP_CONVERT_W = int(floor(SCREEN_W / 6))
 SIZE_SNAP_CONVERT_H = int(floor(SCREEN_H / 2.5))
 SIZE_SNAP_CONVERT=(SIZE_SNAP_CONVERT_W,SIZE_SNAP_CONVERT_H)
@@ -105,8 +103,8 @@ WHERE_BIN_3=(WHERE_BIN_3_X,WHERE_BIN_3_Y)
 
 #FENETRE PRINCIPAL 
 fenetre = [SCREEN_W, SCREEN_H]
-#fenetre = pygame.display.set_mode((fenetre),FULLSCREEN)
-fenetre = pygame.display.set_mode((fenetre))
+fenetre = pygame.display.set_mode((fenetre),FULLSCREEN)
+#fenetre = pygame.display.set_mode((fenetre))
 fenetre.blit(pygame.transform.scale(pygame.image.load(IMG + "/bg2.png").convert(),(SCREEN_W,SCREEN_H)),(0,0))
 
 
@@ -141,7 +139,7 @@ emu = sorted(emu)
 AFFICHE_EMU_START=1
 AFFICHE_GAME_START=1
 FIRST=1
-
+FIRST_VID=1
 #Gestion time out video 
 
 T1 = time.time()
@@ -167,6 +165,8 @@ if MAX_EMU==0:
 pygame.mixer.init()
 
 intro_sound = pygame.mixer.Sound(SOUND + "intro.wav")
+
+#time.sleep(5)
 
 # Initialisation / ou non du joystick 0
 if pygame.joystick.get_count() != 0:
@@ -209,7 +209,7 @@ def affiche_menu():
 ###################################################################
 #		AFFICHAGE MENU JEUX
 ###################################################################
-def affiche():
+def affiche(FIRST_VID):
 
 	IMG_WHEEL=SNAP_AND_WHEEL  +EMU_CHOSE+"/WHEEL/"+li[CPT][0]+".png"
 	IMG_SNAP=SNAP_AND_WHEEL +EMU_CHOSE+"/SNAP/"+li[CPT][0]+".png"
@@ -247,61 +247,68 @@ def affiche():
 	if T2 == 0:
 		T2 = time.time()
 		return T2
-	play_video()
-
-def play_video():
-	if T2 != 0:
-		T2 = time.time()
-	VIDEO_SNAP=SNAP_AND_WHEEL +EMU_CHOSE+"/VIDEO/"+li[CPT][0]+".mpg"
-	elapsed = T2 - T1
-	print str(T2)
-	print str(T1)
-	print elapsed
-	print VIDEO_SNAP
-	if elapsed > 2 and os.path.isfile(VIDEO_SNAP) :
-		global T2
-		global T1
-		FPS = 60
-		movie = pygame.movie.Movie(VIDEO_SNAP)
-		mrect = pygame.Rect(WHERE_SNAP_X,WHERE_SNAP_Y,SIZE_SNAP_CONVERT_H,SIZE_SNAP_CONVERT_W)
-		movie.set_display(fenetre,mrect)
-		movie.set_volume(100)
-		movie.play()
-		pygame.time.set_timer(USEREVENT, 10000)
-		while movie.get_busy():
-			evt = pygame.event.wait()
-			if evt.type == QUIT:
-				print "movie stop"
-				T2=0
-				T1=time.time()
-				return T2
-				return T1
-				movie.stop()
-
-				break
-			if evt.type == KEYDOWN:
-				movie.stop()
-				T2=0
-				T1=time.time()
-				return T1
-				print "movie stop"
-				return T2
-				break
+	play_video(FIRST_VID)
+###################################################################
+#		AFFICHAGE VIDEO JEUX
+###################################################################
+def play_video(X):
+	FIRST_VID=X
+	if FIRST_VID == 1:
+		FIRST_VID = 0
+		global FIRST_VID
+	else :	
+		pygame.mixer.quit()
+		if T2 != 0:
+			T2 = time.time()
+		IMG_SNAP=SNAP_AND_WHEEL +EMU_CHOSE+"/SNAP/"+li[CPT][0]+".png"
+		VIDEO_SNAP=SNAP_AND_WHEEL +EMU_CHOSE+"/VIDEO/"+li[CPT][0]+".mpg"
+		fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_SNAP).convert(),(SIZE_SNAP_CONVERT)),(WHERE_SNAP))
+		elapsed = T2 - T1
+		if elapsed > 2 and os.path.isfile(VIDEO_SNAP) :
+			fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert(),(SIZE_SNAP_CONVERT)),(WHERE_SNAP))
+			global T2
+			global T1
+			FPS = 60
+			movie = pygame.movie.Movie(VIDEO_SNAP)
+			mrect = pygame.Rect(WHERE_SNAP_X,WHERE_SNAP_Y,SIZE_SNAP_CONVERT_W,SIZE_SNAP_CONVERT_H)
+			movie.set_display(fenetre,mrect)
+			movie.set_volume(100)
+			fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert(),(SIZE_SNAP_CONVERT)),(WHERE_SNAP))
+			movie.play()
+	#		pygame.time.set_timer(USEREVENT, 10000)
+			while movie.get_busy():
+				evt = pygame.event.wait()
+				if evt.type == QUIT:
+					T2=0
+					T1=time.time()
+					return T2
+					return T1
+					movie.stop()
+					break
+				if evt.type == KEYDOWN:
+					movie.stop()
+					T2=0
+					T1=time.time()
+					return T1
+					return T2
+					break
 
 
 
 #MAIN #################################################
-pygame.key.set_repeat(400, 100)
+pygame.key.set_repeat(400, 50)
 PLAY_SNAP=True
 while continuer:
 # PREMIER LANCEMENT (y/n) SI YES passe ecran d'acceuil
 	if FIRST == 1:
+
 		if argument1 == "YES":
 			FIRST=0
 		else:
 # AFFICHAGE ECRAN ACCEUIL
 			intro_sound.play()
 	                fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_START).convert(),(SCREEN_W,SCREEN_H)),(0,0))
+			
 			pygame.display.update()
 			FIRST = 0
 			time.sleep(SLEEP_BEFORE_START)
@@ -332,7 +339,7 @@ while continuer:
 					CPT = CPT + 1
 				MENU_GO = 0
 			pygame.display.update()
-			affiche()
+			affiche(FIRST_VID)
 		for event in pygame.event.get():
 
 ###################################################################
@@ -356,7 +363,7 @@ while continuer:
 							CPT=0
 							while (str(li[CPT][1]) != EMU_CHOSE):
 								CPT = CPT + 1
-							affiche()
+							affiche(FIRST_VID)
 							affiche_menu()
 
 						else:
@@ -432,7 +439,7 @@ while continuer:
 				if event.type == KEYDOWN:
 
 					T1 = time.time()
-					print EMU_CHOSE + " => CPT:" + str(CPT) + "CPT_EMU:" + str(CPT_EMU) + " ... MAX("+ str(MAX) + "),NAMX(" + str(NMAX) + "),MAX_EMU(" + str(MAX_EMU) + "),NMAX_EMU(" + str(NMAX_EMU)  + ")  >> " + li[CPT][0]
+#					print EMU_CHOSE + " => CPT:" + str(CPT) + "CPT_EMU:" + str(CPT_EMU) + " ... MAX("+ str(MAX) + "),NAMX(" + str(NMAX) + "),MAX_EMU(" + str(MAX_EMU) + "),NMAX_EMU(" + str(NMAX_EMU)  + ")  >> " + li[CPT][0]
 
 #--------------------------------------- SELECTION JEUX A DROITE (+1)
 					if event.key == K_RIGHT:
@@ -503,7 +510,7 @@ while continuer:
 							CPT=0
 							while (str(li[CPT][1]) != EMU_CHOSE):
 								CPT = CPT + 1
-							affiche()
+							affiche(FIRST_VID)
 							affiche_menu()
 
 						else:
