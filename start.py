@@ -181,6 +181,8 @@ else:
 ###################################################################
 #		AFFICHAGE MENU EMULATEUR
 ###################################################################
+			
+
 def affiche_menu():
 
 	
@@ -236,48 +238,57 @@ def affiche():
 		IMG_SNAP = SNAP_AND_WHEEL + "no_snap.png"
 
 		
-	T2 = time.time()
 	fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert(),(SIZE_WHEEL_CONVERT)),(WHERE_WHEEL))
 	fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert(),(SIZE_SNAP_CONVERT)),(WHERE_SNAP))
 	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_WHEEL).convert_alpha(),(SIZE_WHEEL_CONVERT)),(WHERE_WHEEL))
 	fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_SNAP).convert(),(SIZE_SNAP_CONVERT)),(WHERE_SNAP))
 
-	if T3 == 0:
-		elapsed=0
-	else:
-		elapsed = T2 - T1
+	global T2
+	if T2 == 0:
+		T2 = time.time()
+		return T2
+	play_video()
+
+def play_video():
+	if T2 != 0:
+		T2 = time.time()
+	VIDEO_SNAP=SNAP_AND_WHEEL +EMU_CHOSE+"/VIDEO/"+li[CPT][0]+".mpg"
+	elapsed = T2 - T1
+	print str(T2)
+	print str(T1)
+	print elapsed
+	print VIDEO_SNAP
 	if elapsed > 2 and os.path.isfile(VIDEO_SNAP) :
+		global T2
+		global T1
 		FPS = 60
-#		movie = pygame.movie.Movie('/home/berzerking/PYRHARCKADE/MEDIA/MAME/VIDEO/1942.mpg')
 		movie = pygame.movie.Movie(VIDEO_SNAP)
 		mrect = pygame.Rect(WHERE_SNAP_X,WHERE_SNAP_Y,SIZE_SNAP_CONVERT_H,SIZE_SNAP_CONVERT_W)
-#		mrect = pygame.Rect(0,0,250,250)
 		movie.set_display(fenetre,mrect)
 		movie.set_volume(100)
 		movie.play()
-
-#		pygame.time.set_timer(USEREVENT, 10000)
+		pygame.time.set_timer(USEREVENT, 10000)
 		while movie.get_busy():
 			evt = pygame.event.wait()
 			if evt.type == QUIT:
 				print "movie stop"
 				T2=0
+				T1=time.time()
+				return T2
+				return T1
 				movie.stop()
 
 				break
 			if evt.type == KEYDOWN:
 				movie.stop()
 				T2=0
+				T1=time.time()
+				return T1
 				print "movie stop"
-
+				return T2
 				break
 
-			
-#				fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_SNAP).convert(),(SIZE_SNAP_CONVERT)),(WHERE_SNAP))
-			#	time.sleep(0.3)
 
-	#AFFICHAGE WHEEL
-	#pygame.display.update()
 
 #MAIN #################################################
 pygame.key.set_repeat(400, 100)
