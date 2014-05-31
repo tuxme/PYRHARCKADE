@@ -8,7 +8,6 @@ echo "$0 : 	Recupere les medias de type information / snapshoot / wheel selon vo
 echo "		Recupere aussi les ROMS MAME et FBA si elles existent sur le serveur"	
 echo ""	
 echo "---	Dans un premier temps nous vous conseillons de mettre les emulateur FBA et MAME à MAME puis de lancer "
-ehco "---	verif_roms.sh qui fera les test des ROMS et generera un nouveau fichier de conf	"	
 echo ""	
 echo "OPTION : "
 echo "		$0 --> recupere tout les medias"
@@ -113,38 +112,27 @@ get_wheel() {
 	fi
 
 }
+get_video() {
+	wget -c -q -nv "http://pyrharckade.tuxme.net/MEDIA/${EMU}/VIDEO/${ROM}.mpg" -O ../MEDIA/${EMU}/WHEEL/${ROM}.png
+	RES=$?
+	if [[ "$RES" != "0" ]]
+		then
+			rm ../MEDIA/${EMU}/VIDEO/${ROM}.png
+			echo "$ROM $EMU -> VIDEO : FAILED"
+	fi
+
+}
 
 get_roms() {
 	if [[ "${EMU}" -eq "MAME" ]] || [[ "${EMU}" -eq "FBA" ]] 
 		then
 			EMU="MAME"
-			wget -c -q -nv "http://pyrharckade.tuxme.net/MEDIA/roms/MAME_151/${ROM}.zip" -O ../ROMS/${EMU}/${ROM}.zip
+			wget -c -q -nv "http://pyrharckade.tuxme.net/MEDIA/roms/MAME_37B5/${ROM}.zip" -O ../ROMS/${EMU}/${ROM}.zip
 			RES=$?
 			if [[ "$RES" != "0" ]]
 				then
 					rm  ../ROMS/${EMU}/${ROM}.zip
 					echo "$ROM $EMU -> ROMS : FAILED"
-			fi
-	fi
-
-}
-get_bios() {
-	if [[ "${EMU}" -eq "MAME" ]]
-		then
-			if [[ ! -d "../ROMS/${EMU}/BIOS/" ]]
-				then
-					 mkdir ../ROMS/${EMU}/BIOS/
-				wget -c -q -nv "http://pyrharckade.tuxme.net/MEDIA/MAME/BIOS/MAME_BIOS.zip" -O ../ROMS/${EMU}/BIOS/
-				RES=$?
-				if [[ "$RES" != "0" ]]
-					then
-						rm  -Rf ../ROMS/${EMU}/BIOS/
-						echo "$ROM $EMU -> BIOS : FAILED"
-					else
-						cd ../ROMS/${EMU}/BIOS/
-						unzip -e MAME_BIOS.zip
-						cd -
-				fi
 			fi
 	fi
 
@@ -164,6 +152,7 @@ if [[ ! -z $ROM_ARG ]]
 		TEST_REP
 		get_snap
 		get_wheel
+		get_video
 		get_docs
 		get_roms
 		exit 0
@@ -173,13 +162,11 @@ while read line
 	do
 		echo $line | while IFS=',' read ROM EMU
 		do
-
 			get_snap
 			get_wheel
+			get_video
 			get_docs
-			get_roms
-
-				
+			get_roms		
 		done
 done < ../ROM_CONFIG_FILES.csv 
 

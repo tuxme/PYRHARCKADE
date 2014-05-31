@@ -6,19 +6,14 @@ BIN_FBA=/home/pi/pimame/emulators/fba/fba2x
 FILE_OK=/tmp/MAME_OK.txt
 FILE_TO_COMPLETE=/tmp/MAME_TO_COMPLETE
 
-
 rm -f $FILE_OK
 rm -f $FILE_TO_COMPLETE
-
-
-
 echo "GENERATE MAME/FBA ROM LISTE"
-
 $BIN_FBA --gamelist 
-
 cd $ROM_PATH
-for rom in `ls -1 *zip | cut -d"." -f1`
+for rom in `cat ${HOME}/PYRHARCKADE/ROM_CONFIG_FILES.csv | grep -E ',MAME|,FBA'`
 	do
+		rom="`echo $rom | cut -d',' -f1`.zip"
 		DATA=`$BIN_MAME -verifyroms $rom`
 		STATUS=$?
 		if [[ "$STATUS" == "0" ]]
@@ -46,10 +41,7 @@ for rom in `ls -1 *zip | cut -d"." -f1`
 			done			
 
 	done
-
-
 cat  /tmp/FBA_OK $FILE_OK | sort -d | sort -u >> /tmp/ROM_CONFIG_FILES.csv
-
 echo "
 --------------------------------------------------------
 the file of all your conf for MAME and FBA is :
