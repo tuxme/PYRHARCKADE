@@ -85,8 +85,11 @@ get_docs() {
 	RES=$?
 	if [[ "$RES" != "0" ]]
 		then
-			rm ../MEDIA/${EMU}/DOCS/${ROM}.txt
-			echo "$ROM $EMU -> DOCS : FAILED"
+			rm -f ../MEDIA/${EMU}/DOCS/${ROM}.txt
+			echo -e " -> DOCS \033[31m FAILED \033[0m"
+		else
+			echo -e " -> DOCS \033[32m SUCCESS \033[0m"
+
 	fi
 
 }
@@ -96,8 +99,10 @@ get_snap() {
 	RES=$?
 	if [[ "$RES" != "0" ]]
 		then
-			rm ../MEDIA/${EMU}/SNAP/${ROM}.png
-			echo "$ROM $EMU -> SNAP : FAILED"
+			rm -f ../MEDIA/${EMU}/SNAP/${ROM}.png
+			echo -e " -> SNAP \033[31m FAILED \033[0m"
+		else
+			echo -e " -> SNAP \033[32m SUCCESS \033[0m"
 	fi
 
 }
@@ -107,8 +112,10 @@ get_wheel() {
 	RES=$?
 	if [[ "$RES" != "0" ]]
 		then
-			rm ../MEDIA/${EMU}/WHEEL/${ROM}.png
-			echo "$ROM $EMU -> WHEEL : FAILED"
+			rm -f ../MEDIA/${EMU}/WHEEL/${ROM}.png
+			echo -e " -> WHEEL \033[31m FAILED \033[0m"
+		else
+			echo -e " -> WHEEL \033[32m SUCCESS \033[0m"
 	fi
 
 }
@@ -117,8 +124,10 @@ get_video() {
 	RES=$?
 	if [[ "$RES" != "0" ]]
 		then
-			rm ../MEDIA/${EMU}/VIDEO/${ROM}.png
-			echo "$ROM $EMU -> VIDEO : FAILED"
+			rm -f ../MEDIA/${EMU}/VIDEO/${ROM}.png
+			echo -e " -> VIDEO \033[31m FAILED \033[0m"
+		else
+			echo -e " -> VIDEO \033[32m SUCCESS \033[0m"
 	fi
 
 }
@@ -131,8 +140,10 @@ get_roms() {
 			RES=$?
 			if [[ "$RES" != "0" ]]
 				then
-					rm  ../ROMS/${EMU}/${ROM}.zip
-					echo "$ROM $EMU -> ROMS : FAILED"
+					rm -f  ../ROMS/${EMU}/${ROM}.zip
+				echo -e " -> ROMS \033[31m FAILED \033[0m"
+			else
+				echo -e " -> ROMS \033[32m SUCCESS \033[0m"
 			fi
 	fi
 
@@ -162,11 +173,12 @@ while read line
 	do
 		echo $line | while IFS=',' read ROM EMU
 		do
+			echo -e "----- \033[36m $ROM \033[0m -----"
 			get_snap
 			get_wheel
 			get_video
 			get_docs
-			get_roms		
+			get_roms	
 		done
 done < ../ROM_CONFIG_FILES.csv 
 
