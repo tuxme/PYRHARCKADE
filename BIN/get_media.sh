@@ -100,6 +100,7 @@ get_snap() {
 	if [[ "$RES" != "0" ]]
 		then
 			rm -f ../MEDIA/${EMU}/SNAP/${ROM}.png
+			cp -f ../MEDIA/no_snap.png ../MEDIA/${EMU}/SNAP/${ROM}.png
 			echo -e " -> SNAP \033[31m FAILED \033[0m"
 		else
 			echo -e " -> SNAP \033[32m SUCCESS \033[0m"
@@ -113,6 +114,7 @@ get_wheel() {
 	if [[ "$RES" != "0" ]]
 		then
 			rm -f ../MEDIA/${EMU}/WHEEL/${ROM}.png
+			cp -f ../MEDIA/no_wheel.png ../MEDIA/${EMU}/WHEEL/${ROM}.png
 			echo -e " -> WHEEL \033[31m FAILED \033[0m"
 		else
 			echo -e " -> WHEEL \033[32m SUCCESS \033[0m"
