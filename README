@@ -29,6 +29,13 @@ This script generate an ROM_CONFIG_FILES with the roms can work
 
 copie the /tmp/MAME_OK.txt on PYRHARCKADE/ROM_CONFIG_FILES.csv
 
+Don't forget to add the 2 lines :
+
+REBOOT,SYS
+HALT,SYS
+
+In the end of the file and don't add a blank line
+
 ------------------------------------------------------------------
 
 Last step : Use the get_media.sh
