@@ -122,11 +122,11 @@ get_wheel() {
 
 }
 get_video() {
-	wget -c -q -nv "http://pyrharckade.tuxme.net/MEDIA/${EMU}/VIDEO/${ROM}.mpg" -O ../MEDIA/${EMU}/WHEEL/${ROM}.png
+	wget -c -q -nv "http://pyrharckade.tuxme.net/MEDIA/${EMU}/VIDEO/${ROM}.mpg" -O ../MEDIA/${EMU}/WHEEL/${ROM}.mpg
 	RES=$?
 	if [[ "$RES" != "0" ]]
 		then
-			rm -f ../MEDIA/${EMU}/VIDEO/${ROM}.png
+			rm -f ../MEDIA/${EMU}/VIDEO/${ROM}.mpg
 			echo -e " -> VIDEO \033[31m FAILED \033[0m"
 		else
 			echo -e " -> VIDEO \033[32m SUCCESS \033[0m"
