@@ -16,7 +16,7 @@ if [[ "$1" == "001_MEDIA" ]]
 	then
 		cd BIN
 		./get_media.sh
-		cd ${PATH_ROMS}/../
+		cd ../
 		./start.py YES
 
 fi
@@ -24,7 +24,7 @@ if [[ "$1" == "001_VERIF" ]]
 	then
 		cd BIN
 		./verif_roms.sh
-		cd ${PATH_ROMS}/../
+		cd ../
 		./start.py YES
 
 fi
