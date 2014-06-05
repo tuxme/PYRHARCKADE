@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ROM_PATH=/home/pi/PYRHARCKADE/MEDIA/MAME/ROMS/
+ROM_PATH=${HOME}/PYRHARCKADE/MEDIA/MAME/ROMS/
 BIN_MAME=/home/pi/pimame/emulators/mame4all-pi/mame
 BIN_FBA=/home/pi/pimame/emulators/fba/fba2x
 FILE_OK=/tmp/MAME_OK.txt
@@ -42,6 +42,10 @@ for rom in `cat ${HOME}/PYRHARCKADE/ROM_CONFIG_FILES.csv | grep -E ',MAME|,FBA'`
 
 	done
 cat  /tmp/FBA_OK $FILE_OK | sort -d | sort -u >> /tmp/ROM_CONFIG_FILES.csv
+echo -e "001_HALT,SYS\n001_REBOOT,SYS\n001_MEDIA,SYS\n001_VERIF" >> /tmp/ROM_CONFIG_FILES.csv
+cp  ${HOME}/PYRHARCKADE/ROM_CONFIG_FILES.csv  ${HOME}/PYRHARCKADE/ROM_CONFIG_FILES.csv_`date +%Y%m%d%H%S`
+cp /tmp/ROM_CONFIG_FILES.csv ${HOME}/PYRHARCKADE/ROM_CONFIG_FILES.csv
+
 echo "
 --------------------------------------------------------
 the file of all your conf for MAME and FBA is :
