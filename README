@@ -7,6 +7,8 @@ PYRHARCKADE 1.0B OPEN
 Beofre : 
 
 You have to verify the bin path of the script PYRHARCKADE/bin/MAME.sh
+You have to verify the bin path of the script PYRHARCKADE/bin/get_media.sh
+You have to verify the bin path of the script PYRHARCKADE/bin/verif_roms.sh
 
 -----------------------------------------------------------------
 
@@ -18,29 +20,17 @@ First step : create your file from the liste of roms you can get on :
 Get the file and replace the ROM_CONFIG_FILES.csv in the / of PYRHARCKADE
 
 
------------------------------------------------------------------
-
-Second step : Use the verif_roms.sh :
-
-cd PYRHARCKADE/BIN/
-./verif_roms.sh
-
-This script generate an ROM_CONFIG_FILES with the roms can work
-
-copie the /tmp/MAME_OK.txt on PYRHARCKADE/ROM_CONFIG_FILES.csv
-
-Don't forget to add the 2 lines :
-
-REBOOT,SYS
-HALT,SYS
-
-In the end of the file and don't add a blank line
 
 ------------------------------------------------------------------
 
-Last step : Use the get_media.sh
+Seconf step : start PYR in the PYRHARCKADE/ directory :
+cd ${HOME}/PYRHARCKADE/
+./start.py
 
-This script get the folowing media in the good path of the PYRHARCKADE FE:
+and use in the config menu : GET MEDIA + VERIF ROMS
+
+This scripts genreate a correct ROM_CONFIG_FILE and get the folowing 
+media in the good path of the PYRHARCKADE FE : 
 
 	* roms
 	* snap
