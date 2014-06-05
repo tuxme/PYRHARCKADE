@@ -32,54 +32,33 @@ TEST_REP() {
 
 if [[ ! -z $ROM_ARG ]]
 	then 
-		if [[ ! -d ../MEDIA/${EMU}/SNAP ]]
-			then
-				echo "Creation rep IMG de ${EMU} : ../MEDIA/${EMU}/SNAP"
-				mkdir -p ../MEDIA/${EMU}/SNAP
-		fi
-		if [[ ! -d ../MEDIA/${EMU}/WHEEL ]]
-			then
-				echo "Creation rep IMG de ${EMU} : ../MEDIA/${EMU}/WHEEL"
-				mkdir -p ../MEDIA/${EMU}/WHEEL
-		fi
-		if [[ ! -d ../MEDIA/${EMU}/DOCS ]]
-			then
-				echo "Creation rep IMG de ${EMU} : ../MEDIA/${EMU}/DOCS"
-				mkdir -p ../MEDIA/${EMU}/DOCS
-		fi
-		if [[ ! -d ../ROMS/${EMU}/ ]]
-			then
-				echo "Creation rep ROMS de ${EMU} : ../ROMS/${EMU}/"
-				mkdir -p ../ROMS/${EMU}/
-		fi
+		for REP in WHEEL SNAP VIDEO ROMS DOCS
+			do 
+				if [[ ! -d ../MEDIA/${EMU}/$REP ]]
+					then
+						echo "Creation rep IMG de ${EMU} : ../MEDIA/${EMU}/${REP}"
+						mkdir -p ../MEDIA/${EMU}/${REP}
+				fi
+		done
 	else
 
 		for EMU_DIR in `cat ../ROM_CONFIG_FILES.csv | cut -d"," -f2 | sort -u`
 			do
-				if [[ ! -d ../MEDIA/${EMU_DIR}/SNAP ]]
-					then
-						echo "Creation rep IMG de ${EMU_DIR} : ../MEDIA/${EMU_DIR}/SNAP"
-						mkdir -p ../MEDIA/${EMU_DIR}/SNAP
-				fi
-				if [[ ! -d ../MEDIA/${EMU_DIR}/WHEEL ]]
-					then
-						echo "Creation rep IMG de ${EMU_DIR} : ../MEDIA/${EMU_DIR}/WHEEL"
-						mkdir -p ../MEDIA/${EMU_DIR}/WHEEL
-				fi
-				if [[ ! -d ../MEDIA/${EMU_DIR}/DOCS ]]
-					then
-						echo "Creation rep IMG de ${EMU_DIR} : ../MEDIA/${EMU_DIR}/DOCS"
-						mkdir -p ../MEDIA/${EMU_DIR}/DOCS
-				fi
-				if [[ ! -d ../ROMS/${EMU_DIR}/ ]]
-					then
-						echo "Creation rep ROMS de ${EMU_DIR} : ../ROMS/${EMU_DIR}/"
-						mkdir -p ../ROMS/${EMU_DIR}/
-				fi
+				for REP in WHEEL SNAP VIDEO ROMS DOCS
+					do 
+						if [[ ! -d ../MEDIA/${EMU_DIR}/$REP ]]
+							then
+								echo "Creation rep IMG de ${EMU_DIR} : ../MEDIA/${EMU_DIR}/${REP}"
+								mkdir -p ../MEDIA/${EMU_DIR}/${REP}
+						fi
+				done
+
 			done
 fi
 
 }
+
+
 get_docs() {
 	wget -c -q -nv "http://pyrharckade.tuxme.net/MEDIA/${EMU}/DOCS/${ROM}.txt" -O ../MEDIA/${EMU}/DOCS/${ROM}.txt
 	RES=$?
@@ -122,7 +101,7 @@ get_wheel() {
 
 }
 get_video() {
-	wget -c -q -nv "http://pyrharckade.tuxme.net/MEDIA/${EMU}/VIDEO/${ROM}.mpg" -O ../MEDIA/${EMU}/WHEEL/${ROM}.mpg
+	wget -c -q -nv "http://pyrharckade.tuxme.net/MEDIA/${EMU}/VIDEO/${ROM}.mpg" -O ../MEDIA/${EMU}/VIDEO/${ROM}.mpg
 	RES=$?
 	if [[ "$RES" != "0" ]]
 		then
@@ -138,11 +117,11 @@ get_roms() {
 	if [[ "${EMU}" -eq "MAME" ]] || [[ "${EMU}" -eq "FBA" ]] 
 		then
 			EMU="MAME"
-			wget -c -q -nv "http://pyrharckade.tuxme.net/MEDIA/roms/MAME_37B5/${ROM}.zip" -O ../ROMS/${EMU}/${ROM}.zip
+			wget -c -q -nv "http://pyrharckade.tuxme.net/MEDIA/roms/MAME_37B5/${ROM}.zip" -O ../MEDIA/${EMU}/ROMS/${ROM}.zip
 			RES=$?
 			if [[ "$RES" != "0" ]]
 				then
-					rm -f  ../ROMS/${EMU}/${ROM}.zip
+					rm -f  ../MEDIA/${EMU}/ROMS/${ROM}.zip
 				echo -e " -> ROMS \033[31m FAILED \033[0m"
 			else
 				echo -e " -> ROMS \033[32m SUCCESS \033[0m"
