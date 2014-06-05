@@ -247,7 +247,11 @@ def affiche(FIRST_VID):
 	if T2 == 0:
 		T2 = time.time()
 		return T2
-	play_video(FIRST_VID)
+
+	VIDEO_SNAP=SNAP_AND_WHEEL +EMU_CHOSE+"/VIDEO/"+li[CPT][0]+".mpg"
+
+	if (os.path.isfile(VIDEO_SNAP)):
+		play_video(FIRST_VID)
 ###################################################################
 #		AFFICHAGE VIDEO JEUX
 ###################################################################

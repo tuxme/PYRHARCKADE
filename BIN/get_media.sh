@@ -101,31 +101,45 @@ get_wheel() {
 
 }
 get_video() {
-	wget -c -q -nv "http://pyrharckade.tuxme.net/MEDIA/${EMU}/VIDEO/${ROM}.mpg" -O ../MEDIA/${EMU}/VIDEO/${ROM}.mpg
-	RES=$?
-	if [[ "$RES" != "0" ]]
+	if [[ "${ROM}" == 001_* ]]
 		then
-			rm -f ../MEDIA/${EMU}/VIDEO/${ROM}.mpg
-			echo -e " -> VIDEO \033[31m FAILED \033[0m"
+			echo -e " -> VIDEO \033[30m NA \033[0m" 
+
 		else
-			echo -e " -> VIDEO \033[32m SUCCESS \033[0m"
+			wget -c -q -nv "http://pyrharckade.tuxme.net/MEDIA/${EMU}/VIDEO/${ROM}.mpg" -O ../MEDIA/${EMU}/VIDEO/${ROM}.mpg
+			RES=$?
+			if [[ "$RES" != "0" ]]
+				then
+					rm -f ../MEDIA/${EMU}/VIDEO/${ROM}.mpg
+					echo -e " -> VIDEO \033[31m FAILED \033[0m"
+				else
+					echo -e " -> VIDEO \033[32m SUCCESS \033[0m"
+			fi
 	fi
 
 }
 
 get_roms() {
-	if [[ "${EMU}" -eq "MAME" ]] || [[ "${EMU}" -eq "FBA" ]] 
+
+	if [[ "${ROM}" == 001_* ]]
 		then
-			EMU="MAME"
-			wget -c -q -nv "http://pyrharckade.tuxme.net/MEDIA/roms/MAME_37B5/${ROM}.zip" -O ../MEDIA/${EMU}/ROMS/${ROM}.zip
-			RES=$?
-			if [[ "$RES" != "0" ]]
+			echo -e " -> VIDEO \033[30m NA \033[0m" 
+
+		else
+
+			if [[ "${EMU}" -eq "MAME" ]] || [[ "${EMU}" -eq "FBA" ]] 
 				then
-					rm -f  ../MEDIA/${EMU}/ROMS/${ROM}.zip
-				echo -e " -> ROMS \033[31m FAILED \033[0m"
-			else
-				echo -e " -> ROMS \033[32m SUCCESS \033[0m"
-			fi
+					EMU="MAME"
+					wget -c -q -nv "http://pyrharckade.tuxme.net/MEDIA/roms/MAME_37B5/${ROM}.zip" -O ../MEDIA/${EMU}/ROMS/${ROM}.zip
+					RES=$?
+					if [[ "$RES" != "0" ]]
+						then
+							rm -f  ../MEDIA/${EMU}/ROMS/${ROM}.zip
+						echo -e " -> ROMS \033[31m FAILED \033[0m"
+					else
+						echo -e " -> ROMS \033[32m SUCCESS \033[0m"
+					fi
+		fi
 	fi
 
 }
