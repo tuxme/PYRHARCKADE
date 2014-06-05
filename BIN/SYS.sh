@@ -1,18 +1,18 @@
 #!/bin/bash
 
-if [[ "$1" == "REBOOT" ]]
+if [[ "$1" == "001_REBOOT" ]]
 	then
 		sudo reboot
 		exit
 fi
 
-if [[ "$1" == "HALT" ]]
+if [[ "$1" == "001_HALT" ]]
 	then
 		sudo halt
 		exit
 fi
 
-if [[ "$1" == "MEDIA" ]]
+if [[ "$1" == "001_MEDIA" ]]
 	then
 		cd BIN
 		./get_media.sh
@@ -20,6 +20,17 @@ if [[ "$1" == "MEDIA" ]]
 		./start.py YES
 
 fi
+if [[ "$1" == "001_VERIF" ]]
+	then
+		cd BIN
+		./verif_roms.sh
+		cd ${PATH_ROMS}/../
+		./start.py YES
+
+fi
+
+
+
 
 
 
