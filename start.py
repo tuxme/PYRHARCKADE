@@ -268,7 +268,7 @@ def play_video(X):
 		VIDEO_SNAP=SNAP_AND_WHEEL +EMU_CHOSE+"/VIDEO/"+li[CPT][0]+".mpg"
 		fenetre.blit(pygame.transform.scale(pygame.image.load(IMG_SNAP).convert(),(SIZE_SNAP_CONVERT)),(WHERE_SNAP))
 		elapsed = T2 - T1
-		if elapsed > 2 and os.path.isfile(VIDEO_SNAP) :
+		if elapsed > 10 and os.path.isfile(VIDEO_SNAP) :
 			fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert(),(SIZE_SNAP_CONVERT)),(WHERE_SNAP))
 			global T2
 			global T1
