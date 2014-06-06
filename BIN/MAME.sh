@@ -10,6 +10,6 @@ cd ${PATH_ROMS}/
 ${BIN_MAME} $ROM
 
 ###### RESTART PYR ######
-cd ${PATH_ROMS}/../
+cd ${PATH_ROMS}/../../
 ./start.py YES
 ###### RESTART PYR ######	
