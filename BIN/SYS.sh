@@ -26,7 +26,11 @@ if [[ "$1" == "001_VERIF" ]]
 		./verif_roms.sh
 		cd ../
 		./start.py YES
-
+fi
+if [[ "$1" == "001_QUIT" ]]
+	then
+		echo "EXIT FE PYRHARCKADE"
+		exit
 fi
 
 
