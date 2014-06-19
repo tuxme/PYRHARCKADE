@@ -20,92 +20,20 @@ clock = pygame.time.Clock()
 
 root = Tk()
 pygame.init()
-
-#CONFIG ###############################################
-
-ROOT_HOME=(os.environ['HOME'] + "/PYRHARCKADE")
-BIN_PATH=(ROOT_HOME + "/BIN/")
-WHEEL=(ROOT_HOME + "/MEDIA/WHEEL/")
-SNAP_AND_WHEEL=(ROOT_HOME + "/MEDIA/")
-SNAP=(ROOT_HOME + "/MEDIA/SNAP/")
-SOUND=(ROOT_HOME + "/MEDIA/SOUND/")
-ROMS=(ROOT_HOME + "/MEDIA/ROMS/")
-DOCS=(ROOT_HOME + "/MEDIA/DOCS/")
-IMG=(ROOT_HOME + "/MEDIA/IMG/")
-BACKGROUNG=(ROOT_HOME + "/MEDIA/IMG/bg2.png")
-BACKGROUNG_EMU=(ROOT_HOME + "/MEDIA/IMG/menu.png")
-IMG_EMU = (ROOT_HOME + "/MEDIA/IMG/EMU/")
-BACKGROUNG_START=(ROOT_HOME + "/MEDIA/IMG/dpfe_welcom.png")
-font_path = "./MEDIA/font.ttf"
-font_size = 30
-max_carac = 30
-font = pygame.font.Font(font_path, font_size)
-BLACK = (ROOT_HOME + "/MEDIA/IMG/black.png")
-SLEEP_BEFORE_START = 4
-
-#TEMPLATE ##############################################
-
-SCREEN_W = root.winfo_screenwidth() 
-SCREEN_H = root.winfo_screenheight() 
-SIZE_SNAP_CONVERT_W = int(floor(SCREEN_W / 6))
-SIZE_SNAP_CONVERT_H = int(floor(SCREEN_H / 2.5))
-SIZE_SNAP_CONVERT=(SIZE_SNAP_CONVERT_W,SIZE_SNAP_CONVERT_H)
-SIZE_WHEEL_CONVERT_W = SIZE_SNAP_CONVERT_W
-SIZE_WHEEL_CONVERT_H = int(floor(SIZE_WHEEL_CONVERT_W / 2))
-SIZE_WHEEL_CONVERT=(SIZE_WHEEL_CONVERT_W,SIZE_WHEEL_CONVERT_H)
-SEPARATION_WHEEL_SNAP = 10
-WHERE_WHEEL_X = SIZE_WHEEL_CONVERT_W
-WHERE_WHEEL_Y = int(floor(SCREEN_H / 8))
-WHERE_WHEEL=(WHERE_WHEEL_X,WHERE_WHEEL_Y)
-WHERE_SNAP_X = SIZE_WHEEL_CONVERT_W
-WHERE_SNAP_Y = WHERE_WHEEL_Y + SIZE_WHEEL_CONVERT_H + SEPARATION_WHEEL_SNAP
-WHERE_SNAP=(WHERE_SNAP_X,WHERE_SNAP_Y)
-WHERE_TEXTE_X = int(floor(WHERE_WHEEL_X * 3))
-WHERE_TEXTE_Y = int(floor(SCREEN_H / 3))
-SIZE_TEXTE_W = int(floor(SIZE_SNAP_CONVERT_W * 2.5))
-SIZE_TEXTE_H = int(floor(SIZE_SNAP_CONVERT_H))
-SIZE_TEXTE = (SIZE_TEXTE_W,SIZE_TEXTE_H)
-WHERE_TEXTE=(WHERE_TEXTE_X,WHERE_TEXTE_Y)
+total = len(sys.argv)
+if total > 1:
+	argument1 = str(sys.argv[1])
+	if str(sys.argv[2]):
+		argument2 = str(sys.argv[2])
+	else:
+		argument2 = "X"
+else:
+	argument1 = "NO"
+	argument2 = "X"
 
 
-# TAILLE DES MENU EMU
-
-SIZE_BIN_X_1 = int(floor(SCREEN_W /4))
-SIZE_BIN_Y_1 = SIZE_BIN_X_1
-SIZE_BIN_1 = (SIZE_BIN_X_1,SIZE_BIN_Y_1)
-
-SIZE_BIN_X_2 = SIZE_BIN_X_1*2/3
-SIZE_BIN_Y_2 = SIZE_BIN_X_2
-SIZE_BIN_2 = (SIZE_BIN_X_2,SIZE_BIN_Y_2)
-
-SIZE_BIN_X_3 = SIZE_BIN_X_2
-SIZE_BIN_Y_3 = SIZE_BIN_X_3
-SIZE_BIN_3 = (SIZE_BIN_X_3,SIZE_BIN_Y_3)
-
-#EMU CENTRE POSITION
-
-WHERE_BIN_1_X=int(floor((SCREEN_W / 2)-(SIZE_BIN_X_1/2)))
-WHERE_BIN_1_Y=int(floor((SCREEN_H / 2) - (SIZE_BIN_X_1/2)))
-WHERE_BIN_1=(WHERE_BIN_1_X,WHERE_BIN_1_Y)
-
-#EMU GAUCHE POSITION
-
-WHERE_BIN_2_X=int(floor((SCREEN_W / 3)-(SIZE_BIN_X_2/2)))
-WHERE_BIN_2_Y=int(floor(SCREEN_H / 2))
-WHERE_BIN_2=(WHERE_BIN_2_X,WHERE_BIN_2_Y)
-
-#EMU GAUCHE POSITION
-
-WHERE_BIN_3_X=int(floor((SCREEN_W * 2 / 3)-(SIZE_BIN_X_3/2)))
-WHERE_BIN_3_Y=int(floor(SCREEN_H / 2))
-WHERE_BIN_3=(WHERE_BIN_3_X,WHERE_BIN_3_Y)
-
-
-#FENETRE PRINCIPAL 
-fenetre = [SCREEN_W, SCREEN_H]
-fenetre = pygame.display.set_mode((fenetre),FULLSCREEN)
-#fenetre = pygame.display.set_mode((fenetre))
-fenetre.blit(pygame.transform.scale(pygame.image.load(IMG + "/bg2.png").convert(),(SCREEN_W,SCREEN_H)),(0,0))
+execfile("./conf.py")
+conf_theme(argument2)
 
 
 #COMPTEUR et lecture du fichier conf 
@@ -147,13 +75,6 @@ T2 = time.time()
 
 # Test lancement First ou lancement auto suite fin emu
 continuer = 1
-total = len(sys.argv)
-if total > 1:
-	argument1 = str(sys.argv[1])
-
-else:
-	argument1 = "NO"
-
 MENU_IN=1
 MENU_GO=1
 
@@ -356,7 +277,7 @@ while continuer:
 
 #--------------------------------------- LANCEMENT JEUX AVEC EMU
 					if event.type == JOYBUTTONDOWN and event.button == 3:
-						APP="BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0]  
+						APP="BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0] + " " + argument2 
 						p = subprocess.Popen(APP, shell=True)
 						sys.exit("GO play bitch ;)")
 #--------------------------------------- RETOUR EMU MENU
@@ -523,7 +444,7 @@ while continuer:
 						fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_EMU).convert(),(SCREEN_W,SCREEN_H)),(0,0))
 					if event.key == K_SPACE:
 						print "Launch "+li[CPT][0] + " with " + EMU_CHOSE
-						APP="BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0]  
+						APP="BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0] + " " + argument2 
 						p = subprocess.Popen(APP, shell=True)
 						sys.exit("GO play bitch ;)")
 #--------------------------------------- QUIT Si un seul emu
