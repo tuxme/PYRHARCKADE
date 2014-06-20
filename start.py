@@ -21,15 +21,16 @@ clock = pygame.time.Clock()
 root = Tk()
 pygame.init()
 total = len(sys.argv)
-if total > 1:
-	argument1 = str(sys.argv[1])
-	if str(sys.argv[2]):
-		argument2 = str(sys.argv[2])
-	else:
-		argument2 = "X"
-else:
-	argument1 = "NO"
+print total
+if total == 1:
+	argument1 = "YES"
 	argument2 = "X"
+if total == 2:
+	argument1 = str(sys.argv[1])
+	argument2 = "X"
+if total == 3:
+	argument1 = str(sys.argv[1])
+	argument2 = str(sys.argv[2])
 
 
 execfile("./conf.py")
@@ -232,7 +233,7 @@ while continuer:
 		else:
 # AFFICHAGE ECRAN ACCEUIL
 			intro_sound.play()
-	                fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_START).convert(),(SCREEN_W,SCREEN_H)),(0,0))
+			fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_START).convert(),(SCREEN_W,SCREEN_H)),(0,0))
 			
 			pygame.display.update()
 			FIRST = 0
