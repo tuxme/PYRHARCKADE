@@ -47,6 +47,10 @@ and use start.py
 
 ./start.py
 
+Pour lancer en mode vertical :
+
+./start.py [YES/NO] Y
+
 
 ------------------------------------------------------------------
 
@@ -58,3 +62,8 @@ In the next version
 ------------------------------------------------------
 
 V1.0B OPEN : 1st version for all 
+
+
+------------------------------------------------------
+
+V1.4B OPEN : Ajout mode vertical
