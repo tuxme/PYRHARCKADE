@@ -104,28 +104,33 @@ def conf_theme (argument2):
 #		SCREEN_W = root.winfo_screenwidth()
 #		SCREEN_H = root.winfo_screenheight()
 
-		SCREEN_H = root.winfo_screenwidth()
-		SCREEN_W = root.winfo_screenheight()
-		SIZE_SNAP_CONVERT_W = int(floor(SCREEN_W / 6))
-		SIZE_SNAP_CONVERT_H = int(floor(SCREEN_H / 2.5))
+
+		SCREEN_W = root.winfo_screenwidth()
+		SCREEN_H = root.winfo_screenheight()
+		SIZE_SNAP_CONVERT_W = int(floor(SCREEN_W / 3))
+		SIZE_SNAP_CONVERT_H = int(floor(SCREEN_H / 5))
 		SIZE_SNAP_CONVERT=(SIZE_SNAP_CONVERT_W,SIZE_SNAP_CONVERT_H)
 		SIZE_WHEEL_CONVERT_W = SIZE_SNAP_CONVERT_W
-		SIZE_WHEEL_CONVERT_H = int(floor(SIZE_WHEEL_CONVERT_W / 2))
+		SIZE_WHEEL_CONVERT_H = int(floor(SIZE_WHEEL_CONVERT_W / 4))
 		SIZE_WHEEL_CONVERT=(SIZE_WHEEL_CONVERT_W,SIZE_WHEEL_CONVERT_H)
 		SEPARATION_WHEEL_SNAP = 10
 		WHERE_WHEEL_X = SIZE_WHEEL_CONVERT_W
-		WHERE_WHEEL_Y = int(floor(SCREEN_H / 8))
+		WHERE_WHEEL_Y = int(floor(SCREEN_H / 10))
 		WHERE_WHEEL=(WHERE_WHEEL_X,WHERE_WHEEL_Y)
 		WHERE_SNAP_X = SIZE_WHEEL_CONVERT_W
 		WHERE_SNAP_Y = WHERE_WHEEL_Y + SIZE_WHEEL_CONVERT_H + SEPARATION_WHEEL_SNAP
 		WHERE_SNAP=(WHERE_SNAP_X,WHERE_SNAP_Y)
-		WHERE_TEXTE_X = int(floor(WHERE_WHEEL_X * 3))
-		WHERE_TEXTE_Y = int(floor(SCREEN_H / 3))
-		SIZE_TEXTE_W = int(floor(SIZE_SNAP_CONVERT_W * 2.5))
+		WHERE_TEXTE_X = WHERE_WHEEL_X
+		WHERE_TEXTE_Y = int(floor(SCREEN_H / 2))
+		SIZE_TEXTE_W = SIZE_SNAP_CONVERT_W
 		SIZE_TEXTE_H = int(floor(SIZE_SNAP_CONVERT_H))
 		SIZE_TEXTE = (SIZE_TEXTE_W,SIZE_TEXTE_H)
 		WHERE_TEXTE=(WHERE_TEXTE_X,WHERE_TEXTE_Y)
 		MAX_EMU = 0
+		CADRE_W = SIZE_SNAP_CONVERT_W 
+		CADRE_H = SIZE_SNAP_CONVERT_H + SIZE_WHEEL_CONVERT_H
+		print CADRE_W
+		print CADRE_H
 
 		## TAILLE DES MENU EMU
 
@@ -133,7 +138,7 @@ def conf_theme (argument2):
 		SIZE_BIN_Y_1 = SIZE_BIN_X_1
 		SIZE_BIN_1 = (SIZE_BIN_X_1,SIZE_BIN_Y_1)
 
-		SIZE_BIN_X_2 = SIZE_BIN_X_1*2/3
+		SIZE_BIN_X_2 = SIZE_BIN_X_1
 		SIZE_BIN_Y_2 = SIZE_BIN_X_2
 		SIZE_BIN_2 = (SIZE_BIN_X_2,SIZE_BIN_Y_2)
 
@@ -149,20 +154,20 @@ def conf_theme (argument2):
 
 		##EMU GAUCHE POSITION
 
-		WHERE_BIN_2_X=int(floor((SCREEN_W / 3)-(SIZE_BIN_X_2/2)))
-		WHERE_BIN_2_Y=int(floor(SCREEN_H / 2))
+		WHERE_BIN_2_X=WHERE_BIN_1_X
+		WHERE_BIN_2_Y=WHERE_BIN_1_Y - (SIZE_BIN_X_1*2)
 		WHERE_BIN_2=(WHERE_BIN_2_X,WHERE_BIN_2_Y)
 
 		##EMU GAUCHE POSITION
 
-		WHERE_BIN_3_X=int(floor((SCREEN_W * 2 / 3)-(SIZE_BIN_X_3/2)))
-		WHERE_BIN_3_Y=int(floor(SCREEN_H / 2))
+		WHERE_BIN_3_X=WHERE_BIN_1_X
+		WHERE_BIN_3_Y=WHERE_BIN_1_Y + (SIZE_BIN_X_1*2)
 		WHERE_BIN_3=(WHERE_BIN_3_X,WHERE_BIN_3_Y)
 
 		##FENETRE PRINCIPAL
 		fenetre = [SCREEN_W, SCREEN_H]
-		#fenetre = pygame.display.set_mode((fenetre),FULLSCREEN)
-		fenetre = pygame.display.set_mode((fenetre))
+		fenetre = pygame.display.set_mode((fenetre),FULLSCREEN)
+#		fenetre = pygame.display.set_mode((fenetre)FULLSCREEN)
 		#fenetre = pygame.transform.rotate(fenetre, 90)
 		#fenetre = pygame.display.set_mode((fenetre))
 		fenetre.blit(pygame.transform.scale(pygame.image.load(IMG + "/bg2.png").convert(),(SCREEN_W,SCREEN_H)),(0,0))
