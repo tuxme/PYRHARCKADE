@@ -87,7 +87,7 @@ def conf_theme (argument2):
 		ROMS=(ROOT_HOME + "/MEDIA/ROMS/")
 		DOCS=(ROOT_HOME + "/MEDIA/DOCS/")
 		IMG=(ROOT_HOME + "/MEDIA/IMG/")
-		BACKGROUNG=(ROOT_HOME + "/MEDIA/IMG/bg2.png")
+		BACKGROUNG=(ROOT_HOME + "/MEDIA/IMG/bg2_Y.png")
 		BACKGROUNG_EMU=(ROOT_HOME + "/MEDIA/IMG/menu.png")
 		IMG_EMU = (ROOT_HOME + "/MEDIA/IMG/EMU/")
 		BACKGROUNG_START=(ROOT_HOME + "/MEDIA/IMG/dpfe_welcom.png")
@@ -170,7 +170,7 @@ def conf_theme (argument2):
 #		fenetre = pygame.display.set_mode((fenetre)FULLSCREEN)
 		#fenetre = pygame.transform.rotate(fenetre, 90)
 		#fenetre = pygame.display.set_mode((fenetre))
-		fenetre.blit(pygame.transform.scale(pygame.image.load(IMG + "/bg2.png").convert(),(SCREEN_W,SCREEN_H)),(0,0))
+		fenetre.blit(pygame.transform.scale(pygame.image.load(IMG + "/bg2_Y.png").convert(),(SCREEN_W,SCREEN_H)),(0,0))
 
 
 	if argument2 == "X":
