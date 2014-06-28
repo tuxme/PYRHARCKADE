@@ -63,7 +63,13 @@ In the next version
 
 V1.0B OPEN : 1st version for all 
 
-
 ------------------------------------------------------
 
 V1.4B OPEN : Ajout mode vertical
+
+------------------------------------------------------
+
+V1.5B OPEN : Ajout script de conversion de MP4 vers MPG pour pygame avec gestion correct du son. + debug de start.py pour le son 
+
+
+
