@@ -178,12 +178,14 @@ def affiche(FIRST_VID):
 #		AFFICHAGE VIDEO JEUX
 ###################################################################
 def play_video(X):
+	pygame.mixer.quit()
 	FIRST_VID=X
 	if FIRST_VID == 1:
 		FIRST_VID = 0
 		global FIRST_VID
 	else :	
 		pygame.mixer.quit()
+#		pygame.mixer.init()
 		if T2 != 0:
 			T2 = time.time()
 		IMG_SNAP=SNAP_AND_WHEEL +EMU_CHOSE+"/SNAP/"+li[CPT][0]+".png"
@@ -195,10 +197,12 @@ def play_video(X):
 			global T2
 			global T1
 			FPS = 60
+
 			movie = pygame.movie.Movie(VIDEO_SNAP)
+			movie.set_volume(0.8)
 			mrect = pygame.Rect(WHERE_SNAP_X,WHERE_SNAP_Y,SIZE_SNAP_CONVERT_W,SIZE_SNAP_CONVERT_H)
 			movie.set_display(fenetre,mrect)
-			movie.set_volume(100)
+
 			fenetre.blit(pygame.transform.scale(pygame.image.load(BLACK).convert(),(SIZE_SNAP_CONVERT)),(WHERE_SNAP))
 			movie.play()
 	#		pygame.time.set_timer(USEREVENT, 10000)
