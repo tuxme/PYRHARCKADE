@@ -88,9 +88,9 @@ def conf_theme (argument2):
 		DOCS=(ROOT_HOME + "/MEDIA/DOCS/")
 		IMG=(ROOT_HOME + "/MEDIA/IMG/")
 		BACKGROUNG=(ROOT_HOME + "/MEDIA/IMG/bg2_Y.png")
-		BACKGROUNG_EMU=(ROOT_HOME + "/MEDIA/IMG/menu.png")
+		BACKGROUNG_EMU=(ROOT_HOME + "/MEDIA/IMG/menu_Y.png")
 		IMG_EMU = (ROOT_HOME + "/MEDIA/IMG/EMU/")
-		BACKGROUNG_START=(ROOT_HOME + "/MEDIA/IMG/dpfe_welcom.png")
+		BACKGROUNG_START=(ROOT_HOME + "/MEDIA/IMG/dpfe_welcom_Y.png")
 		font_path = "./MEDIA/font.ttf"
 		font_size = 20
 		max_carac = 20
