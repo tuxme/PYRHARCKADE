@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
 # PYRHARCKADE is a simple pygame front for PIMAME
-# version: 0.9a
+# version: 1.8.B
 # guillaume@tuxme.net
 # GPL Licence
 
@@ -106,10 +106,7 @@ else:
 			
 
 def affiche_menu():
-
-	
 	if MAX_EMU==1:
-		
 		if (CPT_EMU+1) > MAX_EMU:
 			IMG_EMU_PATH_D=IMG_EMU + emu[CPT_EMU-1] +".png"
 		else:
@@ -279,235 +276,17 @@ while continuer:
 #		DEPLACEMENT JOYSTICK
 ###################################################################
 				if JOY_TEST == 1:
-
-#--------------------------------------- LANCEMENT JEUX AVEC EMU
-					if event.type == JOYBUTTONDOWN and event.button == 3:
-						APP="BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0] + " " + argument2 
-						p = subprocess.Popen(APP, shell=True)
-						sys.exit("GO play bitch ;)")
-#--------------------------------------- RETOUR EMU MENU
-					if event.type == JOYBUTTONDOWN and event.button == 1:
-						if MAX_EMU==0:
-							MENU_IN=0
-							EMU_CHOSE=emu[0]
-							CPT=0
-							while (str(li[CPT][1]) != EMU_CHOSE):
-								CPT = CPT + 1
-							affiche(FIRST_VID)
-							affiche_menu()
-
-						else:
-							fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_EMU).convert(),(SCREEN_W,SCREEN_H)),(0,0))
-							MENU_IN = 1
-						fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_EMU).convert(),(SCREEN_W,SCREEN_H)),(0,0))
-
-					if event.type == JOYAXISMOTION:
-						T1 = time.time()
-#--------------------------------------- SELECTION JEUX PAR LETTRE (-1 0-Z)
-						if event.axis == 1 and event.value > 0:
-							ROM_L1 = li[CPT][0][0]
-							ROM_L2 = ROM_L1
-							CPT_UP = 0
-							while ((ROM_L1 == ROM_L2) | (str(li[CPT][1]) != EMU_CHOSE)):
-								text1 = "LOADING ... : "
-								text2 = font.render(text1, True, pygame.Color("white"))
-								fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y)).bottomleft
-								CPT = CPT - 1
-								if CPT < NMAX:
-									MENU_GO == 1
-									break
-								ROM_L1 = li[CPT][0][0]
-#--------------------------------------- SELECTION JEUX PAR LETTRE (-1 0-Z)
-						if event.axis == 1 and event.value < 0:
-							ROM_L1 = li[CPT][0][0]
-							ROM_L2 = ROM_L1
-							CPT_UP = 0
-
-							while ((ROM_L1 == ROM_L2) | (str(li[CPT][1]) != EMU_CHOSE)):
-								text1 = "LOADING ... : "
-								text2 = font.render(text1, True, pygame.Color("white"))
-								fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y)).bottomleft
-								CPT = CPT + 1
-								if CPT > MAX:
-									MENU_GO == 1
-									break
-								ROM_L1 = li[CPT][0][0]
-
-#--------------------------------------- SELECTION JEUX A DROITE (+1)
-						if event.axis == 0 and event.value > 0:
-							if CPT + 1 > MAX:
-								CPT = 0
-							else:
-								CPT= CPT + 1
-								while str(li[CPT][1]) != EMU_CHOSE:
-									text1 = "LOADING ..."
-									text2 = font.render(text1, True, pygame.Color("white"))
-									fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y)).bottomleft
-									CPT = CPT + 1
-									if CPT > MAX:
-										CPT = 0
-										break
-#--------------------------------------- SELECTION JEUX A GAUCHE (-1)
-						if event.axis == 0 and event.value < 0:
-							if CPT < NMAX:
-								CPT = 0
-							else:
-								CPT= CPT - 1
-								while str(li[CPT][1]) != EMU_CHOSE:
-									text1 = "LOADING ..."
-									text2 = font.render(text1, True, pygame.Color("white"))
-									fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y)).bottomleft
-									CPT = CPT - 1
-									if CPT < NMAX:
-										CPT = 0
-										break
-
+					execfile("./move_input_joystick.py")
 ###################################################################
 #		DEPLACEMENT CLAVIER
 ###################################################################
-
 				if event.type == KEYDOWN:
-
-					T1 = time.time()
-#					print EMU_CHOSE + " => CPT:" + str(CPT) + "CPT_EMU:" + str(CPT_EMU) + " ... MAX("+ str(MAX) + "),NAMX(" + str(NMAX) + "),MAX_EMU(" + str(MAX_EMU) + "),NMAX_EMU(" + str(NMAX_EMU)  + ")  >> " + li[CPT][0]
-
-#--------------------------------------- SELECTION JEUX A DROITE (+1)
-					if event.key == K_RIGHT:
-
-						if CPT + 1 > MAX:
-							CPT = 0
-						else:
-							CPT= CPT + 1
-							while str(li[CPT][1]) != EMU_CHOSE:
-								text1 = "LOADING ..."
-								text2 = font.render(text1, True, pygame.Color("white"))
-								fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y)).bottomleft
-								CPT = CPT + 1
-								if CPT > MAX:
-									CPT = 0
-									break
-#--------------------------------------- SELECTION JEUX A GAUCHE (-1)
-					if event.key == K_LEFT:
-						if CPT < NMAX:
-							CPT = 0
-						else:
-							CPT= CPT - 1
-							while str(li[CPT][1]) != EMU_CHOSE:
-								text1 = "LOADING ..."
-								text2 = font.render(text1, True, pygame.Color("white"))
-								fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y)).bottomleft
-								CPT = CPT - 1
-								if CPT < NMAX:
-									CPT = 0
-									break
-#--------------------------------------- SELECTION JEUX PAR LETTRE (+1 0-Z)
-					if event.key == K_UP:
-						ROM_L1 = li[CPT][0][0]
-						ROM_L2 = ROM_L1
-						CPT_UP = 0
-
-						while ((ROM_L1 == ROM_L2) | (str(li[CPT][1]) != EMU_CHOSE)):
-							text1 = "LOADING ... : "
-							text2 = font.render(text1, True, pygame.Color("white"))
-							fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y)).bottomleft
-							CPT = CPT + 1
-							if CPT > MAX:
-								MENU_GO == 1
-								break
-							ROM_L1 = li[CPT][0][0]
-#--------------------------------------- SELECTION JEUX PAR LETTRE (-1 0-Z)
-					if event.key == K_DOWN:
-						ROM_L1 = li[CPT][0][0]
-						ROM_L2 = ROM_L1
-						CPT_UP = 0
-						while ((ROM_L1 == ROM_L2) | (str(li[CPT][1]) != EMU_CHOSE)):
-							text1 = "LOADING ... : "
-							text2 = font.render(text1, True, pygame.Color("white"))
-							fenetre.blit(text2,(WHERE_TEXTE_X,WHERE_TEXTE_Y)).bottomleft
-							CPT = CPT - 1
-							if CPT < NMAX:
-								MENU_GO == 1
-								break
-							ROM_L1 = li[CPT][0][0]
-
-#--------------------------------------- LANCEMENT DU JEUX + EXIT FE
-					if event.type == QUIT:
-						continuer = 0
-					if event.key == K_b:
-						if MAX_EMU==0:
-							MENU_IN=0
-							EMU_CHOSE=emu[0]
-							CPT=0
-							while (str(li[CPT][1]) != EMU_CHOSE):
-								CPT = CPT + 1
-							affiche(FIRST_VID)
-							affiche_menu()
-
-						else:
-							fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_EMU).convert(),(SCREEN_W,SCREEN_H)),(0,0))
-							MENU_IN = 1
-						fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_EMU).convert(),(SCREEN_W,SCREEN_H)),(0,0))
-					if event.key == K_SPACE:
-						print "Launch "+li[CPT][0] + " with " + EMU_CHOSE
-						APP="BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0] + " " + argument2 
-						p = subprocess.Popen(APP, shell=True)
-						sys.exit("GO play bitch ;)")
-#--------------------------------------- QUIT Si un seul emu
-					if (event.key == K_ESCAPE) & (MAX_EMU == 0):
-						exit()
-
+					execfile("./input_keyboard.py")
+					print "---------------------------"
 ###################################################################
 #		DEPLACEMENT MENU EMULATEUR
 ###################################################################
-			if MENU_IN == 1:
-				if JOY_TEST == 1:
-
-#DEPLACEMENT JOYSTICK
-					if event.type == JOYBUTTONDOWN and event.button == 3:
-						MENU_IN = 0
-						fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG).convert(),(SCREEN_W,SCREEN_H)),(0,0))
-						EMU_CHOSE=str(emu[CPT_EMU])
-						CPT = 0
-						# Premier jeu de l emu choisi
-						while (str(li[CPT][1]) != EMU_CHOSE):
-							CPT = CPT + 1
-
-					if event.type == JOYAXISMOTION:
-#--------------------------------------- SELECTION EMULATEUR A GAUCHE (-1)
-						if event.axis == 0 and event.value > 0:
-							CPT_EMU = CPT_EMU - 1
-#--------------------------------------- SELECTION EMULATEUR A DROITE (+1)
-						if event.axis == 0 and event.value < 0:
-							CPT_EMU = CPT_EMU + 1
-
-
-#DEPLACEMENT CLAVIER
-
-
-				if event.type == KEYDOWN:
-#--------------------------------------- SELECTION EMULATEUR A GAUCHE (-1)
-					if event.key == K_LEFT:
-						CPT_EMU = CPT_EMU + 1
-#--------------------------------------- SELECTION EMULATEUR A DROITE (+1)
-					if event.key == K_RIGHT:
-						CPT_EMU = CPT_EMU - 1
-#--------------------------------------- EXIT FE
-					if event.type == QUIT:
-						continuer = 0
-					if event.key == K_ESCAPE:
-						exit()
-#--------------------------------------- SELECTION EMULATEUR 
-					if event.key == K_SPACE:
-						MENU_IN = 0
-						fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG).convert(),(SCREEN_W,SCREEN_H)),(0,0))
-						EMU_CHOSE=str(emu[CPT_EMU])
-						CPT = 0
-						# Premier jeu de l emu choisi
-						while (str(li[CPT][1]) != EMU_CHOSE):
-							CPT = CPT + 1
-
-
-
+			execfile("./move_input.py")
 ###################################################################
 #		COMPTEUR MAX / MIN Pour exception
 ###################################################################			
@@ -529,5 +308,6 @@ while continuer:
 
 			if MAX_EMU == 0:
 				CPT_EMU=0
+			print " => CPT:" + str(CPT) + " | CPT_EMU:" + str(CPT_EMU) + " ... MAX("+ str(MAX) + "),NAMX(" + str(NMAX) + "),MAX_EMU(" + str(MAX_EMU) + "),NMAX_EMU(" + str(NMAX_EMU)  + ")  >> " + li[CPT][0]
 
 
