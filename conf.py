@@ -126,8 +126,7 @@ def conf_theme (argument2):
 		SIZE_TEXTE = (SIZE_TEXTE_W,SIZE_TEXTE_H)
 		font_path = "./MEDIA/font.ttf"
 		max_carac = 22
-		font_size=floor((int(SIZE_TEXTE_W)/int(max_carac)))
-		print "FONT :" + font_size
+                font_size=int(round(floor(SIZE_TEXTE_W / max_carac)))
 #		font_size = 20
 		font = pygame.font.Font(font_path, font_size)
 		WHERE_TEXTE=(WHERE_TEXTE_X,WHERE_TEXTE_Y)
