@@ -309,12 +309,13 @@ while continuer:
 				if CPT_EMU < NMAX_EMU:
 					CPT_EMU = 0
 				if CPT_EMU >= MAX_EMU:
-					CPT_EMU = -1
+					CPT_EMU = 0
 			else:
 				if CPT_EMU < NMAX_EMU:
-					CPT_EMU = 0
+					CPT_EMU = 0 
 				if CPT_EMU > MAX_EMU:
-					CPT_EMU = NMAX_EMU
+					#CPT_EMU = NMAX_EMU
+					CPT_EMU = 0
 
 			if MAX_EMU == 0:
 				CPT_EMU=0
