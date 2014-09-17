@@ -73,7 +73,7 @@ def conf_theme (argument2):
 
 	###############################################################1
 	###############################################################1
-	#		CONFIG FE MODE HORIZONTAL
+	#		CONFIG FE MODE VERTICAL
 	###############################################################1
 	###############################################################1
 
@@ -92,10 +92,6 @@ def conf_theme (argument2):
 		BACKGROUNG_EMU=(ROOT_HOME + "/MEDIA/IMG/menu_Y.png")
 		IMG_EMU = (ROOT_HOME + "/MEDIA/IMG/EMU/")
 		BACKGROUNG_START=(ROOT_HOME + "/MEDIA/IMG/dpfe_welcom_Y.png")
-		font_path = "./MEDIA/font.ttf"
-		font_size = 20
-		max_carac = 20
-		font = pygame.font.Font(font_path, font_size)
 		BLACK = (ROOT_HOME + "/MEDIA/IMG/black.png")
 		SLEEP_BEFORE_START = 4
 
@@ -106,10 +102,10 @@ def conf_theme (argument2):
 #		SCREEN_H = root.winfo_screenheight()
 
 
-		SCREEN_W = int(root.winfo_screenwidth()/2)
-		#SCREEN_W = root.winfo_screenwidth()
-		SCREEN_H = int(root.winfo_screenheight()/2)
-		#SCREEN_H = root.winfo_screenheight()
+		#SCREEN_W = int(root.winfo_screenwidth()/2)
+		SCREEN_W = root.winfo_screenwidth()
+		#SCREEN_H = int(root.winfo_screenheight()/2)
+		SCREEN_H = root.winfo_screenheight()
 		SIZE_SNAP_CONVERT_W = int(floor(SCREEN_W / 3))
 		SIZE_SNAP_CONVERT_H = int(floor(SCREEN_H / 5))
 		SIZE_SNAP_CONVERT=(SIZE_SNAP_CONVERT_W,SIZE_SNAP_CONVERT_H)
@@ -128,6 +124,12 @@ def conf_theme (argument2):
 		SIZE_TEXTE_W = SIZE_SNAP_CONVERT_W
 		SIZE_TEXTE_H = int(floor(SIZE_SNAP_CONVERT_H))
 		SIZE_TEXTE = (SIZE_TEXTE_W,SIZE_TEXTE_H)
+		font_path = "./MEDIA/font.ttf"
+		max_carac = 22
+		font_size=floor((int(SIZE_TEXTE_W)/int(max_carac)))
+		print "FONT :" + font_size
+#		font_size = 20
+		font = pygame.font.Font(font_path, font_size)
 		WHERE_TEXTE=(WHERE_TEXTE_X,WHERE_TEXTE_Y)
 		MAX_EMU = 0
 		CADRE_W = SIZE_SNAP_CONVERT_W 
@@ -169,8 +171,8 @@ def conf_theme (argument2):
 
 		##FENETRE PRINCIPAL
 		fenetre = [SCREEN_W, SCREEN_H]
-		fenetre = pygame.display.set_mode((fenetre))
-		#fenetre = pygame.display.set_mode((fenetre),FULLSCREEN)
+		#fenetre = pygame.display.set_mode((fenetre))
+		fenetre = pygame.display.set_mode((fenetre),FULLSCREEN)
 		#fenetre = pygame.display.set_mode((fenetre)FULLSCREEN)
 		#fenetre = pygame.transform.rotate(fenetre, 90)
 		#fenetre = pygame.display.set_mode((fenetre))
@@ -180,7 +182,7 @@ def conf_theme (argument2):
 	if argument2 == "X":
 	###############################################################1
 	###############################################################1
-	#		CONFIG FE MODE VERTICAL
+	#		CONFIG FE MODE HORIZONTAL
 	###############################################################1
 	###############################################################1
 
@@ -199,10 +201,6 @@ def conf_theme (argument2):
 		BACKGROUNG_EMU=(ROOT_HOME + "/MEDIA/IMG/menu.png")
 		IMG_EMU = (ROOT_HOME + "/MEDIA/IMG/EMU/")
 		BACKGROUNG_START=(ROOT_HOME + "/MEDIA/IMG/dpfe_welcom.png")
-		font_path = "./MEDIA/font.ttf"
-		font_size = 30
-		max_carac = 30
-		font = pygame.font.Font(font_path, font_size)
 		BLACK = (ROOT_HOME + "/MEDIA/IMG/black.png")
 		SLEEP_BEFORE_START = 4
 
@@ -232,6 +230,12 @@ def conf_theme (argument2):
 		SIZE_TEXTE_H = int(floor(SIZE_SNAP_CONVERT_H))
 		SIZE_TEXTE = (SIZE_TEXTE_W,SIZE_TEXTE_H)
 		WHERE_TEXTE=(WHERE_TEXTE_X,WHERE_TEXTE_Y)
+		font_path = "./MEDIA/font.ttf"
+		max_carac = 22
+		font_size=int(round(floor(SIZE_TEXTE_W / max_carac)))
+#		font_size = 20
+		font = pygame.font.Font(font_path, font_size)
+
 		MAX_EMU = 0
 
 		## TAILLE DES MENU EMU
