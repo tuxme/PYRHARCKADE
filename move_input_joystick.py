@@ -34,6 +34,9 @@ if event.type == JOYAXISMOTION:
 			CPT = CPT - 1
 			if CPT < NMAX:
 				MENU_GO == 1
+				CPT = 0
+				while (str(li[CPT][1]) != EMU_CHOSE):
+					CPT = CPT + 1
 				break
 			ROM_L1 = li[CPT][0][0]
 #--------------------------------------- SELECTION JEUX PAR LETTRE (-1 0-Z)
@@ -49,6 +52,9 @@ if event.type == JOYAXISMOTION:
 			CPT = CPT + 1
 			if CPT > MAX:
 				MENU_GO == 1
+				CPT = 0
+				while (str(li[CPT][1]) != EMU_CHOSE):
+					CPT = CPT + 1
 				break
 			ROM_L1 = li[CPT][0][0]
 
@@ -56,6 +62,8 @@ if event.type == JOYAXISMOTION:
 	if event.axis == 0 and event.value > 0:
 		if CPT + 1 > MAX:
 			CPT = 0
+			while (str(li[CPT][1]) != EMU_CHOSE):
+				CPT = CPT + 1
 		else:
 			CPT= CPT + 1
 			while str(li[CPT][1]) != EMU_CHOSE:
@@ -65,11 +73,13 @@ if event.type == JOYAXISMOTION:
 				CPT = CPT + 1
 				if CPT > MAX:
 					CPT = 0
-					break
+			#		break
 #--------------------------------------- SELECTION JEUX A GAUCHE (-1)
 	if event.axis == 0 and event.value < 0:
 		if CPT < NMAX:
 			CPT = 0
+			while (str(li[CPT][1]) != EMU_CHOSE):
+				CPT = CPT + 1
 		else:
 			CPT= CPT - 1
 			while str(li[CPT][1]) != EMU_CHOSE:
@@ -79,4 +89,4 @@ if event.type == JOYAXISMOTION:
 				CPT = CPT - 1
 				if CPT < NMAX:
 					CPT = 0
-					break
+			#		break
