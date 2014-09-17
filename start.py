@@ -281,7 +281,7 @@ while continuer:
 #		DEPLACEMENT CLAVIER
 ###################################################################
 				if event.type == KEYDOWN:
-					execfile("./input_keyboard.py")
+					execfile("./move_input_keyboard.py")
 					print "---------------------------"
 ###################################################################
 #		DEPLACEMENT MENU EMULATEUR
@@ -290,11 +290,21 @@ while continuer:
 ###################################################################
 #		COMPTEUR MAX / MIN Pour exception
 ###################################################################			
-				
+			CPT_TMP=CPT	
 			if CPT < NMAX:
-				CPT = 0
+				CPT = 0 
+                                while (str(li[CPT][1]) != EMU_CHOSE):
+                                        CPT = CPT + 1
+				print "NMAX"
+
 			if CPT > MAX:
-				CPT = 0
+				CPT = 0 
+                                while (str(li[CPT][1]) != EMU_CHOSE):
+                                        CPT = CPT + 1
+				print "MAX"
+
+#			NMAX_EMU_TMP=NMAX_EMU - 1 
+#			MAX_EMU_TMP=NMAX_EMU - 1 
 			if MAX_EMU==0:
 				if CPT_EMU < NMAX_EMU:
 					CPT_EMU = 0
@@ -308,6 +318,6 @@ while continuer:
 
 			if MAX_EMU == 0:
 				CPT_EMU=0
-			print " => CPT:" + str(CPT) + " | CPT_EMU:" + str(CPT_EMU) + " ... MAX("+ str(MAX) + "),NAMX(" + str(NMAX) + "),MAX_EMU(" + str(MAX_EMU) + "),NMAX_EMU(" + str(NMAX_EMU)  + ")  >> " + li[CPT][0]
+			print " => CPT:" + str(CPT) + " | NMAX:" + str(NMAX) + " | MAX:" + str(MAX) + " | CPT_EMU:" + str(CPT_EMU) + " NMAX_EMU:" + str(NMAX_EMU) + " MAX_EMU:" + str(MAX_EMU) + "     >> " + li[CPT][0]
 
 

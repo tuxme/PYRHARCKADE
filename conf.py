@@ -2,7 +2,8 @@ def conf_theme (argument2):
 	print "-------------"
 	print argument2 
 	print "-------------"
-	
+	global VERSION_PYR
+	VERSION_PYR="1.8B"
 	global BACKGROUNG
 	global BACKGROUNG_EMU
 	global BACKGROUNG_START
@@ -105,8 +106,10 @@ def conf_theme (argument2):
 #		SCREEN_H = root.winfo_screenheight()
 
 
-		SCREEN_W = root.winfo_screenwidth()
-		SCREEN_H = root.winfo_screenheight()
+		SCREEN_W = int(root.winfo_screenwidth()/2)
+		#SCREEN_W = root.winfo_screenwidth()
+		SCREEN_H = int(root.winfo_screenheight()/2)
+		#SCREEN_H = root.winfo_screenheight()
 		SIZE_SNAP_CONVERT_W = int(floor(SCREEN_W / 3))
 		SIZE_SNAP_CONVERT_H = int(floor(SCREEN_H / 5))
 		SIZE_SNAP_CONVERT=(SIZE_SNAP_CONVERT_W,SIZE_SNAP_CONVERT_H)
@@ -166,8 +169,9 @@ def conf_theme (argument2):
 
 		##FENETRE PRINCIPAL
 		fenetre = [SCREEN_W, SCREEN_H]
-		fenetre = pygame.display.set_mode((fenetre),FULLSCREEN)
-#		fenetre = pygame.display.set_mode((fenetre)FULLSCREEN)
+		fenetre = pygame.display.set_mode((fenetre))
+		#fenetre = pygame.display.set_mode((fenetre),FULLSCREEN)
+		#fenetre = pygame.display.set_mode((fenetre)FULLSCREEN)
 		#fenetre = pygame.transform.rotate(fenetre, 90)
 		#fenetre = pygame.display.set_mode((fenetre))
 		fenetre.blit(pygame.transform.scale(pygame.image.load(IMG + "/bg2_Y.png").convert(),(SCREEN_W,SCREEN_H)),(0,0))
@@ -205,8 +209,10 @@ def conf_theme (argument2):
 
 		##TEMPLATE ##############################################
 
-		SCREEN_W = root.winfo_screenwidth()
-		SCREEN_H = root.winfo_screenheight()
+		SCREEN_W = int(root.winfo_screenwidth()/2)
+		#SCREEN_W = root.winfo_screenwidth()
+		#SCREEN_H = root.winfo_screenheight()
+		SCREEN_H = int(root.winfo_screenheight()/2)
 		SIZE_SNAP_CONVERT_W = int(floor(SCREEN_W / 6))
 		SIZE_SNAP_CONVERT_H = int(floor(SCREEN_H / 2.5))
 		SIZE_SNAP_CONVERT=(SIZE_SNAP_CONVERT_W,SIZE_SNAP_CONVERT_H)
@@ -262,7 +268,8 @@ def conf_theme (argument2):
 
 		##FENETRE PRINCIPAL
 		fenetre = [SCREEN_W, SCREEN_H]
-		fenetre = pygame.display.set_mode((fenetre),FULLSCREEN)
+		fenetre = pygame.display.set_mode((fenetre))
+		#fenetre = pygame.display.set_mode((fenetre),FULLSCREEN)
 		#fenetre = pygame.display.set_mode((fenetre))
 		fenetre.blit(pygame.transform.scale(pygame.image.load(IMG + "/bg2.png").convert(),(SCREEN_W,SCREEN_H)),(0,0))
 
