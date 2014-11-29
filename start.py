@@ -6,7 +6,6 @@
 # GPL Licence
 
 import pygame
-from Tkinter import*
 import time
 import csv
 import os
@@ -18,7 +17,6 @@ from pygame.compat import unicode_
 from math import *
 clock = pygame.time.Clock()
 
-root = Tk()
 pygame.init()
 total = len(sys.argv)
 print total
@@ -205,20 +203,14 @@ def play_video(X):
 	#		pygame.time.set_timer(USEREVENT, 10000)
 			while movie.get_busy():
 				evt = pygame.event.wait()
-				if evt.type == QUIT:
+				if any( [  evt.type == JOYAXISMOTION,evt.type == JOYBUTTONDOWN, evt.type == QUIT,evt.type == KEYDOWN] ):
 					T2=0
 					T1=time.time()
 					return T2
 					return T1
 					movie.stop()
 					break
-				if evt.type == KEYDOWN:
-					movie.stop()
-					T2=0
-					T1=time.time()
-					return T1
-					return T2
-					break
+
 
 
 

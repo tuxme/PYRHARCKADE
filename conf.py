@@ -17,6 +17,9 @@ def conf_theme (argument2):
 	global font_size
 	global IMG
 	global IMG_EMU
+	global T1
+	global T2
+	global FIRST_VID
 	global max_carac
 	global MAX_EMU
 	global ROMS
@@ -67,6 +70,10 @@ def conf_theme (argument2):
 	global WHERE_WHEEL_Y
 
 
+	screen = pygame.display.set_mode((0,0))
+	screen.fill((0,0,180))
+	rfont = pygame.font.SysFont(None,30)
+	size = screen.get_rect()
 
 
 	if argument2 == "Y":
@@ -98,14 +105,8 @@ def conf_theme (argument2):
 
 		##TEMPLATE ##############################################
 
-#		SCREEN_W = root.winfo_screenwidth()
-#		SCREEN_H = root.winfo_screenheight()
-
-
-		#SCREEN_W = int(root.winfo_screenwidth()/2)
-		SCREEN_W = root.winfo_screenwidth()
-		#SCREEN_H = int(root.winfo_screenheight()/2)
-		SCREEN_H = root.winfo_screenheight()
+		SCREEN_W = size[2]
+		SCREEN_H = size[3]
 		SIZE_SNAP_CONVERT_W = int(floor(SCREEN_W / 3))
 		SIZE_SNAP_CONVERT_H = int(floor(SCREEN_H / 5))
 		SIZE_SNAP_CONVERT=(SIZE_SNAP_CONVERT_W,SIZE_SNAP_CONVERT_H)
@@ -186,6 +187,12 @@ def conf_theme (argument2):
 	###############################################################1
 
 		##CONFIG ###############################################
+##########################################################
+
+
+
+
+##########################################################
 
 		ROOT_HOME=(os.environ['HOME'] + "/PYRHARCKADE")
 		BIN_PATH=(ROOT_HOME + "/BIN/")
@@ -207,9 +214,11 @@ def conf_theme (argument2):
 		##TEMPLATE ##############################################
 
 #		SCREEN_W = int(root.winfo_screenwidth()/2)
-		SCREEN_W = root.winfo_screenwidth()
-		SCREEN_H = root.winfo_screenheight()
+####		SCREEN_W = root.winfo_screenwidth()
+####		SCREEN_H = root.winfo_screenheight()
 #		SCREEN_H = int(root.winfo_screenheight()/2)
+		SCREEN_W = size[2]
+		SCREEN_H = size[3]
 		SIZE_SNAP_CONVERT_W = int(floor(SCREEN_W / 6))
 		SIZE_SNAP_CONVERT_H = int(floor(SCREEN_H / 2.5))
 		SIZE_SNAP_CONVERT=(SIZE_SNAP_CONVERT_W,SIZE_SNAP_CONVERT_H)
@@ -269,8 +278,10 @@ def conf_theme (argument2):
 		WHERE_BIN_3_Y=int(floor(SCREEN_H / 2))
 		WHERE_BIN_3=(WHERE_BIN_3_X,WHERE_BIN_3_Y)
 
+
 		##FENETRE PRINCIPAL
-		fenetre = [SCREEN_W, SCREEN_H]
+		#fenetre = [SCREEN_W, SCREEN_H]
+		fenetre = [size[2],size[3]]
 		#fenetre = pygame.display.set_mode((fenetre))
 		fenetre = pygame.display.set_mode((fenetre),FULLSCREEN)
 		#fenetre = pygame.display.set_mode((fenetre))
