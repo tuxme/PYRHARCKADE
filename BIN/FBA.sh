@@ -3,12 +3,13 @@
 ####### CONF ########
 ROM=$1
 SCREEN=$2
-PATH_ROMS=${HOME}/PYRHARCKADE/ROMS/FBA/
-BIN_MAME=/home/pi/emulators/fba/fba2x
+PATH_ROMS=${HOME}/PYRHARCKADE/MEDIA/FBA/ROMS/
+BIN_MAME=/home/pi/pimame/emulators/fba/fba2x
 ####### CONF ########
 
-cd ${PATH_ROMS}/
-${BIN_MAME} $ROM
+cd `dirname $BIN_MAME`
+${BIN_MAME} roms/${ROM}.zip
+
 
 ###### RESTART PYR ######
 cd ${HOME}/PYRHARCKADE/
