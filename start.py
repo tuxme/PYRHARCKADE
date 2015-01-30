@@ -132,6 +132,11 @@ def affiche(FIRST_VID):
 	IMG_SNAP=SNAP_AND_WHEEL +EMU_CHOSE+"/SNAP/"+li[CPT][0]+".png"
 	FILE_INFO = SNAP_AND_WHEEL +EMU_CHOSE+"/DOCS/"+ li[CPT][0] + ".txt"
 	VIDEO_SNAP=SNAP_AND_WHEEL +EMU_CHOSE+"/VIDEO/"+li[CPT][0]+".mpg"
+	if (os.path.isfile(IMG + EMU_CHOSE + ".png")):
+	       BACKGROUNG = IMG + EMU_CHOSE + ".png"
+	else:
+		BACKGROUNG = BACKGROUNG_ORIG
+
 	if os.path.isfile(FILE_INFO):
 		FILE_DOC = open(FILE_INFO,"r")
 		text1 = FILE_DOC.read()
@@ -168,7 +173,8 @@ def affiche(FIRST_VID):
 	VIDEO_SNAP=SNAP_AND_WHEEL +EMU_CHOSE+"/VIDEO/"+li[CPT][0]+".mpg"
 
 	if (os.path.isfile(VIDEO_SNAP)):
-		play_video(FIRST_VID)
+#		play_video(FIRST_VID)
+		print "video"
 ###################################################################
 #		AFFICHAGE VIDEO JEUX
 ###################################################################
@@ -248,6 +254,10 @@ while continuer:
 				while (str(li[CPT][1]) != EMU_CHOSE):
 					CPT = CPT + 1
 
+			        if (os.path.isfile(IMG + EMU_CHOSE + ".png")):
+			               BACKGROUNG = IMG + EMU_CHOSE + ".png"
+				else:
+					BACKGROUNG = BACKGROUNG_ORIG
 				fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG).convert(),(SCREEN_W,SCREEN_H)),(0,0))
 				AFFICHE_GAME_START = 0
 			if MENU_GO == 1:

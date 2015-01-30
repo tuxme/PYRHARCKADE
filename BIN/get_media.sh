@@ -5,9 +5,7 @@ ROM_ARG=$1
 usage() {
 
 echo "$0 : 	Recupere les medias de type information / snapshoot / wheel selon votre fichier ROM_CONFIG_FILES.csv"
-echo "		Recupere aussi les ROMS MAME et FBA si elles existent sur le serveur"	
-echo ""	
-echo "---	Dans un premier temps nous vous conseillons de mettre les emulateur FBA et MAME à MAME puis de lancer "
+echo "		Recupere aussi les ROMS MAME / FBA / GNGEO si elles existent sur le serveur"	
 echo ""	
 echo "OPTION : "
 echo "		$0 --> recupere tout les medias"
@@ -127,7 +125,7 @@ get_roms() {
 
 		else
 
-			if [[ "${EMU}" -eq "MAME" ]] || [[ "${EMU}" -eq "FBA" ]] 
+			if [[ "${EMU}" -eq "MAME" ]] || [[ "${EMU}" -eq "FBA" ]] || [[ "${EMU}" -eq "GNGEO" ]] 
 				then
 					EMU="MAME"
 					wget -c -q -nv "http://pyrharckade.tuxme.net/MEDIA/roms/MAME_37B5/${ROM}.zip" -O ../MEDIA/${EMU}/ROMS/${ROM}.zip

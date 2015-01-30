@@ -3,6 +3,13 @@ if MENU_IN == 1:
 
 #DEPLACEMENT JOYSTICK
 					if event.type == JOYBUTTONDOWN and event.button == 3:
+
+						if (os.path.isfile(IMG + EMU_CHOSE + ".png")):
+							BACKGROUNG = IMG + EMU_CHOSE + ".png"
+						else:
+							BACKGROUNG = BACKGROUNG_ORIG
+
+
 						MENU_IN = 0
 						fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG).convert(),(SCREEN_W,SCREEN_H)),(0,0))
 						EMU_CHOSE=str(emu[CPT_EMU])
@@ -24,6 +31,7 @@ if MENU_IN == 1:
 
 
 				if event.type == KEYDOWN:
+
 #--------------------------------------- SELECTION EMULATEUR A GAUCHE (-1)
 					if event.key == K_LEFT:
 						CPT_EMU = CPT_EMU + 1
@@ -37,9 +45,13 @@ if MENU_IN == 1:
 						exit()
 #--------------------------------------- SELECTION EMULATEUR 
 					if event.key == K_SPACE:
+						EMU_CHOSE=str(emu[CPT_EMU])
+						if (os.path.isfile(IMG + EMU_CHOSE + ".png")):
+							BACKGROUNG = IMG + EMU_CHOSE + ".png"
+						else:
+							BACKGROUNG = BACKGROUNG_ORIG
 						MENU_IN = 0
 						fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG).convert(),(SCREEN_W,SCREEN_H)),(0,0))
-						EMU_CHOSE=str(emu[CPT_EMU])
 						CPT = 0
 						# Premier jeu de l emu choisi
 						while (str(li[CPT][1]) != EMU_CHOSE):

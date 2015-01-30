@@ -17,6 +17,7 @@ def conf_theme (argument2):
 	global font_size
 	global IMG
 	global IMG_EMU
+	global IMG_EMU_MENU
 	global T1
 	global T2
 	global FIRST_VID
@@ -96,6 +97,7 @@ def conf_theme (argument2):
 		DOCS=(ROOT_HOME + "/MEDIA/DOCS/")
 		IMG=(ROOT_HOME + "/MEDIA/IMG/")
 		BACKGROUNG=(ROOT_HOME + "/MEDIA/IMG/bg2_Y.png")
+		BACKGROUNG_ORIG=(ROOT_HOME + "/MEDIA/IMG/bg2_Y.png")
 		BACKGROUNG_EMU=(ROOT_HOME + "/MEDIA/IMG/menu_Y.png")
 		IMG_EMU = (ROOT_HOME + "/MEDIA/IMG/EMU/")
 		BACKGROUNG_START=(ROOT_HOME + "/MEDIA/IMG/dpfe_welcom_Y.png")
@@ -204,6 +206,7 @@ def conf_theme (argument2):
 		DOCS=(ROOT_HOME + "/MEDIA/DOCS/")
 		IMG=(ROOT_HOME + "/MEDIA/IMG/")
 		BACKGROUNG=(ROOT_HOME + "/MEDIA/IMG/bg2.png")
+		BACKGROUNG_ORIG=(ROOT_HOME + "/MEDIA/IMG/bg2.png")
 		BACKGROUNG_EMU=(ROOT_HOME + "/MEDIA/IMG/menu.png")
 		IMG_EMU = (ROOT_HOME + "/MEDIA/IMG/EMU/")
 		BACKGROUNG_START=(ROOT_HOME + "/MEDIA/IMG/dpfe_welcom.png")
