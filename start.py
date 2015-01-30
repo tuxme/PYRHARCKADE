@@ -173,8 +173,9 @@ def affiche(FIRST_VID):
 	VIDEO_SNAP=SNAP_AND_WHEEL +EMU_CHOSE+"/VIDEO/"+li[CPT][0]+".mpg"
 
 	if (os.path.isfile(VIDEO_SNAP)):
-#		play_video(FIRST_VID)
-		print "video"
+		play_video(FIRST_VID)
+
+		#print "video"
 ###################################################################
 #		AFFICHAGE VIDEO JEUX
 ###################################################################
@@ -321,6 +322,6 @@ while continuer:
 
 			if MAX_EMU == 0:
 				CPT_EMU=0
-			print " => CPT:" + str(CPT) + " | NMAX:" + str(NMAX) + " | MAX:" + str(MAX) + " | CPT_EMU:" + str(CPT_EMU) + " NMAX_EMU:" + str(NMAX_EMU) + " MAX_EMU:" + str(MAX_EMU) + "     >> " + li[CPT][0]
+			#print " => CPT:" + str(CPT) + " | NMAX:" + str(NMAX) + " | MAX:" + str(MAX) + " | CPT_EMU:" + str(CPT_EMU) + " NMAX_EMU:" + str(NMAX_EMU) + " MAX_EMU:" + str(MAX_EMU) + "     >> " + li[CPT][0]
 
 
