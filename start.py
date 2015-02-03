@@ -139,7 +139,7 @@ def affiche(FIRST_VID):
 		BACKGROUNG = IMG+ "IMG" + Orientation + "/" + EMU_CHOSE + ".bg2_" + Orientation + ".png"
 	fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG).convert(),(SCREEN_W,SCREEN_H)),(0,0))
 
-	print "BACKGROUNG " + Orientation + " : " + BACKGROUNG 
+#	print "BACKGROUNG " + Orientation + " : " + BACKGROUNG 
 
 	if os.path.isfile(FILE_INFO):
 		FILE_DOC = open(FILE_INFO,"r")
@@ -177,8 +177,8 @@ def affiche(FIRST_VID):
 	VIDEO_SNAP=SNAP_AND_WHEEL +EMU_CHOSE+"/VIDEO/"+li[CPT][0]+".mpg"
 
 	if (os.path.isfile(VIDEO_SNAP)):
-		#play_video(FIRST_VID)
-		val_qui_sert_a_rien=0
+		play_video(FIRST_VID)
+		#val_qui_sert_a_rien=0
 		#print "video"
 ###################################################################
 #		AFFICHAGE VIDEO JEUX
