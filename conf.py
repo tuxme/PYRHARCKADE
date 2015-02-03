@@ -1,6 +1,6 @@
-def conf_theme (argument2):
+def conf_theme (Orientation):
 	print "-------------"
-	print argument2 
+	print Orientation 
 	print "-------------"
 	global VERSION_PYR
 	VERSION_PYR="1.8B"
@@ -77,7 +77,7 @@ def conf_theme (argument2):
 	size = screen.get_rect()
 
 
-	if argument2 == "Y":
+	if Orientation == "Y":
 
 	###############################################################1
 	###############################################################1
@@ -179,10 +179,10 @@ def conf_theme (argument2):
 		#fenetre = pygame.display.set_mode((fenetre)FULLSCREEN)
 		#fenetre = pygame.transform.rotate(fenetre, 90)
 		#fenetre = pygame.display.set_mode((fenetre))
-		fenetre.blit(pygame.transform.scale(pygame.image.load(IMG + "IMG" + argument2 + "/" + "bg2_" + argument2 + ".png").convert(),(SCREEN_W,SCREEN_H)),(0,0))
+		fenetre.blit(pygame.transform.scale(pygame.image.load(IMG + "IMG" + Orientation + "/" + "bg2_" + Orientation + ".png").convert(),(SCREEN_W,SCREEN_H)),(0,0))
 
 
-	if argument2 == "X":
+	if Orientation == "X":
 	###############################################################1
 	###############################################################1
 	#		CONFIG FE MODE HORIZONTAL
@@ -291,7 +291,7 @@ def conf_theme (argument2):
 		#fenetre = pygame.display.set_mode((fenetre))
 		fenetre = pygame.display.set_mode((fenetre),FULLSCREEN)
 		#fenetre = pygame.display.set_mode((fenetre))
-		fenetre.blit(pygame.transform.scale(pygame.image.load(IMG + "IMG" + argument2 + "/" + "bg2_" + argument2 + ".png").convert(),(SCREEN_W,SCREEN_H)),(0,0))
+		fenetre.blit(pygame.transform.scale(pygame.image.load(IMG + "IMG" + Orientation + "/" + "bg2_" + Orientation + ".png").convert(),(SCREEN_W,SCREEN_H)),(0,0))
 
 
 

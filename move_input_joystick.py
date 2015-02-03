@@ -1,7 +1,7 @@
 
 #--------------------------------------- LANCEMENT JEUX AVEC EMU
 if event.type == JOYBUTTONDOWN and event.button == 3:
-	APP="BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0] + " " + argument2 
+	APP="BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0] + " " + Orientation 
 	p = subprocess.Popen(APP, shell=True)
 	sys.exit("GO play bitch ;)")
 #--------------------------------------- RETOUR EMU MENU

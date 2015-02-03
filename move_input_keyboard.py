@@ -92,7 +92,7 @@ if event.key == K_b:
 	fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG_EMU).convert(),(SCREEN_W,SCREEN_H)),(0,0))
 if event.key == K_SPACE:
 	print "Launch "+li[CPT][0] + " with " + EMU_CHOSE
-	APP="BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0] + " " + argument2 
+	APP="BIN/" + li[CPT][1] +".sh" + " " + li[CPT][0] + " " + Orientation 
 	p = subprocess.Popen(APP, shell=True)
 	sys.exit("GO play bitch ;)")
 #--------------------------------------- QUIT Si un seul emu

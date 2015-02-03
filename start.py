@@ -21,18 +21,18 @@ pygame.init()
 total = len(sys.argv)
 print total
 if total == 1:
-	argument1 = "YES"
-	argument2 = "X"
+	SnapIntro = "YES"
+	Orientation = "X"
 if total == 2:
-	argument1 = str(sys.argv[1])
-	argument2 = "X"
+	SnapIntro = str(sys.argv[1])
+	Orientation = "X"
 if total == 3:
-	argument1 = str(sys.argv[1])
-	argument2 = str(sys.argv[2])
+	SnapIntro = str(sys.argv[1])
+	Orientation = str(sys.argv[2])
 
 
 execfile("./conf.py")
-conf_theme(argument2)
+conf_theme(Orientation)
 
 
 #COMPTEUR et lecture du fichier conf 
@@ -133,13 +133,13 @@ def affiche(FIRST_VID):
 	FILE_INFO = SNAP_AND_WHEEL +EMU_CHOSE+"/DOCS/"+ li[CPT][0] + ".txt"
 	VIDEO_SNAP=SNAP_AND_WHEEL +EMU_CHOSE+"/VIDEO/"+li[CPT][0]+".mpg"
 #	Gestion des fond par emulateurs
-	if (os.path.isfile(IMG+ "IMG" + argument2 + "/" + EMU_CHOSE + ".png")):
-		BACKGROUNG = IMG+ "IMG" + argument2 + "/" + EMU_CHOSE + ".png"
+	if (os.path.isfile(IMG+ "IMG" + Orientation + "/" + EMU_CHOSE + ".png")):
+		BACKGROUNG = IMG+ "IMG" + Orientation + "/" + EMU_CHOSE + ".png"
    	else:
-		BACKGROUNG = IMG+ "IMG" + argument2 + "/" + EMU_CHOSE + ".bg2_" + argument2 + ".png"
+		BACKGROUNG = IMG+ "IMG" + Orientation + "/" + EMU_CHOSE + ".bg2_" + Orientation + ".png"
 	fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG).convert(),(SCREEN_W,SCREEN_H)),(0,0))
 
-	print "BACKGROUNG " + argument2 + " : " + BACKGROUNG 
+	print "BACKGROUNG " + Orientation + " : " + BACKGROUNG 
 
 	if os.path.isfile(FILE_INFO):
 		FILE_DOC = open(FILE_INFO,"r")
@@ -232,7 +232,7 @@ while continuer:
 # PREMIER LANCEMENT (y/n) SI YES passe ecran d'acceuil
 	if FIRST == 1:
 
-		if argument1 == "YES":
+		if SnapIntro == "YES":
 			FIRST=0
 		else:
 # AFFICHAGE ECRAN ACCEUIL
