@@ -132,10 +132,14 @@ def affiche(FIRST_VID):
 	IMG_SNAP=SNAP_AND_WHEEL +EMU_CHOSE+"/SNAP/"+li[CPT][0]+".png"
 	FILE_INFO = SNAP_AND_WHEEL +EMU_CHOSE+"/DOCS/"+ li[CPT][0] + ".txt"
 	VIDEO_SNAP=SNAP_AND_WHEEL +EMU_CHOSE+"/VIDEO/"+li[CPT][0]+".mpg"
-	if (os.path.isfile(IMG + EMU_CHOSE + ".png")):
-	       BACKGROUNG = IMG + EMU_CHOSE + ".png"
-	else:
-		BACKGROUNG = BACKGROUNG_ORIG
+#	Gestion des fond par emulateurs
+	if (os.path.isfile(IMG+ "IMG" + argument2 + "/" + EMU_CHOSE + ".png")):
+		BACKGROUNG = IMG+ "IMG" + argument2 + "/" + EMU_CHOSE + ".png"
+   	else:
+		BACKGROUNG = IMG+ "IMG" + argument2 + "/" + EMU_CHOSE + ".bg2_" + argument2 + ".png"
+	fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG).convert(),(SCREEN_W,SCREEN_H)),(0,0))
+
+	print "BACKGROUNG " + argument2 + " : " + BACKGROUNG 
 
 	if os.path.isfile(FILE_INFO):
 		FILE_DOC = open(FILE_INFO,"r")
@@ -173,8 +177,8 @@ def affiche(FIRST_VID):
 	VIDEO_SNAP=SNAP_AND_WHEEL +EMU_CHOSE+"/VIDEO/"+li[CPT][0]+".mpg"
 
 	if (os.path.isfile(VIDEO_SNAP)):
-		play_video(FIRST_VID)
-
+		#play_video(FIRST_VID)
+		val_qui_sert_a_rien=0
 		#print "video"
 ###################################################################
 #		AFFICHAGE VIDEO JEUX
@@ -254,12 +258,6 @@ while continuer:
 				# Premier jeu de l emu choisi
 				while (str(li[CPT][1]) != EMU_CHOSE):
 					CPT = CPT + 1
-
-			        if (os.path.isfile(IMG + EMU_CHOSE + ".png")):
-			               BACKGROUNG = IMG + EMU_CHOSE + ".png"
-				else:
-					BACKGROUNG = BACKGROUNG_ORIG
-				fenetre.blit(pygame.transform.scale(pygame.image.load(BACKGROUNG).convert(),(SCREEN_W,SCREEN_H)),(0,0))
 				AFFICHE_GAME_START = 0
 			if MENU_GO == 1:
 				CPT = 0

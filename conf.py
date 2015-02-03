@@ -5,6 +5,7 @@ def conf_theme (argument2):
 	global VERSION_PYR
 	VERSION_PYR="1.8B"
 	global BACKGROUNG
+	global BACKGROUNG_ORIG
 	global BACKGROUNG_EMU
 	global BACKGROUNG_START
 	global BIN_PATH
@@ -16,10 +17,9 @@ def conf_theme (argument2):
 	global font_path
 	global font_size
 	global IMG
+	global IMGX
+	global IMGY
 	global IMG_EMU
-	global IMG_EMU_MENU
-	global T1
-	global T2
 	global FIRST_VID
 	global max_carac
 	global MAX_EMU
@@ -95,14 +95,15 @@ def conf_theme (argument2):
 		SOUND=(ROOT_HOME + "/MEDIA/SOUND/")
 		ROMS=(ROOT_HOME + "/MEDIA/ROMS/")
 		DOCS=(ROOT_HOME + "/MEDIA/DOCS/")
+		IMGY=(ROOT_HOME + "/MEDIA/IMG/IMGY/")
 		IMG=(ROOT_HOME + "/MEDIA/IMG/")
-		BACKGROUNG=(ROOT_HOME + "/MEDIA/IMG/bg2_Y.png")
-		BACKGROUNG_ORIG=(ROOT_HOME + "/MEDIA/IMG/bg2_Y.png")
+		BACKGROUNG=(ROOT_HOME + "/MEDIA/IMG/IMGY/SYS.png")
 		BACKGROUNG_EMU=(ROOT_HOME + "/MEDIA/IMG/menu_Y.png")
 		IMG_EMU = (ROOT_HOME + "/MEDIA/IMG/EMU/")
 		BACKGROUNG_START=(ROOT_HOME + "/MEDIA/IMG/dpfe_welcom_Y.png")
 		BLACK = (ROOT_HOME + "/MEDIA/IMG/black.png")
 		SLEEP_BEFORE_START = 4
+		BACKGROUNG_ORIG=(ROOT_HOME + "/MEDIA/IMG/IMGY/bg2_Y.png")
 
 
 		##TEMPLATE ##############################################
@@ -128,9 +129,9 @@ def conf_theme (argument2):
 		SIZE_TEXTE_H = int(floor(SIZE_SNAP_CONVERT_H))
 		SIZE_TEXTE = (SIZE_TEXTE_W,SIZE_TEXTE_H)
 		font_path = "./MEDIA/font.ttf"
-		max_carac = 22
+		max_carac = 50
                 font_size=int(round(floor(SIZE_TEXTE_W / max_carac)))
-#		font_size = 20
+#		font_size = 40
 		font = pygame.font.Font(font_path, font_size)
 		WHERE_TEXTE=(WHERE_TEXTE_X,WHERE_TEXTE_Y)
 		MAX_EMU = 0
@@ -178,7 +179,7 @@ def conf_theme (argument2):
 		#fenetre = pygame.display.set_mode((fenetre)FULLSCREEN)
 		#fenetre = pygame.transform.rotate(fenetre, 90)
 		#fenetre = pygame.display.set_mode((fenetre))
-		fenetre.blit(pygame.transform.scale(pygame.image.load(IMG + "/bg2_Y.png").convert(),(SCREEN_W,SCREEN_H)),(0,0))
+		fenetre.blit(pygame.transform.scale(pygame.image.load(IMG + "IMG" + argument2 + "/" + "bg2_" + argument2 + ".png").convert(),(SCREEN_W,SCREEN_H)),(0,0))
 
 
 	if argument2 == "X":
@@ -205,13 +206,15 @@ def conf_theme (argument2):
 		ROMS=(ROOT_HOME + "/MEDIA/ROMS/")
 		DOCS=(ROOT_HOME + "/MEDIA/DOCS/")
 		IMG=(ROOT_HOME + "/MEDIA/IMG/")
-		BACKGROUNG=(ROOT_HOME + "/MEDIA/IMG/bg2.png")
-		BACKGROUNG_ORIG=(ROOT_HOME + "/MEDIA/IMG/bg2.png")
-		BACKGROUNG_EMU=(ROOT_HOME + "/MEDIA/IMG/menu.png")
+		IMGY=(ROOT_HOME + "/MEDIA/IMG/IMGY/")
+		BACKGROUNG=(ROOT_HOME + "/MEDIA/IMG/IMGH/SYS.png")
+		BACKGROUNG_EMU=(ROOT_HOME + "/MEDIA/IMG/menu_X.png")
 		IMG_EMU = (ROOT_HOME + "/MEDIA/IMG/EMU/")
-		BACKGROUNG_START=(ROOT_HOME + "/MEDIA/IMG/dpfe_welcom.png")
+		BACKGROUNG_START=(ROOT_HOME + "/MEDIA/IMG/dpfe_welcom_X.png")
 		BLACK = (ROOT_HOME + "/MEDIA/IMG/black.png")
 		SLEEP_BEFORE_START = 4
+		BACKGROUNG_ORIG=(ROOT_HOME + "/MEDIA/IMG/IMGX/bg2_X.png")
+
 
 
 		##TEMPLATE ##############################################
@@ -242,9 +245,9 @@ def conf_theme (argument2):
 		SIZE_TEXTE = (SIZE_TEXTE_W,SIZE_TEXTE_H)
 		WHERE_TEXTE=(WHERE_TEXTE_X,WHERE_TEXTE_Y)
 		font_path = "./MEDIA/font.ttf"
-		max_carac = 22
+		max_carac = 50
 		font_size=int(round(floor(SIZE_TEXTE_W / max_carac)))
-#		font_size = 20
+#		font_size = 40
 		font = pygame.font.Font(font_path, font_size)
 
 		MAX_EMU = 0
@@ -288,7 +291,7 @@ def conf_theme (argument2):
 		#fenetre = pygame.display.set_mode((fenetre))
 		fenetre = pygame.display.set_mode((fenetre),FULLSCREEN)
 		#fenetre = pygame.display.set_mode((fenetre))
-		fenetre.blit(pygame.transform.scale(pygame.image.load(IMG + "/bg2.png").convert(),(SCREEN_W,SCREEN_H)),(0,0))
+		fenetre.blit(pygame.transform.scale(pygame.image.load(IMG + "IMG" + argument2 + "/" + "bg2_" + argument2 + ".png").convert(),(SCREEN_W,SCREEN_H)),(0,0))
 
 
 
